@@ -27,7 +27,7 @@ export default abstract class BaseScrapper extends EventEmitter implements Scrap
         this.emit( 'page.handledLocation', mealsPage );
 
         const restaurants = await this.mealsList.gatherRestaurants( mealsPage, this.selectors );
-        this.emit( 'page.gatheredMealsList', restaurants );
+        this.emit( 'page.gatheredRestaurants', restaurants );
 
         return restaurants.map( meal => ( {
             name:  meal.name,
