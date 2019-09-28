@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/TheUnderScorer/foods-scrapper.svg?branch=master)](https://travis-ci.com/TheUnderScorer/foods-scrapper)
+
 ## Description
 
 ### Foods scrapper 
