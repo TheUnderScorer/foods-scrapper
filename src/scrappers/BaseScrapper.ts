@@ -33,10 +33,6 @@ export default abstract class BaseScrapper implements Scrapper
 
     private async gatherMealsList( mealPage: Page ): Promise<string[]>
     {
-        await mealPage.screenshot( {
-            path: `${ __dirname }/mealsList.png`,
-        } );
-
         return await mealPage.evaluate( ( selectors: ScrapperSelectors ) =>
         {
             const meals = Array.from( document.querySelectorAll( selectors.restaurantMenuItem ) );
