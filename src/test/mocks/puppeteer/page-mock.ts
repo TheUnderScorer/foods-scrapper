@@ -8,6 +8,7 @@ export default class PageMock
     public readonly waitedSelectors: string[] = [];
     public readonly clickedSelectors: string[] = [];
     public readonly didWaits: number[] = [];
+    public readonly elements: Element[] = [];
 
     public async type( selector: string, value: string ): Promise<this>
     {
@@ -21,8 +22,12 @@ export default class PageMock
 
     public async waitForSelector( selector: string, options: WaitForSelectorOptions = {} ): Promise<Element>
     {
+        const element = new Element( selector, options, this );
+
         this.waitedSelectors.push( selector );
-        return new Element( selector, options, this );
+        this.elements.push( element );
+
+        return element;
     }
 
     public async waitFor( duration: number ): Promise<this>
