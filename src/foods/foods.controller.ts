@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Response } from '../interfaces/response.interface';
 import { Food } from './interfaces/food.interface';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
@@ -23,13 +23,19 @@ export class FoodsController
         @Body() { location, keywords, services }: GetFoodsDto,
     ): Promise<Response<Food[]>>
     {
-        const servicesToCall = this.getServicesToCall( services );
-        const promises = servicesToCall.map( serviceToCall => serviceToCall.execute( keywords, location ) );
-        const result = await Promise.all( promises );
+        try {
+            const servicesToCall = this.getServicesToCall( services );
+            const promises = servicesToCall.map( serviceToCall => serviceToCall.execute( keywords, location ) );
+            const result = await Promise.all( promises );
 
-        return {
-            result: flatten( result ),
-        };
+            return {
+                result: flatten( result ),
+            };
+        } catch ( e ) {
+            console.error( `Get foods error: ${ e }` );
+
+            throw new BadRequestException( e );
+        }
     }
 
     private getServicesToCall( services: string[] ): Scrapper[]
@@ -41,9 +47,8 @@ export class FoodsController
                     return this.servicesMap[ service ];
                 }
 
-                return null;
-            } )
-            .filter( value => value );
+                throw new BadRequestException( `Invalid service provided: ${ service }` );
+            } );
     }
 
 }
