@@ -24,7 +24,7 @@ export default abstract class BaseScrapper implements Scrapper
         const meal = await this.mealsList.gatherMealsList( mealsPage, this.selectors );
 
         return meal.map( meal => ( {
-            name:  meal,
+            name:  meal.name,
             price: 15,
             url:   '',
         } ) );

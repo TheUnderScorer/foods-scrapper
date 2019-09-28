@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PyszneScrapperService } from './pyszne-scrapper.service';
 import PageMock from '../../test/mocks/puppeteer/page-mock';
 import { PageLoaderService } from '../../page-loader/page-loader.service';
+import { MealsListService } from '../meals-list/meals-list.service';
 
 describe( 'PyszneScrapperService', () =>
 {
@@ -10,7 +11,7 @@ describe( 'PyszneScrapperService', () =>
     beforeEach( async () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
-            providers: [ PyszneScrapperService, PageLoaderService ],
+            providers: [ PyszneScrapperService, PageLoaderService, MealsListService ],
         } ).compile();
 
         service = module.get<PyszneScrapperService>( PyszneScrapperService );

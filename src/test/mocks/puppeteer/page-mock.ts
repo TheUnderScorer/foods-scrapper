@@ -1,8 +1,10 @@
 import TypedValue from '../../interfaces/typed-value.interface';
 import Element from './element';
 import { WaitForSelectorOptions } from 'puppeteer';
+import { JSDOM } from 'jsdom';
+import { EventEmitter } from 'events';
 
-export default class PageMock
+export default class PageMock extends EventEmitter
 {
     public readonly typedValues: TypedValue[] = [];
     public readonly waitedSelectors: string[] = [];
@@ -35,6 +37,27 @@ export default class PageMock
         this.didWaits.push( duration );
 
         return this;
+    }
+
+    public async evaluate<T>( callback: ( ...args ) => T | Promise<T>, callbackArgs?: any ): Promise<T>
+    {
+        const dom = new JSDOM();
+
+        // Give access to document object inside callback
+        global.document = dom.window.document;
+
+        this.emit( 'document.setup', dom.window.document );
+
+        const result = await callback( callbackArgs );
+
+        delete global.document;
+
+        return result;
+    }
+
+    public async url(): Promise<string>
+    {
+        return '';
     }
 
 }

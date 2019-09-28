@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FoodsController } from './foods.controller';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
 import { Food } from './interfaces/food.interface';
+import { PageLoaderService } from '../page-loader/page-loader.service';
+import { MealsListService } from '../scrappers/meals-list/meals-list.service';
 
 describe( 'Foods Controller', () =>
 {
@@ -12,7 +14,7 @@ describe( 'Foods Controller', () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
             controllers: [ FoodsController ],
-            providers:   [ PyszneScrapperService ],
+            providers:   [ PyszneScrapperService, PageLoaderService, MealsListService ],
         } ).compile();
 
         controller = module.get<FoodsController>( FoodsController );
@@ -47,6 +49,7 @@ describe( 'Foods Controller', () =>
         const result = await controller.getFoods( {
             services: [ 'pyszne' ],
             keywords: [ 'test' ],
+            location: 'Katowice',
         } );
 
         expect( result.result ).toEqual( foods );
