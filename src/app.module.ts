@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { FoodsModule } from './foods/foods.module';
+import { PageLoaderService } from './page-loader/page-loader.service';
+import { PyszneScrapperService } from './scrappers/pyszne-scrapper/pyszne-scrapper.service';
 
 @Module( {
-  controllers: [ AppController ],
-  providers:   [ AppService ],
-  imports: [FoodsModule],
+
+    providers: [ PageLoaderService, PyszneScrapperService ],
+    imports:   [ FoodsModule ],
 } )
 export class AppModule
 {
