@@ -76,7 +76,7 @@ describe( 'MealsListService', () =>
             } );
         } );
 
-        const result = await service.gatherMealsList( mockPage as any, selectors );
+        const result = await service.gatherRestaurants( mockPage as any, selectors );
 
         expect( result ).toEqual( items );
     } );

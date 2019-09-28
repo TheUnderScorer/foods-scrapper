@@ -5,8 +5,9 @@ import { PageLoaderService } from '../page-loader/page-loader.service';
 import { ScrapperSelectors } from './interfaces/scrapper-selectors.interface';
 import { Inject } from '@nestjs/common';
 import { MealsListService } from './meals-list/meals-list.service';
+import { EventEmitter } from 'events';
 
-export default abstract class BaseScrapper implements Scrapper
+export default abstract class BaseScrapper extends EventEmitter implements Scrapper
 {
     public readonly abstract selectors: ScrapperSelectors;
     public readonly abstract baseUrl: string;
@@ -20,10 +21,15 @@ export default abstract class BaseScrapper implements Scrapper
     public async execute( keywords: string[], location: string ): Promise<Food[]>
     {
         const page = await this.pageLoader.load( this.baseUrl );
-        const mealsPage = await this.handleLocation( page, location );
-        const meal = await this.mealsList.gatherMealsList( mealsPage, this.selectors );
+        this.emit( 'page.loaded', page );
 
-        return meal.map( meal => ( {
+        const mealsPage = await this.handleLocation( page, location );
+        this.emit( 'page.handledLocation', mealsPage );
+
+        const restaurants = await this.mealsList.gatherRestaurants( mealsPage, this.selectors );
+        this.emit( 'page.gatheredMealsList', restaurants );
+
+        return restaurants.map( meal => ( {
             name:  meal.name,
             price: 15,
             url:   '',

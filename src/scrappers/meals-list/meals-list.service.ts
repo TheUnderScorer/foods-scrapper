@@ -7,7 +7,7 @@ import MealPageParams from '../interfaces/meal-page-params.interface';
 @Injectable()
 export class MealsListService
 {
-    public async gatherMealsList( mealPage: Page, selectors: ScrapperSelectors ): Promise<Restaurant[]>
+    public async gatherRestaurants( mealPage: Page, selectors: ScrapperSelectors ): Promise<Restaurant[]>
     {
         return await mealPage.evaluate( async ( { selectors, pageUrl }: MealPageParams ) =>
         {
