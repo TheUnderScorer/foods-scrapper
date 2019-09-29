@@ -30,10 +30,6 @@ export class PyszneScrapperService extends BaseScrapper
 
         await page.waitFor( 4000 );
 
-        await page.screenshot( {
-            path: `${ __dirname }/test.png`,
-        } );
-
         await page.waitForSelector( this.selectors.restaurantName );
 
         return page;

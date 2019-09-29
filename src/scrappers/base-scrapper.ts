@@ -5,11 +5,12 @@ import { PageLoaderService } from '../page-loader/page-loader.service';
 import { ScrapperSelectors } from './interfaces/scrapper-selectors.interface';
 import { Inject } from '@nestjs/common';
 import { MealsListService } from './meals-list/meals-list.service';
-import { EventEmitter } from 'events';
 import { RestaurantService } from './restaurant/restaurant.service';
 import { flatten } from 'lodash';
+import { Subject } from 'rxjs';
+import ScrapperAction, { ScrapperActions } from './interfaces/scrapper-action.interface';
 
-export default abstract class BaseScrapper extends EventEmitter implements Scrapper
+export default abstract class BaseScrapper implements Scrapper
 {
     public readonly abstract selectors: ScrapperSelectors;
     public readonly abstract baseUrl: string;
@@ -25,19 +26,23 @@ export default abstract class BaseScrapper extends EventEmitter implements Scrap
 
     public async execute( keywords: string[], location: string ): Promise<Food[]>
     {
-        const page = await this.pageLoader.load( this.baseUrl );
-        this.emit( 'page.loaded', page );
+        const subject = new Subject<ScrapperAction<any>>();
 
+        const page = await this.pageLoader.load( this.baseUrl, subject );
         const mealsPage = await this.handleLocation( page, location );
-        this.emit( 'page.handledLocation', mealsPage );
-
         const restaurants = await this.mealsList.gatherRestaurants( mealsPage, this.selectors );
-        this.emit( 'page.gatheredRestaurants', restaurants );
+        const restaurantsPromises = restaurants.map( restaurant => this.restaurants.handle( restaurant, this.selectors ) );
 
-        const restaurantsPromises = [ restaurants[ 0 ] ].map( restaurant => this.restaurants.handle( restaurant, this.selectors ) );
         const foodsResult = await Promise.all( restaurantsPromises );
+        const foods = flatten( foodsResult );
 
-        return flatten( foodsResult );
+        subject.next( {
+            action:  ScrapperActions.Done,
+            payload: foods,
+        } );
+        subject.complete();
+
+        return foods;
     }
 
     /**
