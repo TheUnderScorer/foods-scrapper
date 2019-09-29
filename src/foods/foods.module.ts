@@ -3,10 +3,11 @@ import { FoodsController } from './foods.controller';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
 import { PageLoaderService } from '../page-loader/page-loader.service';
 import { MealsListService } from '../scrappers/meals-list/meals-list.service';
+import { RestaurantService } from '../scrappers/restaurant/restaurant.service';
 
 @Module( {
     controllers: [ FoodsController ],
-    providers:   [ PyszneScrapperService, PageLoaderService, MealsListService ],
+    providers:   [ PyszneScrapperService, PageLoaderService, MealsListService, RestaurantService ],
 } )
 export class FoodsModule
 {

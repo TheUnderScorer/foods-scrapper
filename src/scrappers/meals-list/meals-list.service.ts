@@ -9,29 +9,32 @@ export class MealsListService
 {
     public async gatherRestaurants( mealPage: Page, selectors: ScrapperSelectors ): Promise<Restaurant[]>
     {
-        return await mealPage.evaluate( async ( { selectors, pageUrl }: MealPageParams ) =>
+        return await mealPage.evaluate( async ( { selectors }: MealPageParams ) =>
         {
             const meals = Array.from( document.querySelectorAll( selectors.restaurantMenuItem ) );
 
             if ( !meals.length ) {
-                throw new Error( `Invalid meal or link selector provided for page ${ pageUrl }` );
+                return null;
             }
 
-            return meals
-                .map( meal =>
-                {
-                    const link = meal.querySelector( selectors.restaurantMenuLink );
-                    const name = meal.querySelector( selectors.restaurantName );
+            const result: Restaurant[] = [];
 
-                    if ( !link || !name ) {
-                        throw new Error( `Invalid meal or link selector provided for page ${ pageUrl }` );
-                    }
+            meals.forEach( meal =>
+            {
+                const link = meal.querySelector( selectors.restaurantMenuLink );
+                const name = meal.querySelector( selectors.restaurantName );
 
-                    return {
-                        link: link.getAttribute( 'href' ),
-                        name: name.textContent,
-                    };
+                if ( !link || !name ) {
+                    return;
+                }
+
+                result.push( {
+                    link: `${ location.href }/${ link.getAttribute( 'href' ) }`,
+                    name: name.textContent,
                 } );
+            } );
+
+            return result;
         }, { selectors, pageUrl: await mealPage.url() } as any );
     }
 }

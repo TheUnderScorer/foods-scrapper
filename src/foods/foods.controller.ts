@@ -4,7 +4,6 @@ import { Food } from './interfaces/food.interface';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
 import { Scrapper } from '../scrappers/interfaces/scrapper.interface';
 import GetFoodsDto from './dto/GetFoodsDto';
-import { flatten } from 'lodash';
 
 @Controller( 'foods' )
 export class FoodsController
@@ -26,10 +25,10 @@ export class FoodsController
         try {
             const servicesToCall = this.getServicesToCall( services );
             const promises = servicesToCall.map( serviceToCall => serviceToCall.execute( keywords, location ) );
-            const result = await Promise.all( promises );
+            Promise.all( promises ).then( result => console.log( result ) ).catch( err => console.error( 'Scrapping service error:', err ) );
 
             return {
-                result: flatten( result ),
+                result: [],
             };
         } catch ( e ) {
             console.error( `Get foods error: ${ e }` );

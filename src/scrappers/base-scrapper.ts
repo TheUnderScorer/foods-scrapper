@@ -6,6 +6,8 @@ import { ScrapperSelectors } from './interfaces/scrapper-selectors.interface';
 import { Inject } from '@nestjs/common';
 import { MealsListService } from './meals-list/meals-list.service';
 import { EventEmitter } from 'events';
+import { RestaurantService } from './restaurant/restaurant.service';
+import { flatten } from 'lodash';
 
 export default abstract class BaseScrapper extends EventEmitter implements Scrapper
 {
@@ -18,6 +20,9 @@ export default abstract class BaseScrapper extends EventEmitter implements Scrap
     @Inject()
     protected readonly mealsList: MealsListService;
 
+    @Inject()
+    protected readonly restaurants: RestaurantService;
+
     public async execute( keywords: string[], location: string ): Promise<Food[]>
     {
         const page = await this.pageLoader.load( this.baseUrl );
@@ -29,11 +34,10 @@ export default abstract class BaseScrapper extends EventEmitter implements Scrap
         const restaurants = await this.mealsList.gatherRestaurants( mealsPage, this.selectors );
         this.emit( 'page.gatheredRestaurants', restaurants );
 
-        return restaurants.map( meal => ( {
-            name:  meal.name,
-            price: 15,
-            url:   '',
-        } ) );
+        const restaurantsPromises = [ restaurants[ 0 ] ].map( restaurant => this.restaurants.handle( restaurant, this.selectors ) );
+        const foodsResult = await Promise.all( restaurantsPromises );
+
+        return flatten( foodsResult );
     }
 
     /**
