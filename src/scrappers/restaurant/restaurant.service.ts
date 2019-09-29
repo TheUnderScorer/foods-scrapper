@@ -14,7 +14,7 @@ export class RestaurantService
     {
         const page = await this.pageLoader.load( link );
 
-        return await page.evaluate( ( selectors: ScrapperSelectors, url: string, restaurantName: string ) =>
+        const result = await page.evaluate( ( selectors: ScrapperSelectors, url: string, restaurantName: string ) =>
         {
             const foodElements = Array.from( document.querySelectorAll( selectors.mealWrapper ) );
 
@@ -33,6 +33,10 @@ export class RestaurantService
                 };
             } );
         }, selectors as any, link, name );
+
+        await page.close();
+
+        return result;
     }
 
 }

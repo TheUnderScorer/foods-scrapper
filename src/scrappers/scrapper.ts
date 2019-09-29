@@ -7,8 +7,6 @@ import { Inject } from '@nestjs/common';
 import { MealsListService } from './meals-list/meals-list.service';
 import { RestaurantService } from './restaurant/restaurant.service';
 import { flatten } from 'lodash';
-import { Subject } from 'rxjs';
-import ScrapperAction, { ScrapperActions } from './interfaces/scrapper-action.interface';
 
 export default abstract class Scrapper implements ScrapperInterface
 {
@@ -26,21 +24,18 @@ export default abstract class Scrapper implements ScrapperInterface
 
     public async execute( keywords: string[], location: string ): Promise<Food[]>
     {
-        const subject = new Subject<ScrapperAction<any>>();
-
-        const page = await this.pageLoader.load( this.baseUrl, subject );
+        const page = await this.pageLoader.load( this.baseUrl );
         const mealsPage = await this.handleLocation( page, location );
         const restaurants = await this.mealsList.gatherRestaurants( mealsPage, this.selectors );
+
+        await mealsPage.close();
+
         const restaurantsPromises = restaurants.map( restaurant => this.restaurants.handle( restaurant, this.selectors ) );
 
         const foodsResult = await Promise.all( restaurantsPromises );
         const foods = flatten( foodsResult );
 
-        subject.next( {
-            action:  ScrapperActions.Done,
-            payload: foods,
-        } );
-        subject.complete();
+        await page.close();
 
         return foods;
     }

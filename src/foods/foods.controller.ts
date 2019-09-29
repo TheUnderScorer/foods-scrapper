@@ -2,8 +2,8 @@ import { BadRequestException, Body, Controller, Post, UsePipes, ValidationPipe }
 import { Response } from '../interfaces/response.interface';
 import { Food } from './interfaces/food.interface';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
-import { Scrapper } from '../scrappers/interfaces/scrapper.interface';
 import GetFoodsDto from './dto/GetFoodsDto';
+import Scrapper from '../scrappers/interfaces/scrapper.interface';
 
 @Controller( 'foods' )
 export class FoodsController
