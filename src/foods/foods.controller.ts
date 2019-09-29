@@ -37,7 +37,7 @@ export class FoodsController
 
             Promise
                 .all( promises )
-                .then( result => console.log( result ) )
+                .then( result => console.log( JSON.stringify( result, null, ' ' ) ) )
                 .catch( err => console.error( 'Scrapping service error:', err ) );
 
             return {

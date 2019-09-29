@@ -10,29 +10,56 @@ export class RestaurantService
     @Inject()
     protected pageLoader: PageLoaderService;
 
-    public async handle( { name, link }: Restaurant, selectors: ScrapperSelectors ): Promise<Food[]>
+    public async handle( keywords: string[], { name, link }: Restaurant, selectors: ScrapperSelectors ): Promise<Food[]>
     {
         const page = await this.pageLoader.load( link );
 
-        const result = await page.evaluate( ( selectors: ScrapperSelectors, url: string, restaurantName: string ) =>
+        console.log( 'Handling restaurant: ', name );
+
+        const result = await page.evaluate( ( selectors: ScrapperSelectors, url: string, restaurantName: string, keywords: string[] ) =>
         {
             const foodElements = Array.from( document.querySelectorAll( selectors.mealWrapper ) );
+            const result: Food[] = [];
 
-            return foodElements.map( ( foodElement ): Food =>
+            const matchesKeyword = ( element: HTMLElement | null ): boolean =>
+            {
+                if ( !element ) {
+                    return false;
+                }
+
+                const content = element.textContent.toLowerCase();
+
+                for ( const keyword of keywords ) {
+                    if ( content.includes( keyword ) ) {
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+
+            foodElements.forEach( ( foodElement ) =>
             {
                 const priceEl = foodElement.querySelector( selectors.mealPrice );
-                const descriptionEl = foodElement.querySelector( selectors.mealDescription );
-                const nameEl = foodElement.querySelector( selectors.mealName );
+                const descriptionEl = foodElement.querySelector( selectors.mealDescription ) as HTMLElement;
+                const additionalInfoEl = foodElement.querySelector( selectors.mealAdditionalInfo ) as HTMLElement;
+                const nameEl = foodElement.querySelector( selectors.mealName ) as HTMLElement;
 
-                return {
+                if ( !matchesKeyword( descriptionEl ) && !matchesKeyword( nameEl ) && !matchesKeyword( additionalInfoEl ) ) {
+                    return;
+                }
+
+                result.push( {
                     name:        nameEl.textContent,
                     price:       parseFloat( priceEl.textContent ),
                     url,
-                    description: descriptionEl ? descriptionEl.textContent : '',
+                    description: `${ additionalInfoEl ? additionalInfoEl.textContent : '' }. ${ descriptionEl ? descriptionEl.textContent : '' }`,
                     restaurantName,
-                };
+                } );
             } );
-        }, selectors as any, link, name );
+
+            return result;
+        }, selectors as any, link, name, keywords );
 
         await page.close();
 

@@ -32,7 +32,7 @@ export class PageLoaderService implements PageLoader
 
     protected async init(): Promise<void>
     {
-        this.browser = await puppeteer.launch( { headless: false } );
+        this.browser = await puppeteer.launch( { headless: true } );
     }
 
 }
