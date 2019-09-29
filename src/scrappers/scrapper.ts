@@ -7,6 +7,7 @@ import { Inject } from '@nestjs/common';
 import { MealsListService } from './meals-list/meals-list.service';
 import { RestaurantService } from './restaurant/restaurant.service';
 import { flatten } from 'lodash';
+import pLimit from 'p-limit';
 
 export default abstract class Scrapper implements ScrapperInterface
 {
@@ -30,8 +31,9 @@ export default abstract class Scrapper implements ScrapperInterface
 
         await mealsPage.close();
 
-        const restaurantsPromises = restaurants.map( restaurant => this.restaurants.handle( restaurant, this.selectors ) );
-
+        const limit = pLimit( 5 );
+        const restaurantsPromises = restaurants.map( restaurant =>
+            limit( () => this.restaurants.handle( restaurant, this.selectors ) ) );
         const foodsResult = await Promise.all( restaurantsPromises );
         const foods = flatten( foodsResult );
 
