@@ -29,7 +29,7 @@ export class MealsListService
                 }
 
                 result.push( {
-                    link: `${ location.href }/${ link.getAttribute( 'href' ) }`,
+                    link: `${ location.origin }/${ link.getAttribute( 'href' ) }`,
                     name: name.textContent,
                 } );
             } );
