@@ -28,8 +28,6 @@ export class PyszneScrapperService extends Scrapper
         } );
         await places.click();
 
-        await page.waitFor( 4000 );
-
         await page.waitForSelector( this.selectors.restaurantName );
 
         return page;
