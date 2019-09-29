@@ -1,6 +1,6 @@
 import { Food } from '../../foods/interfaces/food.interface';
 
-export interface Scrapper
+export default interface Scrapper
 {
     execute( keywords: string[], location: string ): Promise<Food[]>;
 }

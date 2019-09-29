@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import BaseScrapper from '../BaseScrapper';
+import Scrapper from '../scrapper';
 import { Page } from 'puppeteer';
 import { ScrapperSelectors } from '../interfaces/scrapper-selectors.interface';
 
 @Injectable()
-export class PyszneScrapperService extends BaseScrapper
+export class PyszneScrapperService extends Scrapper
 {
     public readonly selectors: ScrapperSelectors = {
         mealAdditionalInfo: '.meal__description-additional-info',
@@ -13,7 +13,7 @@ export class PyszneScrapperService extends BaseScrapper
         mealPrice:          '.meal__price',
         restaurantMenuItem: '.restaurant',
         restaurantMenuLink: 'a.restaurantname',
-        restaurantName:     '.restaurant-name > h1',
+        restaurantName:     'a.restaurantname',
         mealWrapper:        '.meal-container',
     };
     public readonly baseUrl: string = 'https://www.pyszne.pl/';
@@ -28,7 +28,7 @@ export class PyszneScrapperService extends BaseScrapper
         } );
         await places.click();
 
-        await page.waitFor( 1500 );
+        await page.waitForSelector( this.selectors.restaurantName );
 
         return page;
     }

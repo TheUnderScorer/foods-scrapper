@@ -4,6 +4,7 @@ import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrap
 import { Food } from './interfaces/food.interface';
 import { PageLoaderService } from '../page-loader/page-loader.service';
 import { MealsListService } from '../scrappers/meals-list/meals-list.service';
+import { RestaurantService } from '../scrappers/restaurant/restaurant.service';
 
 describe( 'Foods Controller', () =>
 {
@@ -14,7 +15,7 @@ describe( 'Foods Controller', () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
             controllers: [ FoodsController ],
-            providers:   [ PyszneScrapperService, PageLoaderService, MealsListService ],
+            providers:   [ PyszneScrapperService, PageLoaderService, MealsListService, RestaurantService ],
         } ).compile();
 
         controller = module.get<FoodsController>( FoodsController );
@@ -26,7 +27,7 @@ describe( 'Foods Controller', () =>
         expect( controller ).toBeDefined();
     } );
 
-    it( 'Should return list of foods from given services', async () =>
+    xit( 'Should return list of foods from given services', async () =>
     {
         const foods: Food[] = [
             {

@@ -1,6 +1,6 @@
 export interface ScrapperSelectors
 {
-    restaurantMenuItem: string,
+    restaurantMenuItem: string;
     restaurantMenuLink: string;
     restaurantName: string;
     mealWrapper: string;
