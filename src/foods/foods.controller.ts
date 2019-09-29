@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Response } from '../interfaces/response.interface';
 import { Food } from './interfaces/food.interface';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
@@ -16,16 +16,29 @@ export class FoodsController
     {
     }
 
+    @Get( '/services-map' )
+    public getServicesMap(): Response<string[]>
+    {
+        return {
+            result: Object.keys( this.servicesMap ),
+        };
+    }
+
     @Post()
     @UsePipes( new ValidationPipe() )
     public async getFoods(
         @Body() { location, keywords, services }: GetFoodsDto,
     ): Promise<Response<Food[]>>
     {
+        const servicesToCall = this.getServicesToCall( services );
+
         try {
-            const servicesToCall = this.getServicesToCall( services );
             const promises = servicesToCall.map( serviceToCall => serviceToCall.execute( keywords, location ) );
-            Promise.all( promises ).then( result => console.log( result ) ).catch( err => console.error( 'Scrapping service error:', err ) );
+
+            Promise
+                .all( promises )
+                .then( result => console.log( result ) )
+                .catch( err => console.error( 'Scrapping service error:', err ) );
 
             return {
                 result: [],
