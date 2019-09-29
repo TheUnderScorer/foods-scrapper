@@ -30,15 +30,15 @@ describe( 'MealsListService', () =>
         const items: Restaurant[] = [
             {
                 name: faker.random.word(),
-                link: faker.internet.url(),
+                link: 'about:blank/' + faker.internet.domainName(),
             },
             {
                 name: faker.random.word(),
-                link: faker.internet.url(),
+                link: 'about:blank/' + faker.internet.domainName(),
             },
             {
                 name: faker.random.word(),
-                link: faker.internet.url(),
+                link: 'about:blank/' + faker.internet.domainName(),
             },
         ];
 
@@ -66,7 +66,7 @@ describe( 'MealsListService', () =>
                 const nameEl = document.createElement( 'span' );
                 nameEl.classList.add( selectorToClassName( selectors.restaurantName ) );
 
-                linkEl.setAttribute( 'href', link );
+                linkEl.setAttribute( 'href', link.replace( 'about:blank/', '' ) );
                 nameEl.textContent = name;
 
                 wrapper.appendChild( linkEl );

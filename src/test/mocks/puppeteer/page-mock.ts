@@ -45,6 +45,7 @@ export default class PageMock extends EventEmitter
 
         // Give access to document object inside callback
         global.document = dom.window.document;
+        global.location = dom.window.location;
 
         this.emit( 'document.setup', dom.window.document );
 
