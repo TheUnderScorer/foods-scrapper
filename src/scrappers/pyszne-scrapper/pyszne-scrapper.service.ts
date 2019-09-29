@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import BaseScrapper from '../base-scrapper';
+import Scrapper from '../scrapper';
 import { Page } from 'puppeteer';
 import { ScrapperSelectors } from '../interfaces/scrapper-selectors.interface';
 
 @Injectable()
-export class PyszneScrapperService extends BaseScrapper
+export class PyszneScrapperService extends Scrapper
 {
     public readonly selectors: ScrapperSelectors = {
         mealAdditionalInfo: '.meal__description-additional-info',

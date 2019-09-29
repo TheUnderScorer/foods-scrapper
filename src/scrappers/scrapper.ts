@@ -1,4 +1,4 @@
-import { Scrapper } from './interfaces/scrapper.interface';
+import ScrapperInterface from './interfaces/scrapper.interface';
 import { Food } from '../foods/interfaces/food.interface';
 import { Page } from 'puppeteer';
 import { PageLoaderService } from '../page-loader/page-loader.service';
@@ -10,7 +10,7 @@ import { flatten } from 'lodash';
 import { Subject } from 'rxjs';
 import ScrapperAction, { ScrapperActions } from './interfaces/scrapper-action.interface';
 
-export default abstract class BaseScrapper implements Scrapper
+export default abstract class Scrapper implements ScrapperInterface
 {
     public readonly abstract selectors: ScrapperSelectors;
     public readonly abstract baseUrl: string;
