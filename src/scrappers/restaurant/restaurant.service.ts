@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ScrapperSelectors } from '../interfaces/scrapper-selectors.interface';
-import { Food } from '../../foods/interfaces/food.interface';
+import Food from '../../foods/interfaces/food.interface';
 import Restaurant from '../interfaces/restaurant.interface';
 import { PageLoaderService } from '../../page-loader/page-loader.service';
 

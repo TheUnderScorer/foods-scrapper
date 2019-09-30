@@ -1,6 +1,6 @@
-import { BadRequestException, Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, flatten, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Response } from '../interfaces/response.interface';
-import { Food } from './interfaces/food.interface';
+import Food from './interfaces/food.interface';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
 import GetFoodsDto from './dto/GetFoodsDto';
 import Scrapper from '../scrappers/interfaces/scrapper.interface';
@@ -37,7 +37,7 @@ export class FoodsController
 
             Promise
                 .all( promises )
-                .then( result => console.log( JSON.stringify( result, null, ' ' ) ) )
+                .then( result => this.saveFoods( flatten( result ) ) )
                 .catch( err => console.error( 'Scrapping service error:', err ) );
 
             return {
@@ -48,6 +48,11 @@ export class FoodsController
 
             throw new BadRequestException( e );
         }
+    }
+
+    protected async saveFoods( foods: Food[] ): Promise<void>
+    {
+
     }
 
     private getServicesToCall( services: string[] ): Scrapper[]

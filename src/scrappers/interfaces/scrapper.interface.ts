@@ -1,4 +1,4 @@
-import { Food } from '../../foods/interfaces/food.interface';
+import Food from '../../foods/interfaces/food.interface';
 
 export default interface Scrapper
 {

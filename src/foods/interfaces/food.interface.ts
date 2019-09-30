@@ -1,4 +1,4 @@
-export interface Food
+export default interface Food
 {
     name: string;
     price: number;

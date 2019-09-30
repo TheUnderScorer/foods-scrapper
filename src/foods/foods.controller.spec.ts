@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FoodsController } from './foods.controller';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
-import { Food } from './interfaces/food.interface';
+import Food from './interfaces/food.interface';
 import { PageLoaderService } from '../page-loader/page-loader.service';
 import { MealsListService } from '../scrappers/meals-list/meals-list.service';
 import { RestaurantService } from '../scrappers/restaurant/restaurant.service';
