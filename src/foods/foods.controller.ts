@@ -4,7 +4,6 @@ import Food from './interfaces/food.interface';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
 import GetFoodsDto from './dto/GetFoodsDto';
 import Scrapper from '../scrappers/interfaces/scrapper.interface';
-import { FoodsService } from './foods/foods.service';
 import { SearchService } from './search/search.service';
 import Search, { SearchStatus } from './interfaces/search.interface';
 import { Types } from 'mongoose';
@@ -19,7 +18,6 @@ export class FoodsController
 
     public constructor(
         protected readonly pyszneScrapper: PyszneScrapperService,
-        protected readonly foodsService: FoodsService,
         protected readonly searchService: SearchService,
     )
     {
