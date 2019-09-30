@@ -4,6 +4,11 @@ import Food from './interfaces/food.interface';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
 import GetFoodsDto from './dto/GetFoodsDto';
 import Scrapper from '../scrappers/interfaces/scrapper.interface';
+import { FoodsService } from './foods/foods.service';
+import { SearchService } from './search/search.service';
+import Search, { SearchStatus } from './interfaces/search.interface';
+import { Types } from 'mongoose';
+import SearchDocument from './interfaces/search-document.interface';
 
 @Controller( 'foods' )
 export class FoodsController
@@ -12,7 +17,11 @@ export class FoodsController
         pyszne: this.pyszneScrapper,
     };
 
-    public constructor( private readonly pyszneScrapper: PyszneScrapperService )
+    public constructor(
+        protected readonly pyszneScrapper: PyszneScrapperService,
+        protected readonly foodsService: FoodsService,
+        protected readonly searchService: SearchService,
+    )
     {
     }
 
@@ -28,20 +37,28 @@ export class FoodsController
     @UsePipes( new ValidationPipe() )
     public async getFoods(
         @Body() { location, keywords, services }: GetFoodsDto,
-    ): Promise<Response<Food[]>>
+    ): Promise<Response<string>>
     {
         const servicesToCall = this.getServicesToCall( services );
+        const searchID = new Types.ObjectId();
+        const search: Search = {
+            searchID,
+            date:   new Date(),
+            foods:  [],
+            status: SearchStatus.Pending,
+        };
+        const searchModel = await this.searchService.create( search );
 
         try {
             const promises = servicesToCall.map( serviceToCall => serviceToCall.execute( keywords, location ) );
 
             Promise
                 .all( promises )
-                .then( result => this.saveFoods( flatten( result ) ) )
+                .then( result => this.saveFoods( flatten( result ), searchModel ) )
                 .catch( err => console.error( 'Scrapping service error:', err ) );
 
             return {
-                result: [],
+                result: searchID.toHexString(),
             };
         } catch ( e ) {
             console.error( `Get foods error: ${ e }` );
@@ -50,9 +67,20 @@ export class FoodsController
         }
     }
 
-    protected async saveFoods( foods: Food[] ): Promise<void>
+    protected async saveFoods( foods: Food[], searchModel: SearchDocument ): Promise<void>
     {
+        if ( !foods.length ) {
+            console.log( '0 foods saved.' );
 
+            return;
+        }
+
+        await searchModel.updateOne( {
+            foods,
+            status: SearchStatus.Done,
+        } );
+
+        console.log( 'Found foods: ', foods.length );
     }
 
     private getServicesToCall( services: string[] ): Scrapper[]

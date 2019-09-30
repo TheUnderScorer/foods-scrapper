@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-export const FoodSchema = new Schema( {
+export default new Schema( {
     name:           String,
     price:          Number,
     url:            String,

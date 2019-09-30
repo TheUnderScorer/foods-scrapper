@@ -5,4 +5,6 @@ export default interface Food
     url: string;
     description?: string;
     restaurantName?: string;
+    searchID?: string;
+    searchDate?: Date;
 }

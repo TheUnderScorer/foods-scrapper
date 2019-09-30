@@ -50,16 +50,16 @@ export class RestaurantService
                 }
 
                 result.push( {
-                    name:        nameEl.textContent,
+                    name:        nameEl.textContent.trim(),
                     price:       parseFloat( priceEl.textContent ),
                     url,
-                    description: `${ additionalInfoEl ? additionalInfoEl.textContent : '' }. ${ descriptionEl ? descriptionEl.textContent : '' }`,
+                    description: `${ additionalInfoEl ? additionalInfoEl.textContent.trim() : '' }. ${ descriptionEl ? descriptionEl.textContent.trim() : '' }`,
                     restaurantName,
                 } );
             } );
 
             return result;
-        }, selectors as any, link, name, keywords );
+        }, selectors as any, link, name.trim(), keywords );
 
         await page.close();
 

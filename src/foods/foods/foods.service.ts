@@ -8,7 +8,9 @@ import Food from '../interfaces/food.interface';
 export class FoodsService
 {
 
-    public constructor( @InjectModel( 'Food' ) protected readonly foodModel: Model<FoodDocument> )
+    public constructor(
+        @InjectModel( 'Food' )
+        protected readonly foodModel: Model<FoodDocument> )
     {
     }
 
