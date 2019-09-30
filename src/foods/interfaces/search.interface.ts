@@ -6,6 +6,7 @@ export default interface Search
     searchID: string | Types.ObjectId;
     status: SearchStatus;
     date: Date;
+    error?: string;
     foods: Food[];
 }
 

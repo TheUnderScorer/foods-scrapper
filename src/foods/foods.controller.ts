@@ -35,15 +35,15 @@ export class FoodsController
     @UsePipes( new ValidationPipe() )
     public async getFoods(
         @Body() { location, keywords, services }: GetFoodsDto,
-    ): Promise<Response<string>>
+    ): Promise<Response<SearchDocument>>
     {
         const servicesToCall = this.getServicesToCall( services );
-        const searchID = new Types.ObjectId();
         const search: Search = {
-            searchID,
-            date:   new Date(),
-            foods:  [],
-            status: SearchStatus.Pending,
+            searchID: new Types.ObjectId(),
+            date:     new Date(),
+            foods:    [],
+            status:   SearchStatus.Pending,
+            error:    '',
         };
         const searchModel = await this.searchService.create( search );
 
@@ -53,16 +53,24 @@ export class FoodsController
             Promise
                 .all( promises )
                 .then( result => this.saveFoods( flatten( result ), searchModel ) )
-                .catch( err => console.error( 'Scrapping service error:', err ) );
+                .catch( err => this.handleError( err, searchModel ) );
 
             return {
-                result: searchID.toHexString(),
+                result: searchModel.toJSON(),
             };
         } catch ( e ) {
             console.error( `Get foods error: ${ e }` );
 
             throw new BadRequestException( e );
         }
+    }
+
+    protected async handleError( error: Error, searchModel: SearchDocument ): Promise<void>
+    {
+        await searchModel.updateOne( {
+            status: SearchStatus.Error,
+            error:  error.message,
+        } );
     }
 
     protected async saveFoods( foods: Food[], searchModel: SearchDocument ): Promise<void>
