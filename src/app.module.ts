@@ -5,10 +5,11 @@ import { PyszneScrapperService } from './scrappers/pyszne-scrapper/pyszne-scrapp
 import { MealsListService } from './scrappers/meals-list/meals-list.service';
 import { RestaurantService } from './scrappers/restaurant/restaurant.service';
 import { MongooseModule } from '@nestjs/mongoose';
+import { SearchModule } from './search/search.module';
 
 @Module( {
     providers: [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
-    imports:   [ FoodsModule, MongooseModule.forRoot( 'mongodb://localhost/expressmongo', {
+    imports:   [ SearchModule, FoodsModule, MongooseModule.forRoot( 'mongodb://localhost/expressmongo', {
         useNewUrlParser:    true,
         useUnifiedTopology: true,
     } ) ],

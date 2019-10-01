@@ -4,10 +4,10 @@ import Food from './interfaces/food.interface';
 import { PyszneScrapperService } from '../scrappers/pyszne-scrapper/pyszne-scrapper.service';
 import GetFoodsDto from './dto/GetFoodsDto';
 import Scrapper from '../scrappers/interfaces/scrapper.interface';
-import { SearchService } from './search/search.service';
-import Search, { SearchStatus } from './interfaces/search.interface';
 import { Types } from 'mongoose';
-import SearchDocument from './interfaces/search-document.interface';
+import SearchDocument from '../search/interfaces/search-document.interface';
+import Search, { SearchStatus } from '../search/interfaces/search.interface';
+import { SearchService } from '../search/search-service/search.service';
 
 @Controller( 'foods' )
 export class FoodsController

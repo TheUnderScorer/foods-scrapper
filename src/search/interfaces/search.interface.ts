@@ -1,4 +1,4 @@
-import Food from './food.interface';
+import Food from '../../foods/interfaces/food.interface';
 import { Types } from 'mongoose';
 
 export default interface Search

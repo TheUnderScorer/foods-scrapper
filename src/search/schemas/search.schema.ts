@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import foodSchema from './food.schema';
+import foodSchema from '../../foods/schemas/food.schema';
 
 export default new Schema( {
     date:     Date,
