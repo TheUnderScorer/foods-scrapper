@@ -78,12 +78,6 @@ export class FoodsController
 
     protected async saveFoods( foods: Food[], searchModel: SearchDocument ): Promise<void>
     {
-        if ( !foods.length ) {
-            console.log( '0 foods saved.' );
-
-            return;
-        }
-
         await searchModel.updateOne( {
             foods,
             status: SearchStatus.Done,
