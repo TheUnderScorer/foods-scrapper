@@ -6,5 +6,8 @@ export default new Schema( {
     searchID: Schema.Types.ObjectId,
     status:   String,
     error:    String,
+    keywords: [ String ],
+    services: [ String ],
+    location: String,
     foods:    [ foodSchema ],
 } );

@@ -44,6 +44,9 @@ export class FoodsController
             foods:    [],
             status:   SearchStatus.Pending,
             error:    '',
+            keywords,
+            location,
+            services,
         };
         const searchModel = await this.searchService.create( search );
 

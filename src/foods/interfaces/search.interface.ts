@@ -7,6 +7,9 @@ export default interface Search
     status: SearchStatus;
     date: Date;
     error?: string;
+    keywords: string[];
+    location: string;
+    services: string[];
     foods: Food[];
 }
 
