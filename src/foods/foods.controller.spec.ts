@@ -56,13 +56,22 @@ describe( 'Foods Controller', () =>
 
         jest
             .spyOn( pyszneService, 'execute' )
-            .mockImplementation( ( keywords: string[] ) => Promise.resolve( [
+            .mockImplementation( ( keywords: string[] ) =>
+            {
+                return new Promise( resolve =>
                 {
-                    name:  keywords[ 0 ],
-                    price: 25,
-                    url:   '',
-                },
-            ] ) );
+                    setTimeout( () =>
+                    {
+                        resolve( [
+                            {
+                                name:  keywords[ 0 ],
+                                price: 25,
+                                url:   '',
+                            },
+                        ] );
+                    }, 500 );
+                } );
+            } );
 
         jest
             .spyOn( searchService, 'create' )
@@ -94,8 +103,8 @@ describe( 'Foods Controller', () =>
             location: 'Katowice',
         } );
 
-        expect( result.searchID ).toEqual( searchID );
         expect( result.status ).toEqual( SearchStatus.Pending );
+        expect( result.searchID ).toEqual( searchID );
 
         setTimeout( () =>
         {
