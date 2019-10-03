@@ -15,7 +15,7 @@ describe( 'PyszneScrapperService', () =>
             providers: [ PyszneScrapperService, PageLoaderService, MealsListService, RestaurantService ],
         } ).compile();
 
-        service = module.get<PyszneScrapperService>( PyszneScrapperService );
+        service = await module.resolve<PyszneScrapperService>( PyszneScrapperService );
     } );
 
     it( 'should be defined', () =>

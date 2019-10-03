@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ScrapperSelectors } from '../interfaces/scrapper-selectors.interface';
-import { Food } from '../../foods/interfaces/food.interface';
+import Food from '../../foods/interfaces/food.interface';
 import Restaurant from '../interfaces/restaurant.interface';
 import { PageLoaderService } from '../../page-loader/page-loader.service';
 
@@ -50,16 +50,16 @@ export class RestaurantService
                 }
 
                 result.push( {
-                    name:        nameEl.textContent,
+                    name:        nameEl.textContent.trim(),
                     price:       parseFloat( priceEl.textContent ),
                     url,
-                    description: `${ additionalInfoEl ? additionalInfoEl.textContent : '' }. ${ descriptionEl ? descriptionEl.textContent : '' }`,
+                    description: `${ additionalInfoEl ? additionalInfoEl.textContent.trim() : '' }. ${ descriptionEl ? descriptionEl.textContent.trim() : '' }`,
                     restaurantName,
                 } );
             } );
 
             return result;
-        }, selectors as any, link, name, keywords );
+        }, selectors as any, link, name.trim(), keywords );
 
         await page.close();
 
