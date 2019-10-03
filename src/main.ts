@@ -1,14 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import Next from 'next';
+import { RenderModule } from 'nest-next';
 
-// TODO Caching
 async function bootstrap()
 {
-    const app = await NestFactory.create( AppModule );
+    const dev = process.env.NODE_ENV !== 'production';
+    const next = Next( { dev } );
+    await next.prepare();
 
-    app.enableCors();
+    const server = await NestFactory.create( AppModule );
+    const renderer = server.get( RenderModule );
+    renderer.register( server, next );
 
-    await app.listen( 3000 );
+    server.enableCors();
+
+    await server.listen( 3000 );
 }
 
 bootstrap();
