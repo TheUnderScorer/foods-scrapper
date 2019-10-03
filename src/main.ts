@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import Next from 'next';
@@ -11,7 +12,7 @@ async function bootstrap()
 
     const server = await NestFactory.create( AppModule );
     const renderer = server.get( RenderModule );
-    renderer.register( server, next );
+    await renderer.register( server, next );
 
     server.enableCors();
 
