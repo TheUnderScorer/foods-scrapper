@@ -1,5 +1,5 @@
 import ScrapperInterface from './interfaces/scrapper.interface';
-import { Food } from '../foods/interfaces/food.interface';
+import Food from '../foods/interfaces/food.interface';
 import { Page } from 'puppeteer';
 import { PageLoaderService } from '../page-loader/page-loader.service';
 import { ScrapperSelectors } from './interfaces/scrapper-selectors.interface';

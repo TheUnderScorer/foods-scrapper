@@ -20,17 +20,20 @@
   "dependencies": {
     "@nestjs/common": "^6.7.2",
     "@nestjs/core": "^6.7.2",
+    "@nestjs/mongoose": "^6.1.2",
     "@nestjs/platform-express": "^6.7.2",
     "cheerio": "^1.0.0-rc.3",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.10.1",
     "jsdom": "^15.1.1",
     "lodash": "^4.17.15",
+    "mongoose": "^5.7.1",
     "p-limit": "^2.2.1",
     "puppeteer": "^1.20.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.8.1",
@@ -42,9 +45,11 @@
     "@types/jest": "^24.0.18",
     "@types/jsdom": "^12.2.4",
     "@types/lodash": "^4.14.141",
+    "@types/mongoose": "^5.5.18",
     "@types/node": "^12.7.5",
     "@types/puppeteer": "^1.20.0",
     "@types/supertest": "^2.0.8",
+    "@types/uuid": "^3.4.5",
     "@typescript-eslint/eslint-plugin": "^2.3.1",
     "@typescript-eslint/parser": "^2.3.1",
     "eslint": "^6.4.0",

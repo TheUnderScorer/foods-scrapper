@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import Scrapper from '../scrapper';
 import { Page } from 'puppeteer';
 import { ScrapperSelectors } from '../interfaces/scrapper-selectors.interface';
 
-@Injectable()
+@Injectable( {
+    scope: Scope.REQUEST,
+} )
 export class PyszneScrapperService extends Scrapper
 {
     public readonly selectors: ScrapperSelectors = {
