@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import Next from 'next';
 import { RenderModule } from 'nest-next';
 
+// TODO Setup next.js testing
 async function bootstrap()
 {
     const dev = process.env.NODE_ENV !== 'production';
