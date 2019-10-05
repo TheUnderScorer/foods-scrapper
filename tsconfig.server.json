@@ -12,11 +12,10 @@
     "noEmit": false,
     "allowJs": false
   },
+  "include": [
+    "./src/**/*"
+  ],
   "exclude": [
-    "node_modules",
-    "test",
-    "dist",
-    "pages",
-    "**/*spec.ts"
+    "node_modules"
   ]
 }

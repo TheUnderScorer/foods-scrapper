@@ -13,7 +13,7 @@ export class MockSearchService
         return search;
     }
 
-    public async getBySearchID( searchID: string ): Promise<Search>
+    public async getBySearchID( searchID: string ): Promise<Search | undefined>
     {
         return this.items.find( item => item.searchID === searchID );
     }
