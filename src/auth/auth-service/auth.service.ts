@@ -17,7 +17,7 @@ export class AuthService
     {
         const user = await this.usersService.findByEmail( email );
 
-        const comparePassword = async () => compare( password, user.password );
+        const comparePassword = async () => await compare( password, user.password );
 
         if ( user && await comparePassword() ) {
             return user;
