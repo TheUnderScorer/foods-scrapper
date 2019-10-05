@@ -8,6 +8,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SearchModule } from './search/search.module';
 import { RenderModule } from 'nest-next';
 import { AppController } from './app.controller';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module( {
     providers:   [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
@@ -19,6 +21,8 @@ import { AppController } from './app.controller';
             useUnifiedTopology: true,
         } ),
         RenderModule,
+        AuthModule,
+        UsersModule,
     ],
     controllers: [ AppController ],
 } )
