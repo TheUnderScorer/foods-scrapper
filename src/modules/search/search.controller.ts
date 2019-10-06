@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { SearchService } from './search-service/search.service';
-import { Response } from '../../interfaces/response.interface';
+import { Result } from '../../interfaces/response.interface';
 import SearchDocument from './interfaces/search-document.interface';
 
 @Controller( 'search' )
@@ -14,7 +14,7 @@ export class SearchController
     }
 
     @Get( ':searchID' )
-    public async getSearch( @Param() params ): Promise<Response<SearchDocument>>
+    public async getSearch( @Param() params ): Promise<Result<SearchDocument>>
     {
         const model = await this.searchService.getBySearchID( params.searchID );
 

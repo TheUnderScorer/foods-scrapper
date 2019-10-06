@@ -1,4 +1,4 @@
-export interface Response<T>
+export interface Result<T>
 {
     result: T;
 }

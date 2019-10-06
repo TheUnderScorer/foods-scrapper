@@ -2,7 +2,7 @@ import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import User from '../users/interfaces/user.interface';
 import { Request as Req } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { Response } from '../../interfaces/response.interface';
+import { Result } from '../../interfaces/response.interface';
 import { AuthService } from './auth-service/auth.service';
 import UserDto from './dto/UserDto';
 import { UsersService } from '../users/users-service/users.service';
@@ -21,7 +21,7 @@ export class AuthController
 
     @Post( 'login' )
     @UseGuards( AuthGuard( 'local' ) )
-    public async login( @Request() request: Req ): Promise<Response<LoginResult>>
+    public async login( @Request() request: Req ): Promise<Result<LoginResult>>
     {
         const jwt = await this.authService.login( request.user as User );
 
@@ -33,7 +33,7 @@ export class AuthController
     }
 
     @Post( 'register' )
-    public async register( @Body() { email, password }: UserDto ): Promise<Response<RegisterResult>>
+    public async register( @Body() { email, password }: UserDto ): Promise<Result<RegisterResult>>
     {
         const user = await this.usersService.create( email, password );
         const jwt = await this.authService.login( user );

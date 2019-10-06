@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, flatten, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Response } from '../../interfaces/response.interface';
+import { Result } from '../../interfaces/response.interface';
 import Food from './interfaces/food.interface';
 import { PyszneScrapperService } from '../../services/scrappers/pyszne-scrapper/pyszne-scrapper.service';
 import GetFoodsDto from './dto/GetFoodsDto';
@@ -24,7 +24,7 @@ export class FoodsController
     }
 
     @Get( '/services-map' )
-    public getServicesMap(): Response<string[]>
+    public getServicesMap(): Result<string[]>
     {
         return {
             result: Object.keys( this.servicesMap ),
@@ -35,7 +35,7 @@ export class FoodsController
     @UsePipes( new ValidationPipe() )
     public async getFoods(
         @Body() { location, keywords, services }: GetFoodsDto,
-    ): Promise<Response<SearchDocument>>
+    ): Promise<Result<SearchDocument>>
     {
         const servicesToCall = this.getServicesToCall( services );
         const search: Search = {
