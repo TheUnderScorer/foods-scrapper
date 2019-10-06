@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PageLoader } from './interfaces/page-loader.interface';
-import * as puppeteer from 'puppeteer';
-import { Browser, Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import BrowserProcessesLimitExceeded from './exceptions/BrowserProcessesLimitExceeded';
 
 @Injectable()
