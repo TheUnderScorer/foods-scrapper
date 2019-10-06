@@ -1,9 +1,13 @@
 import { Schema } from 'mongoose';
+import { UserRoles } from '../enum/UserRoles';
 
 export default new Schema( {
-    login:    String,
+    email:    String,
     password: String,
-    role:     String,
+    role:     {
+        default: UserRoles.user,
+        type:    String,
+    },
 }, {
     timestamps: true,
 } );

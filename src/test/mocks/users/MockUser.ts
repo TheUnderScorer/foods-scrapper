@@ -5,6 +5,7 @@ export default class MockUser
 {
     public readonly users: User[] = [
         {
+            _id:      '1',
             email:    faker.internet.email(),
             password: faker.internet.password(),
         },
