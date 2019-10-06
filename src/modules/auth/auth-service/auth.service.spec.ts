@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { getModelToken } from '@nestjs/mongoose';
 import MockUser from '../../../test/mocks/users/MockUser';
 import { UsersService } from '../../users/users-service/users.service';
+import { ConfigModule } from '../../config/config.module';
 
 describe( 'AuthService', () =>
 {
@@ -13,6 +14,7 @@ describe( 'AuthService', () =>
     beforeEach( async () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
+            imports:   [ ConfigModule ],
             providers: [
                 AuthService,
                 {

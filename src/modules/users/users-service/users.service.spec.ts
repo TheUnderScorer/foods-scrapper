@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { getModelToken } from '@nestjs/mongoose';
 import MockUser from '../../../test/mocks/users/MockUser';
+import { ConfigModule } from '../../config/config.module';
 
 describe( 'UsersService', () =>
 {
@@ -19,6 +20,7 @@ describe( 'UsersService', () =>
                     useValue: mockUser,
                 },
             ],
+            imports:   [ ConfigModule ],
         } ).compile();
 
         service = module.get<UsersService>( UsersService );
