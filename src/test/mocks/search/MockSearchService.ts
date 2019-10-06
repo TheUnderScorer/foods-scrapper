@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import Search from '../../../search/interfaces/search.interface';
+import Search from '../../../modules/search/interfaces/search.interface';
 
 @Injectable()
 export class MockSearchService

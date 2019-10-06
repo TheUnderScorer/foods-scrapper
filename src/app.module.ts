@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { FoodsModule } from './foods/foods.module';
-import { PageLoaderService } from './page-loader/page-loader.service';
-import { PyszneScrapperService } from './scrappers/pyszne-scrapper/pyszne-scrapper.service';
-import { MealsListService } from './scrappers/meals-list/meals-list.service';
-import { RestaurantService } from './scrappers/restaurant/restaurant.service';
+import { FoodsModule } from './modules/foods/foods.module';
+import { PageLoaderService } from './services/page-loader/page-loader.service';
+import { PyszneScrapperService } from './services/scrappers/pyszne-scrapper/pyszne-scrapper.service';
+import { MealsListService } from './services/scrappers/meals-list/meals-list.service';
+import { RestaurantService } from './services/scrappers/restaurant/restaurant.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SearchModule } from './search/search.module';
+import { SearchModule } from './modules/search/search.module';
 import { RenderModule } from 'nest-next';
 import { AppController } from './app.controller';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module( {
     providers:   [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],

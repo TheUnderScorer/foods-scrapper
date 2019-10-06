@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import Food from '../../../foods/interfaces/food.interface';
+import Food from '../../../modules/foods/interfaces/food.interface';
 
 @Injectable()
 export class MockFoodsService

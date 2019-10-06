@@ -1,5 +1,5 @@
 import * as faker from 'faker';
-import User from '../../../users/interfaces/user.interface';
+import User from '../../../modules/users/interfaces/user.interface';
 
 export default class MockUser
 {
