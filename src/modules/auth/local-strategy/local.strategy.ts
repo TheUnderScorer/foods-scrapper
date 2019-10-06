@@ -11,7 +11,9 @@ export class LocalStrategy extends PassportStrategy( Strategy, 'local' )
         protected readonly authService: AuthService,
     )
     {
-        super();
+        super( {
+            usernameField: 'email',
+        } );
     }
 
     public async validate( email: string, password: string ): Promise<User>
@@ -22,7 +24,7 @@ export class LocalStrategy extends PassportStrategy( Strategy, 'local' )
             return user;
         }
 
-        throw new UnauthorizedException('Invalid email or password provided.');
+        throw new UnauthorizedException( 'Invalid email or password provided.' );
     }
 
 }

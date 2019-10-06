@@ -1,6 +1,6 @@
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import User from '../users/interfaces/user.interface';
-import { Request as Req } from 'src/express';
+import { Request as Req } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller( 'auth' )
