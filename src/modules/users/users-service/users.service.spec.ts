@@ -8,8 +8,6 @@ describe( 'UsersService', () =>
 {
     let service: UsersService;
 
-    const mockUser = new MockUser();
-
     beforeEach( async () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
@@ -17,7 +15,7 @@ describe( 'UsersService', () =>
                 UsersService,
                 {
                     provide:  getModelToken( 'User' ),
-                    useValue: mockUser,
+                    useValue: MockUser,
                 },
             ],
             imports:   [ ConfigModule ],
@@ -33,8 +31,8 @@ describe( 'UsersService', () =>
 
     it( 'findByEmail', async () =>
     {
-        const result = await service.findByEmail( mockUser.users[ 0 ].email );
+        const result = await service.findByEmail( MockUser.items[ 0 ].email );
 
-        expect( result ).toEqual( mockUser.users[ 0 ] );
+        expect( result ).toEqual( MockUser.items[ 0 ] );
     } );
 } );

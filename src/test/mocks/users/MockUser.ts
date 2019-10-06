@@ -1,9 +1,10 @@
 import * as faker from 'faker';
 import User from '../../../modules/users/interfaces/user.interface';
+import MockModel from '../models/MockModel';
 
-export default class MockUser
+export default class MockUser extends MockModel<User>
 {
-    public readonly users: User[] = [
+    public static items: User[] = [
         {
             _id:      '1',
             email:    faker.internet.email(),
@@ -13,30 +14,4 @@ export default class MockUser
 
     protected result: User | null = null;
 
-    public findOne( keys: object )
-    {
-        this.result = this.users.find( user =>
-        {
-            for ( const key in keys ) {
-                if ( !keys.hasOwnProperty( key ) ) {
-                    continue;
-                }
-
-                const value = keys[ key ];
-
-                if ( user[ key ] === value ) {
-                    return true;
-                }
-            }
-
-            return false;
-        } );
-
-        return this;
-    };
-
-    public async exec()
-    {
-        return this.result;
-    }
 }
