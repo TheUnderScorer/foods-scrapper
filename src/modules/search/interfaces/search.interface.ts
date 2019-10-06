@@ -5,7 +5,7 @@ import UserDocument from '../../users/interfaces/user-document.interface';
 export default interface Search
 {
     searchID: string | Types.ObjectId;
-    user: UserDocument | number;
+    user: UserDocument | string;
     status: SearchStatus;
     date: Date;
     error?: string;
