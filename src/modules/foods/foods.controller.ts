@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, flatten, Get, Post, Request, UsePipes, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, flatten, Get, Post, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Result } from '../../interfaces/response.interface';
 import Food from './interfaces/food.interface';
 import { PyszneScrapperService } from '../../services/scrappers/pyszne-scrapper/pyszne-scrapper.service';
@@ -9,6 +9,8 @@ import SearchDocument from '../search/interfaces/search-document.interface';
 import Search, { SearchStatus } from '../search/interfaces/search.interface';
 import { SearchService } from '../search/search-service/search.service';
 import { Request as Req } from 'express';
+import { AuthGuard } from '@nestjs/passport';
+import User from '../users/interfaces/user.interface';
 
 @Controller( 'foods' )
 export class FoodsController
@@ -34,6 +36,7 @@ export class FoodsController
 
     @Post()
     @UsePipes( new ValidationPipe() )
+    @UseGuards( AuthGuard( 'jwt' ) )
     public async getFoods(
         @Body() { location, keywords, services }: GetFoodsDto,
         @Request() req: Req,
@@ -42,7 +45,7 @@ export class FoodsController
         const servicesToCall = this.getServicesToCall( services );
         const search: Search = {
             searchID: new Types.ObjectId(),
-            user:     req.user._id.toString(),
+            user:     ( req.user as User )._id.toString(),
             date:     new Date(),
             foods:    [],
             status:   SearchStatus.Pending,

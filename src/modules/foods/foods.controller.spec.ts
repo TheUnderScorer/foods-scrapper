@@ -9,6 +9,7 @@ import { FoodsService } from './foods-service/foods.service';
 import Search, { SearchStatus } from '../search/interfaces/search.interface';
 import { Types } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
+import User from '../users/interfaces/user.interface';
 
 describe( 'Foods Controller', () =>
 {
@@ -51,6 +52,9 @@ describe( 'Foods Controller', () =>
     it( 'Should return ID of pending search and handle search in background', async ( done ) =>
     {
         const searchID = new Types.ObjectId();
+        const user: Partial<User> = {
+            _id: '1',
+        };
 
         let search: Search;
 
@@ -97,11 +101,16 @@ describe( 'Foods Controller', () =>
                 return result;
             } );
 
-        const { result } = await controller.getFoods( {
-            services: [ 'pyszne' ],
-            keywords: [ 'test' ],
-            location: 'Katowice',
-        } );
+        const { result } = await controller.getFoods(
+            {
+                services: [ 'pyszne' ],
+                keywords: [ 'test' ],
+                location: 'Katowice',
+            },
+            {
+                user,
+            } as any,
+        );
 
         expect( result.status ).toEqual( SearchStatus.Pending );
         expect( result.searchID ).toEqual( searchID );

@@ -21,10 +21,11 @@ export class SearchService
         return await model.save();
     }
 
-    public async getBySearchID( searchID: string ): Promise<SearchDocument>
+    public async getBySearchID( searchID: string, user: string ): Promise<SearchDocument>
     {
         return await this.searchModel.findOne( {
             searchID,
+            user
         } ).exec();
     }
 
