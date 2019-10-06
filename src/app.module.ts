@@ -9,6 +9,7 @@ import { SearchModule } from './modules/search/search.module';
 import { RenderModule } from 'nest-next';
 import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth.module';
+import { ConfigModule } from './modules/config/config.module';
 
 @Module( {
     providers:   [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
@@ -21,6 +22,7 @@ import { AuthModule } from './modules/auth/auth.module';
         FoodsModule,
         RenderModule,
         AuthModule,
+        ConfigModule,
     ],
     controllers: [ AppController ],
 } )

@@ -1,13 +1,17 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import UserDocument from '../interfaces/user-document.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import User from '../interfaces/user.interface';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '../../config/config-service/config.service';
 
 @Injectable()
 export class UsersService
 {
+
+    @Inject()
+    protected readonly config: ConfigService;
 
     public constructor(
         @InjectModel( 'User' )
@@ -27,7 +31,8 @@ export class UsersService
             throw new BadRequestException( `Provided email ${ email } is already taken.` );
         }
 
-        const hashedPassword = await bcrypt.hash( password, 10 );
+        const rounds = parseInt( this.config.get( 'BCRYPT_ROUNDS' ) );
+        const hashedPassword = await bcrypt.hash( password, rounds );
 
         const result = new this.model( { email, password: hashedPassword } );
         await result.save();

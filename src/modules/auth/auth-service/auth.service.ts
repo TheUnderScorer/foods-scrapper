@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../../users/users-service/users.service';
 import User from '../../users/interfaces/user.interface';
 import { compare } from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
+import * as jwt from 'jsonwebtoken';
+import { ConfigService } from '../../config/config-service/config.service';
 
 @Injectable()
 export class AuthService
@@ -10,7 +11,7 @@ export class AuthService
 
     public constructor(
         protected readonly usersService: UsersService,
-        protected readonly jwtService: JwtService,
+        protected readonly configService: ConfigService,
     )
     {
     }
@@ -32,7 +33,7 @@ export class AuthService
     {
         const payload = { email: user.email, sub: user._id };
 
-        return await this.jwtService.signAsync( payload );
+        return jwt.sign( payload, this.configService.get( 'JWT_SECRET' ) );
     }
 
 }
