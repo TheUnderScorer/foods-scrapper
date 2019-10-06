@@ -1,4 +1,6 @@
+import UserReducer from '../../reducers/interfaces/user-reducer.interface';
+
 export default interface Store
 {
-    userStore: any;
+    user: UserReducer;
 }
