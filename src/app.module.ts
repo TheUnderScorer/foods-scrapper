@@ -9,20 +9,18 @@ import { SearchModule } from './search/search.module';
 import { RenderModule } from 'nest-next';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 
 @Module( {
     providers:   [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
     imports:     [
-        SearchModule,
-        FoodsModule,
         MongooseModule.forRoot( 'mongodb://localhost/expressmongo', {
             useNewUrlParser:    true,
             useUnifiedTopology: true,
         } ),
+        SearchModule,
+        FoodsModule,
         RenderModule,
         AuthModule,
-        UsersModule,
     ],
     controllers: [ AppController ],
 } )
