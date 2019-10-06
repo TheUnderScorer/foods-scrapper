@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { NextPage, NextPageContext } from 'next';
-import AppHead from './components/app-head/AppHead';
+import AppHead from '../components/app-head/AppHead';
 import { AppBar, Container, Toolbar, Typography } from '@material-ui/core';
-import ThemeProvider from './components/theme-provider/ThemeProvider';
+import ThemeProvider from '../components/theme-provider/ThemeProvider';
 
 const Index: NextPage<any> = ( { title } ) =>
 {

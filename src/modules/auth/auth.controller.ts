@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import User from '../users/interfaces/user.interface';
-import { Request as Req } from 'express';
+import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { Result } from '../../interfaces/response.interface';
 import { AuthService } from './auth-service/auth.service';
@@ -21,7 +21,7 @@ export class AuthController
 
     @Post( 'login' )
     @UseGuards( AuthGuard( 'local' ) )
-    public async login( @Request() request: Req ): Promise<Result<LoginResult>>
+    public async login( @Req() request: Request ): Promise<Result<LoginResult>>
     {
         const jwt = await this.authService.login( request.user as User );
 
@@ -30,6 +30,16 @@ export class AuthController
                 jwt,
             },
         };
+    }
+
+    @Get( 'login' )
+    public getLoginPage( @Req() request: Request, @Res() response: Response )
+    {
+        if ( request.user ) {
+            return response.redirect( '/' );
+        }
+
+        return response.render( 'Login' );
     }
 
     @Post( 'register' )
