@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import User from '../users/interfaces/user.interface';
 import { Request as Req } from 'express';
 import { AuthGuard } from '@nestjs/passport';
@@ -33,6 +33,7 @@ export class AuthController
     }
 
     @Post( 'register' )
+    @UsePipes( new ValidationPipe() )
     public async register( @Body() { email, password }: UserDto ): Promise<Result<RegisterResult>>
     {
         const user = await this.usersService.create( email, password );
