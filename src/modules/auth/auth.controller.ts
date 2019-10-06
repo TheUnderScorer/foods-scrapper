@@ -7,6 +7,7 @@ import { AuthService } from './auth-service/auth.service';
 import UserDto from './dto/UserDto';
 import { UsersService } from '../users/users-service/users.service';
 import RegisterResult from './interfaces/register-result.interface';
+import LoginResult from './interfaces/login-result.interface';
 
 @Controller( 'auth' )
 export class AuthController
@@ -20,12 +21,14 @@ export class AuthController
 
     @Post( 'login' )
     @UseGuards( AuthGuard( 'local' ) )
-    public async login( @Request() request: Req ): Promise<Response<string>>
+    public async login( @Request() request: Req ): Promise<Response<LoginResult>>
     {
         const jwt = await this.authService.login( request.user as User );
 
         return {
-            result: jwt,
+            result: {
+                jwt,
+            },
         };
     }
 
