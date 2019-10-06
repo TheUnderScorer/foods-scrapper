@@ -78,7 +78,7 @@ describe( 'SearchService', () =>
 
         await service.getBySearchID( searchID, { user } as any );
 
-        expect( findOne ).toBeCalledWith( { searchID } );
+        expect( findOne ).toBeCalledWith( { searchID, user } );
         expect( exec ).toBeCalledTimes( 1 );
     } );
 } );
