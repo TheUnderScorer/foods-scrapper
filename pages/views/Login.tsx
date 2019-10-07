@@ -1,60 +1,52 @@
 import * as React from 'react';
 import { FC } from 'react';
-import { NextPage } from 'next';
-import ThemeProvider from '../components/theme-provider/ThemeProvider';
 import AppHead from '../components/app-head/AppHead';
 import { Card, CardContent, Container, Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import LoginForm from '../components/login-form/LoginForm';
+import styled from 'styled-components';
+import GlobalStyle from '../components/global-style/GlobalStyle';
 
-const useStyles = makeStyles( {
-    container:     {
-        height:             '100vh',
-        background:         `url(/static/landscape.jpg)`,
-        backgroundPosition: 'center',
-        backgroundSize:     'cover',
-    },
-    gridContainer: {
-        height: '100%',
-    },
-} );
+const LoginContainer = styled( Container )`
+    height: 100vh;
+    background: url(/static/landscape.jpg) center;
+    background-size: cover;
+    
+    .grid-container {
+        height: 100%;
+    }
+    
+    .title {
+        margin-bottom: 2rem;
+    }
+    
+    .card {
+        max-width: 450px;
+        margin: 0 auto;
+    }
+`;
 
 const Login: FC = () =>
 {
-    const styles = useStyles( {} );
     return (
-        <>
-            <main>
-                <style jsx global>{ `
-                body {
-                    margin: 0;
-                }
-            ` }</style>
-                <AppHead title="Login"/>
-                <Container className={ `${ styles.container } container` } maxWidth={ false }>
-                    <Grid className={ styles.gridContainer } container alignItems="center" justify="center">
-                        <Grid item xs={ 6 }>
-                            <Card>
-                                <CardContent>
-                                    <Typography align="center" variant="h5">
-                                        Login
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
+        <main>
+            <GlobalStyle/>
+            <AppHead title="Login"/>
+            <LoginContainer maxWidth={ false }>
+                <Grid className="grid-container" container alignItems="center" justify="center">
+                    <Grid item xs={ 4 }>
+                        <Card className="card">
+                            <CardContent>
+                                <Typography className="title" align="center" variant="h5">
+                                    Login!
+                                </Typography>
+                                <LoginForm/>
+                            </CardContent>
+                        </Card>
                     </Grid>
-                </Container>
-            </main>
-        </>
+                </Grid>
+            </LoginContainer>
+        </main>
     );
 };
 
-const LoginPage: NextPage<any> = () =>
-{
-    return (
-        <ThemeProvider>
-            <Login/>
-        </ThemeProvider>
-    );
-};
-
-export default LoginPage;
+export default Login;
