@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { FC } from 'react';
 import AppHead from '../components/app-head/AppHead';
 import { Card, CardContent, Container, Grid, IconButton, Typography } from '@material-ui/core';
 import LoginForm from '../components/login-form/LoginForm';
 import styled from 'styled-components';
 import GlobalStyle from '../components/global-style/GlobalStyle';
 import { ArrowBack } from '@material-ui/icons';
+import { NextPage } from 'next';
 
 const LoginContainer = styled( Container )`
     height: 100vh;
@@ -22,7 +22,7 @@ const LoginContainer = styled( Container )`
     }
 `;
 
-const Login: FC = () =>
+const Login: NextPage<any> = () =>
 {
     return (
         <main>

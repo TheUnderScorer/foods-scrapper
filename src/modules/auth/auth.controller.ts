@@ -35,13 +35,16 @@ export class AuthController
 
     @Get( 'login' )
     @UseGuards( new NotLoggedGuard() )
-    public getLoginPage( @Req() request: Request, @Res() response: Response )
+    public getLoginPage( @Res() response: Response )
     {
-        if ( request.user ) {
-            return response.redirect( '/' );
-        }
-
         return response.render( 'Login' );
+    }
+
+    @Get( 'register' )
+    @UseGuards( new NotLoggedGuard() )
+    public getRegisterPage( @Res() response: Response )
+    {
+        return response.render( 'Register' );
     }
 
     @Post( 'register' )
