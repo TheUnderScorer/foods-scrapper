@@ -8,6 +8,7 @@ import UserDto from './dto/UserDto';
 import { UsersService } from '../users/users-service/users.service';
 import RegisterResult from './interfaces/register-result.interface';
 import LoginResult from './interfaces/login-result.interface';
+import { NotLoggedGuard } from './guards/not-logged-guard.service';
 
 @Controller( 'auth' )
 export class AuthController
@@ -33,6 +34,7 @@ export class AuthController
     }
 
     @Get( 'login' )
+    @UseGuards( new NotLoggedGuard() )
     public getLoginPage( @Req() request: Request, @Res() response: Response )
     {
         if ( request.user ) {
@@ -44,6 +46,7 @@ export class AuthController
 
     @Post( 'register' )
     @UsePipes( new ValidationPipe() )
+    @UseGuards( new NotLoggedGuard() )
     public async register( @Body() { email, password }: UserDto ): Promise<Result<RegisterResult>>
     {
         const user = await this.usersService.create( email, password );
