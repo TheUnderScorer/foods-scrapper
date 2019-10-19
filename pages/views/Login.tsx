@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { FC } from 'react';
 import AppHead from '../components/app-head/AppHead';
-import { Card, CardContent, Container, Grid, Typography } from '@material-ui/core';
+import { Card, CardContent, Container, Grid, IconButton, Typography } from '@material-ui/core';
 import LoginForm from '../components/login-form/LoginForm';
 import styled from 'styled-components';
 import GlobalStyle from '../components/global-style/GlobalStyle';
+import { ArrowBack } from '@material-ui/icons';
 
 const LoginContainer = styled( Container )`
     height: 100vh;
@@ -15,12 +16,8 @@ const LoginContainer = styled( Container )`
         height: 100%;
     }
     
-    .title {
-        margin-bottom: 2rem;
-    }
-    
     .card {
-        max-width: 450px;
+        max-width: 375px;
         margin: 0 auto;
     }
 `;
@@ -33,12 +30,17 @@ const Login: FC = () =>
             <AppHead title="Login"/>
             <LoginContainer maxWidth={ false }>
                 <Grid className="grid-container" container alignItems="center" justify="center">
-                    <Grid item xs={ 4 }>
+                    <Grid item>
                         <Card className="card">
                             <CardContent>
-                                <Typography className="title" align="center" variant="h5">
-                                    Login!
-                                </Typography>
+                                <Grid className="card-header" alignItems="center" container>
+                                    <IconButton href="/" size="small">
+                                        <ArrowBack/>
+                                    </IconButton>
+                                    <Typography className="card-title" variant="h5">
+                                        Login
+                                    </Typography>
+                                </Grid>
                                 <LoginForm/>
                             </CardContent>
                         </Card>

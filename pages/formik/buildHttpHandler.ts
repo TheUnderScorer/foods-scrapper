@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 export type RequestHandler<ResponseType> = Promise<AxiosResponse<ResponseType>>;
 export type ReturnResult<ResponseType> = Promise<AxiosResponse<ResponseType>>
 
-const handleHttp = <ResponseType extends any = any>( setError: ( error: any ) => any ) => async ( requestHandler: () => RequestHandler<ResponseType> ): ReturnResult<ResponseType> =>
+const buildHttpHandler = <ResponseType extends any = any>( setError: ( error: any ) => any ) => async ( requestHandler: () => RequestHandler<ResponseType> ): ReturnResult<ResponseType> =>
 {
     let data: ResponseType;
     let response: AxiosResponse<ResponseType>;
@@ -24,4 +24,4 @@ const handleHttp = <ResponseType extends any = any>( setError: ( error: any ) =>
     return response;
 };
 
-export default handleHttp;
+export default buildHttpHandler;
