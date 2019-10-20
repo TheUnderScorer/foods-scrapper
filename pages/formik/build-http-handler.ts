@@ -1,6 +1,5 @@
 import { AxiosResponse } from 'axios';
 import { Result } from '../../src/interfaces/response.interface';
-import { isEmpty as empty } from 'lodash';
 
 export type RequestHandler<ResponseType> = Promise<AxiosResponse<ResponseType>>;
 export type ReturnResult<ResponseType> = Promise<HttpHandlerResult<AxiosResponse<ResponseType>>>;
@@ -33,9 +32,9 @@ const buildHttpHandler = <ResponseType extends Result<any>>( setError: ( error: 
         response,
         isEmpty: () =>
                  {
-                     const isEmpty = !!response && !!response.data && !!response.data.result && !empty( response.data.result );
+                     const notEmpty = !!response && !!response.data && !!response.data.result;
 
-                     return !isEmpty;
+                     return !notEmpty;
                  },
     };
 };
