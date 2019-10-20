@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormikProps, withFormik } from 'formik';
 import LoginInput from './interfaces/login-input.interface';
-import { Button, CircularProgress, Fab, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
+import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
 import client from '../../http/client';
 import * as Yup from 'yup';
 import { isEmpty } from 'lodash';
@@ -33,6 +33,10 @@ const Form = styled.form`
     .register-container {
         margin-top: 1rem;
     }
+    
+    .loader-label {
+        margin-left: 1rem;
+    }
 `;
 
 const ErrorBox = styled( Grid )`
@@ -50,7 +54,7 @@ const validationSchema = Yup.object().shape<LoginInput>( {
     password: Yup.string().required( 'Provide password.' ),
 } );
 
-const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, error, isSubmitting }: FormikProps<LoginInput> & LoginFormProps ) =>
+const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, error, isSubmitting, setSubmitting }: FormikProps<LoginInput> & LoginFormProps ) =>
 {
     const getError = getInputError<LoginInput>( touched, errors );
 
@@ -66,6 +70,7 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, e
                 }
                 <Grid item xs={ 10 }>
                     <TextField
+                        variant="outlined"
                         InputProps={ {
                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -84,6 +89,7 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, e
                 </Grid>
                 <Grid className="form-item" item xs={ 10 }>
                     <TextField
+                        variant="outlined"
                         InputProps={ {
                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -102,9 +108,16 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, e
                         type="password"/>
                 </Grid>
                 <Grid className="form-item button-container" item xs={ 10 }>
-                    <Fab variant="extended" className="submit-button" disabled={ !isEmpty( errors ) || isSubmitting } type="submit" color="primary">
-                        { isSubmitting ? <CircularProgress size={ 30 }/> : 'Submit' }
-                    </Fab>
+                    <Button variant="contained" className="submit-button" disabled={ !isEmpty( errors ) || isSubmitting } type="submit" color="primary">
+                        { isSubmitting ?
+                            <>
+                                <CircularProgress size={ 30 }/>
+                                <span className="loader-label">
+                                    Submitting...
+                                </span>
+                            </> :
+                            'Submit' }
+                    </Button>
                 </Grid>
                 <Grid className="register-container" container alignItems="center" justify="center">
                     <Typography variant="subtitle2">

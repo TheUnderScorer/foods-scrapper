@@ -19,7 +19,6 @@ async function bootstrap()
     await renderer.register( server, next );
     rendererService.setErrorHandler( async ( err, req, res ) =>
     {
-        console.log( { err } );
         res.send( err.response );
     } );
 

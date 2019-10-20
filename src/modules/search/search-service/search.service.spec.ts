@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SearchService } from './search.service';
 import { getModelToken } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import User from '../../users/interfaces/user.interface';
 
 describe( 'SearchService', () =>
 {
@@ -70,13 +69,11 @@ describe( 'SearchService', () =>
 
     it( 'getBySearchID', async () =>
     {
-        const user: Partial<User> = {
-            _id: '1',
-        };
+        const user = '1';
         const searchID = new Types.ObjectId().toHexString();
         const service = new SearchService( new serviceMock() );
 
-        await service.getBySearchID( searchID, { user } as any );
+        await service.getBySearchID( searchID, user );
 
         expect( findOne ).toBeCalledWith( { searchID, user } );
         expect( exec ).toBeCalledTimes( 1 );
