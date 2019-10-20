@@ -121,7 +121,8 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, e
                 </Grid>
                 <Grid className="register-container" container alignItems="center" justify="center">
                     <Typography variant="subtitle2">
-                        Do not have account?
+                        {/* eslint-disable-next-line react/no-unescaped-entities */ }
+                        Don't have account?
                     </Typography>
                     <Button href="/auth/register">
                         Register
