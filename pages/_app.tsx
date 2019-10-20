@@ -16,12 +16,12 @@ const App: NextPage<any> = ( { Component, pageProps, title, ...props } ) =>
     } );
 
     return (
-        <>
+        <main>
             <ThemeProvider>
                 <CssBaseline/>
                 <Component { ...pageProps } />
             </ThemeProvider>
-        </>
+        </main>
     );
 };
 

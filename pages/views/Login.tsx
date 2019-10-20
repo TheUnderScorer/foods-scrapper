@@ -8,13 +8,13 @@ import AuthPage from '../components/auth-page/auth-page';
 const Login: NextPage<any> = () =>
 {
     return (
-        <main>
+        <>
             <GlobalStyle/>
             <AppHead title="Login"/>
             <AuthPage title="Login" returnUrl="/" backgroundUrl="/static/landscape.jpg">
                 <LoginForm/>
             </AuthPage>
-        </main>
+        </>
     );
 };
 
