@@ -21,7 +21,7 @@ const AuthContainer = styled( Container )<AuthContainerProps>`
     }
 `;
 
-const AuthPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl } ) =>
+const AuthPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '' } ) =>
 {
     return (
         <AuthContainer backgroundUrl={ backgroundUrl } className="auth-container" maxWidth={ false }>

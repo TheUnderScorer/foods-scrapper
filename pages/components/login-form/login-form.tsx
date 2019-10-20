@@ -5,49 +5,14 @@ import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography }
 import client from '../../http/client';
 import * as Yup from 'yup';
 import { isEmpty } from 'lodash';
-import styled from 'styled-components';
 import { getInputError } from '../../formik/errors';
 import buildHttpHandler from '../../formik/build-http-handler';
 import { Result } from '../../../src/interfaces/response.interface';
 import RegisterResult from '../../../src/modules/auth/interfaces/register-result.interface';
 import LoginFormProps from './interfaces/login-form-props.interface';
 import { Email, Lock } from '@material-ui/icons';
-
-const Form = styled.form`
-    min-height: 300px;
-    display: flex;
-    align-items: center;
-
-    .form-item {
-        margin-top: 2rem;
-    }
-    
-    .button-container {
-        text-align: center;
-    }
-   
-    .submit-button {
-        width: 100%;
-    }
-    
-    .register-container {
-        margin-top: 1rem;
-    }
-    
-    .loader-label {
-        margin-left: 1rem;
-    }
-`;
-
-const ErrorBox = styled( Grid )`
-        background: ${ props => props.theme.palette.error.main };
-        padding: 1rem;
-        margin-bottom: 2rem !important;
-        
-        * {
-            color: ${ props => props.theme.palette.common.white }
-        }
-`;
+import { AuthForm } from '../auth-page/styled';
+import { ErrorBox } from '../styled/boxes';
 
 const validationSchema = Yup.object().shape<LoginInput>( {
     email:    Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -59,7 +24,7 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, e
     const getError = getInputError<LoginInput>( touched, errors );
 
     return (
-        <Form className="container" action="#" onSubmit={ handleSubmit }>
+        <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
             <Grid justify="center" container>
                 { error &&
                   <ErrorBox item xs={ 10 } className="error-box">
@@ -113,10 +78,10 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, e
                             <>
                                 <CircularProgress size={ 30 }/>
                                 <span className="loader-label">
-                                    Submitting...
+                                    Logging in...
                                 </span>
                             </> :
-                            'Submit' }
+                            'Login' }
                     </Button>
                 </Grid>
                 <Grid className="register-container" container alignItems="center" justify="center">
@@ -129,7 +94,7 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, e
                     </Button>
                 </Grid>
             </Grid>
-        </Form>
+        </AuthForm>
     );
 };
 
@@ -144,9 +109,10 @@ const formikWrapper = withFormik<LoginFormProps, LoginInput>( {
                           setError( '' );
 
                           const requestHandler = buildHttpHandler<Result<RegisterResult>>( setError );
-                          const { data } = await requestHandler( () => client.post( '/auth/login', { ...values } ) );
+                          const { response, isEmpty } = await requestHandler( () => client.post( '/auth/login', { ...values } ) );
 
-                          if ( data.result && data.result.user && props.onSubmit ) {
+                          if ( !isEmpty() && props.onSubmit ) {
+                              const { data } = response;
                               props.onSubmit( data.result.user, data.result.jwt );
 
                               await props.router.push( '/' );
