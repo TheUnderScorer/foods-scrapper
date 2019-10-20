@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { NextPage, NextPageContext } from 'next';
-import ThemeProvider from './components/theme-provider/ThemeProvider';
+import ThemeProvider from './components/theme-provider/theme-provider';
 import { CssBaseline } from '@material-ui/core';
 
 const App: NextPage<any> = ( { Component, pageProps, title, ...props } ) =>

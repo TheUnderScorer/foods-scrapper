@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import AppHead from './AppHead';
+import AppHead from './app-head';
 import * as React from 'react';
 
 describe( 'AppHead component', () =>

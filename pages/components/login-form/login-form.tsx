@@ -7,10 +7,10 @@ import * as Yup from 'yup';
 import { isEmpty } from 'lodash';
 import styled from 'styled-components';
 import { getInputError } from '../../formik/errors';
-import buildHttpHandler from '../../formik/buildHttpHandler';
+import buildHttpHandler from '../../formik/build-http-handler';
 import { Result } from '../../../src/interfaces/response.interface';
 import RegisterResult from '../../../src/modules/auth/interfaces/register-result.interface';
-import LoginFormProps from './interfaces/LoginFormProps';
+import LoginFormProps from './interfaces/login-form-props.interface';
 import { Email, Lock } from '@material-ui/icons';
 
 const Form = styled.form`
@@ -54,7 +54,7 @@ const validationSchema = Yup.object().shape<LoginInput>( {
     password: Yup.string().required( 'Provide password.' ),
 } );
 
-const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, error, isSubmitting, setSubmitting }: FormikProps<LoginInput> & LoginFormProps ) =>
+const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, error, isSubmitting }: FormikProps<LoginInput> & LoginFormProps ) =>
 {
     const getError = getInputError<LoginInput>( touched, errors );
 

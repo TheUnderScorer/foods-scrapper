@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import AuthPage from './AuthPage';
+import AuthPage from './auth-page';
 import * as React from 'react';
 
 describe( 'AuthPage component', () =>
