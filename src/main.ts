@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import Next from 'next';
 import { RenderModule, RenderService } from 'nest-next';
+import cookieParser from 'cookie-parser';
 
 // TODO Setup next.js testing
 async function bootstrap()
@@ -12,6 +13,8 @@ async function bootstrap()
     await next.prepare();
 
     const server = await NestFactory.create( AppModule );
+
+    server.use( cookieParser() );
 
     const renderer = server.get( RenderModule );
     const rendererService = server.get( RenderService );

@@ -9,23 +9,20 @@ describe( 'NotLoggedGuardGuard', () =>
         expect( new NotLoggedGuard() ).toBeDefined();
     } );
 
-    it( 'Should redirect to home if user is logged in ', () =>
+    it( 'Should redirect to home if user is logged in ', async () =>
     {
         const guard = new NotLoggedGuard();
         const request = {
-            body: {
-                user: true,
+            cookies: {
+                jwt: true,
             },
         };
-        const response = {
-            redirect: jest.fn(),
-        };
 
-        const httpArg = new MockHttpArgumentHost( request, response );
+        const httpArg = new MockHttpArgumentHost( request );
         const mockContext = new MockContext( httpArg );
 
-        guard.canActivate( mockContext as any );
+        const result = await guard.canActivate( mockContext as any );
 
-        expect( response.redirect ).toBeCalledWith( '/' );
+        expect( result ).toBeFalsy();
     } );
 } );

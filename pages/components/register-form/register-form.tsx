@@ -21,17 +21,18 @@ const validationSchema = Yup.object().shape<RegisterInput>( {
     passwordRepeat: Yup.string().required( 'Repeat your password.' ),
 } );
 
-const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( {
-                                                                               handleBlur,
-                                                                               handleSubmit,
-                                                                               error,
-                                                                               touched,
-                                                                               errors,
-                                                                               handleChange,
-                                                                               isSubmitting,
-                                                                               status,
-                                                                           } ) =>
+const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props ) =>
 {
+    const {
+              handleBlur,
+              handleSubmit,
+              error,
+              touched,
+              errors,
+              handleChange,
+              isSubmitting,
+              status,
+          } = props;
     const getError = getInputError<RegisterInput>( touched, errors );
 
     console.log( { status } );
@@ -161,10 +162,6 @@ const formikWrapper = withFormik<RegisterFormProps, RegisterInput>( {
 
                           const requestHandler = buildHttpHandler<Result<RegisterResult>>( setError );
                           const { response, isEmpty } = await requestHandler( () => client.post( '/auth/register', { email, password } ) );
-
-                          console.log( {
-                              isEmpty: isEmpty(),
-                          } );
 
                           if ( !isEmpty() ) {
                               const { jwt, user } = response.data.result;

@@ -4,6 +4,7 @@ import User from '../../users/interfaces/user.interface';
 import { compare } from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { ConfigService } from '../../config/config-service/config.service';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService
@@ -29,11 +30,14 @@ export class AuthService
         return null;
     }
 
-    public async login( user: User ): Promise<string>
+    public async login( user: User, res: Response ): Promise<string>
     {
         const payload = { email: user.email, sub: user._id };
 
-        return jwt.sign( payload, this.configService.get( 'JWT_SECRET' ) );
+        const token = jwt.sign( payload, this.configService.get( 'JWT_SECRET' ) );
+        res.cookie( 'jwt', token );
+
+        return token;
     }
 
 }

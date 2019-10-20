@@ -20,6 +20,11 @@ export class UsersService
     {
     }
 
+    public async findById( id: string ): Promise<User | undefined>
+    {
+        return this.model.findById( id ).exec();
+    }
+
     public async findByEmail( email: string ): Promise<User | undefined>
     {
         return this.model.findOne( { email } ).exec();

@@ -28,7 +28,6 @@ const App: NextPage<any> = ( { Component, pageProps, title, ...props } ) =>
 App.getInitialProps = async ( ctx: NextPageContext ) =>
 {
     const { query } = ctx;
-    console.log( { ctx } );
 
     return { ...query };
 };

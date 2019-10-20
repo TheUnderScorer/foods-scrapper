@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { Request } from 'express';
 
 @Injectable()
 export class NotLoggedGuard implements CanActivate
@@ -8,13 +9,8 @@ export class NotLoggedGuard implements CanActivate
         context: ExecutionContext,
     ): boolean | Promise<boolean> | Observable<boolean>
     {
-        const request = context.switchToHttp().getRequest();
-        const response = context.switchToHttp().getResponse();
+        const request = context.switchToHttp().getRequest<Request>();
 
-        if ( request.body.user ) {
-            return response.redirect( '/' );
-        }
-
-        return true;
+        return !request.cookies.jwt;
     }
 }
