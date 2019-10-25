@@ -3,8 +3,10 @@ import { useEffect } from 'react';
 import { NextPage, NextPageContext } from 'next';
 import ThemeProvider from './components/theme-provider/theme-provider';
 import { CssBaseline } from '@material-ui/core';
+import { Provider } from 'react-redux';
+import store from './redux/stores/appStore';
 
-const App: NextPage<any> = ( { Component, pageProps, title, ...props } ) =>
+const App: NextPage<any> = ( { Component, pageProps } ) =>
 {
     useEffect( () =>
     {
@@ -17,10 +19,12 @@ const App: NextPage<any> = ( { Component, pageProps, title, ...props } ) =>
 
     return (
         <main>
-            <ThemeProvider>
-                <CssBaseline/>
-                <Component { ...pageProps } />
-            </ThemeProvider>
+            <Provider store={ store }>
+                <ThemeProvider>
+                    <CssBaseline/>
+                    <Component { ...pageProps } />
+                </ThemeProvider>
+            </Provider>
         </main>
     );
 };

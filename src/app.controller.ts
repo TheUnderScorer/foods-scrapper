@@ -1,5 +1,4 @@
-import { Controller, Get, Render, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Controller, Get, Render } from '@nestjs/common';
 
 @Controller()
 export class AppController
@@ -7,7 +6,7 @@ export class AppController
 
     @Render( 'Index' )
     @Get( '/' )
-    public index( @Req() req: Request, @Res() res: Response )
+    public index()
     {
         return {
             title: 'Foods scrapper',
