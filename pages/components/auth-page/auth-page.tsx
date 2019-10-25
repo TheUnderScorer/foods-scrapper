@@ -16,7 +16,7 @@ const AuthContainer = styled( Container )<AuthContainerProps>`
     }
     
     .card {
-        max-width: 375px;
+        max-width: 400px;
         margin: 0 auto;
     }
 `;
