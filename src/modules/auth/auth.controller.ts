@@ -31,7 +31,6 @@ export class AuthController
     }
 
     @Get( 'login' )
-    @UseGuards( new NotLoggedGuard() )
     public getLoginPage( @Res() response: Response )
     {
         return response.render( 'Login' );

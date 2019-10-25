@@ -13,6 +13,7 @@ import LoginFormProps from './interfaces/login-form-props.interface';
 import { Email, Lock } from '@material-ui/icons';
 import { AuthForm } from '../auth-page/styled';
 import { ErrorBox } from '../styled/boxes';
+import redirect from '../../http/redirect';
 
 const validationSchema = Yup.object().shape<LoginInput>( {
     email:    Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -111,11 +112,14 @@ const formikWrapper = withFormik<LoginFormProps, LoginInput>( {
                           const requestHandler = buildHttpHandler<Result<RegisterResult>>( setError );
                           const { response, isEmpty } = await requestHandler( () => client.post( '/auth/login', { ...values } ) );
 
-                          if ( !isEmpty() && props.onSubmit ) {
+                          if ( !isEmpty() ) {
                               const { data } = response;
-                              props.onSubmit( data.result.user, data.result.jwt );
 
-                              await props.router.push( '/' );
+                              if ( props.onSubmit ) {
+                                  props.onSubmit( data.result.user, data.result.jwt );
+                              }
+
+                              redirect( '/' );
                           }
 
                           setSubmitting( false );
