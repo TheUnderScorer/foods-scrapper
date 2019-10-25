@@ -1,4 +1,4 @@
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsString, Length } from 'class-validator';
 
 export default class UserDto
 {
@@ -6,5 +6,6 @@ export default class UserDto
     public readonly email: string;
 
     @IsString()
+    @Length( 7 )
     public readonly password: string;
 }

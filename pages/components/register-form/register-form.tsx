@@ -19,7 +19,7 @@ import RegisterSuccessDialog from './register-success-dialog';
 
 const validationSchema = Yup.object().shape<RegisterInput>( {
     email:          Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
-    password:       Yup.string().required( 'Provide password.' ),
+    password:       Yup.string().required( 'Provide password.' ).min( 7, 'Password should contain at least 7 characters.' ),
     passwordRepeat: Yup.string().required( 'Repeat your password.' ),
 } );
 
