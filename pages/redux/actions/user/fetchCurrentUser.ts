@@ -4,8 +4,9 @@ import client from '../../../http/client';
 import { Routes } from '../../../http/types/Routes';
 import ResponseResult from '../../../../src/types/ResponseResult';
 import User from '../../../../src/modules/users/types/User';
+import { ErrorActions } from '../error/types/ErrorActions';
 
-export default () => async ( dispatch: Dispatch<UserActions> ): Promise<SetUserFetched> =>
+export default () => async ( dispatch: Dispatch<UserActions | ErrorActions> ): Promise<SetUserFetched> =>
 {
     try {
         const { data } = await client.get<ResponseResult<User>>( Routes.getMe );
@@ -17,15 +18,17 @@ export default () => async ( dispatch: Dispatch<UserActions> ): Promise<SetUserF
             } );
         }
 
-        return dispatch( {
-            type:    'SetUserFetched',
-            payload: true,
-        } );
-
     } catch ( e ) {
-        // TODO Dispatch error into errorReducer
         console.error( 'fetchCurrentUser error: ', e );
 
-        throw e;
+        dispatch( {
+            type:    'SetError',
+            payload: e,
+        } );
     }
+
+    return dispatch( {
+        type:    'SetUserFetched',
+        payload: true,
+    } );
 }
