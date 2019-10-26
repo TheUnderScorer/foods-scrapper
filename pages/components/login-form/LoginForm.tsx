@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { FormikProps, withFormik } from 'formik';
-import LoginInput from './interfaces/login-input.interface';
+import LoginInput from './types/LoginInput';
 import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
 import client from '../../http/client';
 import * as Yup from 'yup';
 import { isEmpty } from 'lodash';
 import { getInputError } from '../../formik/errors';
-import buildHttpHandler from '../../formik/build-http-handler';
+import buildHttpHandler from '../../formik/buildHttpHandler';
 import { Result } from '../../../src/interfaces/response.interface';
 import RegisterResult from '../../../src/modules/auth/interfaces/register-result.interface';
-import LoginFormProps from './interfaces/login-form-props.interface';
+import LoginFormProps from './types/LoginFormProps';
 import { Email, Lock } from '@material-ui/icons';
 import { AuthForm } from '../auth-page/styled';
 import { ErrorBox } from '../styled/boxes';

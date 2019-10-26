@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FC } from 'react';
 import { MuiThemeProvider } from '@material-ui/core';
 import { ThemeProvider as StyledTheme } from 'styled-components';
-import { createTheme } from '../../theme/create-theme';
+import { createTheme } from '../../theme/createTheme';
 
 const ThemeProvider: FC = ( { children } ) =>
 {

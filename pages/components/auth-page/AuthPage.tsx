@@ -3,8 +3,8 @@ import { FC } from 'react';
 import { Card, CardContent, Container, Grid, IconButton, Typography } from '@material-ui/core';
 import styled from 'styled-components';
 import { ArrowBack } from '@material-ui/icons';
-import AuthPageProps from './interfaces/auth-page-props.interface';
-import AuthContainerProps from './interfaces/auth-container-props.interface';
+import AuthPageProps from './types/AuthPageProps';
+import AuthContainerProps from './types/AuthContainerProps';
 
 const AuthContainer = styled( Container )<AuthContainerProps>`
     height: 100vh;

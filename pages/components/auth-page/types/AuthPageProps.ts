@@ -1,4 +1,4 @@
-import AuthContainerProps from './auth-container-props.interface';
+import AuthContainerProps from './AuthContainerProps';
 
 export default interface AuthPageProps extends AuthContainerProps
 {

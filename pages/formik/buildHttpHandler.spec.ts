@@ -1,4 +1,4 @@
-import buildHttpHandler from './build-http-handler';
+import buildHttpHandler from './buildHttpHandler';
 
 describe( 'buildHttpHandler', () =>
 {
@@ -11,7 +11,7 @@ describe( 'buildHttpHandler', () =>
             },
         };
 
-        const setError = jest.fn();
+        const setStatus = jest.fn();
         const requestHandler = () =>
         {
             return Promise.reject( {
@@ -19,10 +19,13 @@ describe( 'buildHttpHandler', () =>
             } );
         };
 
-        const httpHandler = buildHttpHandler( setError );
+        const httpHandler = buildHttpHandler( setStatus );
         const { isEmpty } = await httpHandler( requestHandler );
 
-        expect( setError ).toBeCalledWith( response.data.message );
+        expect( setStatus ).toBeCalledWith( {
+            error:   true,
+            message: response.data.message,
+        } );
         expect( isEmpty() ).toBeTruthy();
     } );
 

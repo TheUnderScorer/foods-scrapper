@@ -1,13 +1,13 @@
-import UserReducer from './interfaces/user-reducer.interface';
+import UserState from './interfaces/UserState';
 import { ReducerHandlers } from '@theunderscorer/utils/dist/reducer/types/ReducerHandlers';
-import { UserActions } from '../actions/user.actions';
+import { UserActions } from '../actions/types/UserActions';
 import { reducer } from '@theunderscorer/utils/dist';
 
-export const initialState: UserReducer = {
+export const initialState: UserState = {
     currentUser: null,
 };
 
-const handlers: ReducerHandlers<UserActions, UserReducer> = {
+const handlers: ReducerHandlers<UserActions, UserState> = {
     SetCurrentUser: ( state, currentUser ) => ( {
         ...state,
         currentUser,

@@ -1,9 +1,9 @@
 import { mount } from 'enzyme';
-import RegisterForm from './register-form';
+import RegisterForm from './RegisterForm';
 import * as React from 'react';
 import MockAdapter from 'axios-mock-adapter';
 import client from '../../http/client';
-import RegisterInput from './interfaces/register-input.interface';
+import RegisterInput from './types/RegisterInput';
 import * as faker from 'faker';
 import { act } from 'react-dom/test-utils';
 import { wait } from '../../../src/utils/timeout';

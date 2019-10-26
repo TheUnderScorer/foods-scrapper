@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FC } from 'react';
-import RegisterSuccessDialogProps from './interfaces/register-success-dialog-props.interface';
+import RegisterSuccessDialogProps from './types/RegisterSuccessDialogProps';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
 // TODO Tests

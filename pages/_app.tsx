@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { NextPage, NextPageContext } from 'next';
-import ThemeProvider from './components/theme-provider/theme-provider';
+import ThemeProvider from './components/theme-provider/ThemeProvider';
 import { CssBaseline } from '@material-ui/core';
 import { Provider } from 'react-redux';
 import store from './redux/stores/appStore';

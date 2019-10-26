@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FC, useEffect, useState } from 'react';
 import { FormikProps, withFormik } from 'formik';
-import RegisterFormProps from './interfaces/register-form-props.interface';
-import RegisterInput from './interfaces/register-input.interface';
+import RegisterFormProps from './types/RegisterFormProps';
+import RegisterInput from './types/RegisterInput';
 import { AuthForm } from '../auth-page/styled';
 import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
 import { ErrorBox } from '../styled/boxes';
@@ -10,12 +10,12 @@ import { Email, Lock } from '@material-ui/icons';
 import { getInputError } from '../../formik/errors';
 import { isEmpty } from 'lodash';
 import * as Yup from 'yup';
-import buildHttpHandler from '../../formik/build-http-handler';
+import buildHttpHandler from '../../formik/buildHttpHandler';
 import { Result } from '../../../src/interfaces/response.interface';
 import RegisterResult from '../../../src/modules/auth/interfaces/register-result.interface';
 import client from '../../http/client';
 import redirect from '../../http/redirect';
-import RegisterSuccessDialog from './register-success-dialog';
+import RegisterSuccessDialog from './RegisterSuccessDialog';
 import FormikStatus from '../../types/formik/FormikStatus';
 import getDefaultStatus from '../../formik/getDefaultStatus';
 
