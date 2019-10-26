@@ -1,11 +1,16 @@
-import { mount } from 'enzyme';
 import LoginPage from './Login';
 import * as React from 'react';
+import mountWithStore from '../test/mountWithStore';
 
 describe( 'Login component', () =>
 {
     it( 'Renders without crashing', () =>
     {
-        mount( <LoginPage/> );
+        mountWithStore( <LoginPage/>, {
+            user: {
+                userFetched: false,
+                currentUser: null,
+            },
+        } );
     } );
 } );

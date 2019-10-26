@@ -1,11 +1,16 @@
-import { mount } from 'enzyme';
 import Register from './Register';
 import * as React from 'react';
+import mountWithStore from '../test/mountWithStore';
 
 describe( 'Register component', () =>
 {
     it( 'Renders without crashing', () =>
     {
-        mount( <Register/> );
+        mountWithStore( <Register/>, {
+            user: {
+                userFetched: false,
+                currentUser: null,
+            },
+        } );
     } );
 } );

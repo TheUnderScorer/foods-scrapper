@@ -19,7 +19,11 @@ jest.mock( './redux/actions/user/fetchCurrentUser', () => ( {
 jest.mock( './redux/stores/appStore', () => ( {
     default: {
         dispatch:  jest.fn(),
-        getState:  jest.fn(),
+        getState:  jest.fn().mockReturnValue( {
+            error: {
+                error: null,
+            },
+        } ),
         subscribe: jest.fn(),
     },
 } ) );
