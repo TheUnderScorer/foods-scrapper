@@ -7,8 +7,8 @@ import { RestaurantService } from '../../services/scrappers/restaurant/Restauran
 import { MongooseModule } from '@nestjs/mongoose';
 import foodSchema from './schemas/food.schema';
 import { FoodsService } from './foods-service/FoodsService';
-import { SearchService } from '../search/search-service/search.service';
-import searchSchema from '../search/schemas/search.schema';
+import { SearchService } from '../search/search-service/SearchService';
+import searchSchema from '../search/schemas/searchSchema';
 
 @Module( {
     controllers: [ FoodsController ],

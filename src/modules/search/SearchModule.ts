@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SearchController } from './SearchController';
-import searchSchema from './schemas/search.schema';
-import { SearchService } from './search-service/search.service';
+import searchSchema from './schemas/searchSchema';
+import { SearchService } from './search-service/SearchService';
 
 @Module( {
     providers:   [

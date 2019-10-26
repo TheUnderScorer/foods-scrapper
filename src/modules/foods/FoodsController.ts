@@ -7,7 +7,7 @@ import Scrapper from '../../services/scrappers/types/Scrapper';
 import { Types } from 'mongoose';
 import SearchDocument from '../search/types/SearchDocument';
 import Search, { SearchStatus } from '../search/types/Search';
-import { SearchService } from '../search/search-service/search.service';
+import { SearchService } from '../search/search-service/SearchService';
 import { Request as Req } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import User from '../users/types/User';

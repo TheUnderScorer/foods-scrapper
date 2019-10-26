@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SearchController } from './SearchController';
 import { getModelToken } from '@nestjs/mongoose';
-import { SearchService } from './search-service/search.service';
+import { SearchService } from './search-service/SearchService';
 
 describe( 'Search Controller', () =>
 {

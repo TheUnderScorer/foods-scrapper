@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
-import { SearchService } from './search-service/search.service';
+import { SearchService } from './search-service/SearchService';
 import ResponseResult from '../../types/ResponseResult';
 import SearchDocument from './types/SearchDocument';
 import { AuthGuard } from '@nestjs/passport';

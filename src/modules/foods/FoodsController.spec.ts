@@ -4,7 +4,7 @@ import { PyszneScrapperService } from '../../services/scrappers/pyszne-scrapper/
 import { PageLoaderService } from '../../services/page-loader/PageLoaderService';
 import { MealsListService } from '../../services/scrappers/meals-list/MealsListService';
 import { RestaurantService } from '../../services/scrappers/restaurant/RestaurantService';
-import { SearchService } from '../search/search-service/search.service';
+import { SearchService } from '../search/search-service/SearchService';
 import { FoodsService } from './foods-service/FoodsService';
 import Search, { SearchStatus } from '../search/types/Search';
 import { Types } from 'mongoose';
