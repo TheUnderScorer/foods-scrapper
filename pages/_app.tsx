@@ -6,6 +6,7 @@ import { CssBaseline } from '@material-ui/core';
 import { Provider } from 'react-redux';
 import store from './redux/stores/appStore';
 import GlobalStyle from './components/global-style/GlobalStyle';
+import fetchCurrentUser from './redux/actions/user/fetchCurrentUser';
 
 const App: NextPage<any> = ( { Component, pageProps } ) =>
 {
@@ -13,10 +14,16 @@ const App: NextPage<any> = ( { Component, pageProps } ) =>
     {
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector( '#jss-server-side' );
+
         if ( jssStyles ) {
             jssStyles.parentNode.removeChild( jssStyles );
         }
     } );
+
+    useEffect( () =>
+    {
+        store.dispatch( fetchCurrentUser() as any );
+    }, [] );
 
     return (
         <main>
@@ -24,7 +31,7 @@ const App: NextPage<any> = ( { Component, pageProps } ) =>
                 <ThemeProvider>
                     <GlobalStyle/>
                     <CssBaseline/>
-                    <Component { ...pageProps } />
+                    { Component && <Component { ...pageProps } /> }
                 </ThemeProvider>
             </Provider>
         </main>
