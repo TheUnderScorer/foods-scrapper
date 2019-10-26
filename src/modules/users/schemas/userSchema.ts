@@ -2,21 +2,22 @@ import { Schema } from 'mongoose';
 import { UserRoles } from '../enum/UserRoles';
 
 export default new Schema( {
-    email:    {
+    email:             {
         type:      String,
         unique:    true,
         maxlength: 150,
         trim:      true,
 
     },
-    password: {
+    password:          {
         maxlength: 150,
         type:      String,
     },
-    role:     {
+    role:              {
         default: UserRoles.user,
         type:    String,
     },
+    resetPasswordDate: Date,
 }, {
     timestamps: true,
 } );

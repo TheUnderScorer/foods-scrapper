@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import User from '../users/types/User';
 import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
@@ -6,6 +6,7 @@ import { AuthService } from './auth-service/AuthService';
 import UserDto from './dto/UserDto';
 import { UsersService } from '../users/users-service/UsersService';
 import { NotLoggedGuard } from './guards/NotLoggedGuard';
+import { v4 } from 'uuid';
 
 @Controller( 'auth' )
 export class AuthController
@@ -40,6 +41,19 @@ export class AuthController
     public getRegisterPage( @Res() response: Response )
     {
         return response.render( 'Register' );
+    }
+
+    @Get( '/reset-password' )
+    @UseGuards( new NotLoggedGuard() )
+    public async resetPassword( @Req() request: Request, @Res() response: Response )
+    {
+        const { token } = request.query;
+
+        if ( !token ) {
+            throw new BadRequestException( 'No reset password token provided.' );
+        }
+
+        const newPassword = v4();
     }
 
     @Post( 'register' )

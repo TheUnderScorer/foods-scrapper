@@ -7,4 +7,5 @@ export default interface User
     password: string;
     updatedAt?: Date;
     createdAt?: Date;
+    resetPasswordDate?: Date;
 }
