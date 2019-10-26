@@ -1,5 +1,5 @@
-import UserState from '../../reducers/interfaces/UserState';
 import ErrorState from '../../reducers/types/ErrorState';
+import UserState from '../../reducers/types/UserState';
 
 export default interface AppStore
 {

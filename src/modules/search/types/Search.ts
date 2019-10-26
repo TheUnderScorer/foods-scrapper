@@ -1,6 +1,6 @@
-import Food from '../../foods/types/Food';
 import { Types } from 'mongoose';
 import UserDocument from '../../users/types/UserDocument';
+import FoodDocument from '../../foods/types/FoodDocument';
 
 export default interface Search
 {
@@ -12,7 +12,7 @@ export default interface Search
     keywords: string[];
     location: string;
     services: string[];
-    foods: Food[];
+    foods: FoodDocument[];
 }
 
 export enum SearchStatus
