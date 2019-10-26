@@ -1,24 +1,12 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import { NextPage, NextPageContext } from 'next';
 import AppHead from '../components/app-head/AppHead';
 import { AppBar, Container, Toolbar, Typography } from '@material-ui/core';
-import useCurrentUser from '../hooks/useCurrentUser';
-import { isEmpty } from 'lodash';
-import redirect from '../http/redirect';
+import useAuthGuard from '../hooks/useAuthGuard';
 
 const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
 {
-    const [ { loading, data, error } ] = useCurrentUser();
-
-    useEffect( () =>
-    {
-        if ( !loading ) {
-            if ( isEmpty( data ) || !isEmpty( error ) ) {
-                redirect( '/auth/login' );
-            }
-        }
-    }, [ loading, data, error ] );
+    useAuthGuard();
 
     return (
         <>
