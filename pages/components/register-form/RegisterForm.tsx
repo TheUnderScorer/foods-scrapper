@@ -11,8 +11,8 @@ import { getInputError } from '../../formik/errors';
 import { isEmpty } from 'lodash';
 import * as Yup from 'yup';
 import buildHttpHandler from '../../formik/buildHttpHandler';
-import { Result } from '../../../src/interfaces/response.interface';
-import RegisterResult from '../../../src/modules/auth/interfaces/register-result.interface';
+import ResponseResult from '../../../src/types/ResponseResult';
+import RegisterResult from '../../../src/modules/auth/types/RegisterResult';
 import client from '../../http/client';
 import redirect from '../../http/redirect';
 import RegisterSuccessDialog from './RegisterSuccessDialog';
@@ -168,7 +168,7 @@ const formikWrapper = withFormik<RegisterFormProps, RegisterInput>( {
                       {
                           setStatus( getDefaultStatus() );
 
-                          const requestHandler = buildHttpHandler<Result<RegisterResult>>( setStatus );
+                          const requestHandler = buildHttpHandler<ResponseResult<RegisterResult>>( setStatus );
                           const { response, isEmpty } = await requestHandler( () => client.post( '/auth/register', { email, password } ) );
 
                           if ( !isEmpty() ) {

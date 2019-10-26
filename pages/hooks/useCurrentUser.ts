@@ -1,7 +1,7 @@
 import useAxios, { configure } from 'axios-hooks';
 import client from '../http/client';
-import { Result } from '../../src/interfaces/response.interface';
-import User from '../../src/modules/users/interfaces/user.interface';
+import ResponseResult from '../../src/types/ResponseResult';
+import User from '../../src/modules/users/types/User';
 
 const useCurrentUser = () =>
 {
@@ -9,7 +9,7 @@ const useCurrentUser = () =>
         axios: client,
     } );
 
-    return useAxios<Result<User>>( {
+    return useAxios<ResponseResult<User>>( {
         url:    '/users/me',
         method: 'GET',
     } );

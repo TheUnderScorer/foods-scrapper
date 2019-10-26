@@ -1,4 +1,4 @@
-import Food from '../interfaces/food.interface';
+import Food from '../types/Food';
 import { IsNumber, IsString } from 'class-validator';
 
 export default class FoodDto implements Food

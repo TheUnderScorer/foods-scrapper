@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './AppModule';
 import Next from 'next';
 import { RenderModule, RenderService } from 'nest-next';
 import cookieParser from 'cookie-parser';

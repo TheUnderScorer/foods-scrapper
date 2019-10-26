@@ -1,4 +1,4 @@
-import User from '../../../../src/modules/users/interfaces/user.interface';
+import User from '../../../../src/modules/users/types/User';
 import NextProps from '../../../types/props/NextProps';
 import RegisterInput from './RegisterInput';
 

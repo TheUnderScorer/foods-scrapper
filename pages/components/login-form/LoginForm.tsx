@@ -7,8 +7,8 @@ import * as Yup from 'yup';
 import { isEmpty } from 'lodash';
 import { getInputError } from '../../formik/errors';
 import buildHttpHandler from '../../formik/buildHttpHandler';
-import { Result } from '../../../src/interfaces/response.interface';
-import RegisterResult from '../../../src/modules/auth/interfaces/register-result.interface';
+import ResponseResult from '../../../src/types/ResponseResult';
+import RegisterResult from '../../../src/modules/auth/types/RegisterResult';
 import LoginFormProps from './types/LoginFormProps';
 import { Email, Lock } from '@material-ui/icons';
 import { AuthForm } from '../auth-page/styled';
@@ -110,7 +110,7 @@ const formikWrapper = withFormik<LoginFormProps, LoginInput>( {
                       {
                           setError( '' );
 
-                          const requestHandler = buildHttpHandler<Result<RegisterResult>>( setError );
+                          const requestHandler = buildHttpHandler<ResponseResult<RegisterResult>>( setError );
                           const { response, isEmpty } = await requestHandler( () => client.post( '/auth/login', { ...values } ) );
 
                           if ( !isEmpty() ) {

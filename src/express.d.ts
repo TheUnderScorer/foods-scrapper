@@ -1,4 +1,4 @@
-import UserInterface from './modules/users/interfaces/user.interface';
+import UserInterface from './modules/users/types/User';
 
 declare global
 {

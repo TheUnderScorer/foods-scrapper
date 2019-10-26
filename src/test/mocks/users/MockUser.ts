@@ -1,5 +1,5 @@
 import * as faker from 'faker';
-import User from '../../../modules/users/interfaces/user.interface';
+import User from '../../../modules/users/types/User';
 import MockModel from '../models/MockModel';
 
 export default class MockUser extends MockModel<User>

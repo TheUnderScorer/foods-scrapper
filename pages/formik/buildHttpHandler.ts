@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { Result } from '../../src/interfaces/response.interface';
+import ResponseResult from '../../src/types/ResponseResult';
 import FormikStatus from '../types/formik/FormikStatus';
 
 export type RequestHandler<ResponseType> = Promise<AxiosResponse<ResponseType>>;
@@ -11,7 +11,7 @@ export interface HttpHandlerResult<T>
     isEmpty: () => boolean;
 }
 
-const buildHttpHandler = <ResponseType extends Result<any>>( setStatus: ( status: FormikStatus ) => any ) => async ( requestHandler: () => RequestHandler<ResponseType> ): ReturnResult<ResponseType> =>
+const buildHttpHandler = <ResponseType extends ResponseResult<any>>( setStatus: ( status: FormikStatus ) => any ) => async ( requestHandler: () => RequestHandler<ResponseType> ): ReturnResult<ResponseType> =>
 {
     let data: ResponseType;
     let response: AxiosResponse<ResponseType>;

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import SearchDocument from '../interfaces/search-document.interface';
-import Search from '../interfaces/search.interface';
+import SearchDocument from '../types/SearchDocument';
+import Search from '../types/Search';
 
 @Injectable()
 export class SearchService
