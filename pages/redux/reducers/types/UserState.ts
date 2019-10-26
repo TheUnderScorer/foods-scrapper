@@ -1,6 +1,7 @@
 import User from '../../../../src/modules/users/types/User';
 
-export default interface UserReducer
+export default interface UserState
 {
-    currentUser: User | null;
+    readonly currentUser: User | null;
+    readonly userFetched: boolean;
 }
