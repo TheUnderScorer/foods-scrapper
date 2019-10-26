@@ -41,6 +41,7 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, i
                 }
                 <Grid item xs={ 10 }>
                     <TextField
+                        autoComplete="off"
                         variant="outlined"
                         InputProps={ {
                             startAdornment: (
@@ -60,6 +61,7 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, i
                 </Grid>
                 <Grid className="form-item" item xs={ 10 }>
                     <TextField
+                        autoComplete="off"
                         variant="outlined"
                         InputProps={ {
                             startAdornment: (
