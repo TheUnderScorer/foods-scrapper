@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import store from './redux/stores/appStore';
 import GlobalStyle from './components/global-style/GlobalStyle';
 import fetchCurrentUser from './redux/actions/user/fetchCurrentUser';
+import ErrorDialog from './components/error-dialog/ErrorDialog';
 
 const App: NextPage<any> = ( { Component, pageProps } ) =>
 {
@@ -31,6 +32,7 @@ const App: NextPage<any> = ( { Component, pageProps } ) =>
                 <ThemeProvider>
                     <GlobalStyle/>
                     <CssBaseline/>
+                    <ErrorDialog/>
                     { Component && <Component { ...pageProps } /> }
                 </ThemeProvider>
             </Provider>
