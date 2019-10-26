@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Post, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import User from '../users/types/User';
 import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
@@ -6,7 +6,8 @@ import { AuthService } from './auth-service/AuthService';
 import UserDto from './dto/UserDto';
 import { UsersService } from '../users/users-service/UsersService';
 import { NotLoggedGuard } from './guards/NotLoggedGuard';
-import { v4 } from 'uuid';
+import ResetPasswordDto from './dto/ResetPasswordDto';
+import PasswordResetService from './password-reset-service/PasswordResetService';
 
 @Controller( 'auth' )
 export class AuthController
@@ -14,6 +15,7 @@ export class AuthController
     public constructor(
         protected readonly authService: AuthService,
         protected readonly usersService: UsersService,
+        protected readonly passwordResetService: PasswordResetService,
     )
     {
     }
@@ -43,17 +45,15 @@ export class AuthController
         return response.render( 'Register' );
     }
 
-    @Get( '/reset-password' )
     @UseGuards( new NotLoggedGuard() )
-    public async resetPassword( @Req() request: Request, @Res() response: Response )
+    @Post( 'request-password-reset' )
+    public async requestPasswordReset( @Body() { email }: ResetPasswordDto, @Res() response: Response )
     {
-        const { token } = request.query;
+        const passwordReset = await this.passwordResetService.createForUser( email );
 
-        if ( !token ) {
-            throw new BadRequestException( 'No reset password token provided.' );
-        }
-
-        const newPassword = v4();
+        return response.json( {
+            result: passwordReset,
+        } );
     }
 
     @Post( 'register' )

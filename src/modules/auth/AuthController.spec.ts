@@ -9,6 +9,9 @@ import UserDto from './dto/UserDto';
 import User from '../users/types/User';
 import MockModel from '../../test/mocks/models/MockModel';
 import UserDocument from '../users/types/UserDocument';
+import PasswordResetService from './password-reset-service/PasswordResetService';
+import PasswordReset from './types/PasswordReset';
+import PasswordResetDocument from './types/PasswordResetDocument';
 
 describe( 'Auth Controller', () =>
 {
@@ -20,10 +23,15 @@ describe( 'Auth Controller', () =>
         module = await Test.createTestingModule( {
             controllers: [ AuthController ],
             providers:   [
+                PasswordResetService,
                 AuthService,
                 UsersService,
                 {
                     provide:  getModelToken( 'User' ),
+                    useValue: MockModel,
+                },
+                {
+                    provide:  getModelToken( 'PasswordReset' ),
                     useValue: MockModel,
                 },
             ],
@@ -124,5 +132,29 @@ describe( 'Auth Controller', () =>
                 jwt,
             },
         } );
+    } );
+
+    it( 'requestPasswordReset', async () =>
+    {
+        const mockReset: Partial<PasswordReset> = {
+            token: faker.random.uuid(),
+        };
+        const email = faker.internet.email();
+
+        const passwordResetService = module.get( PasswordResetService );
+        const spy = jest.spyOn( passwordResetService, 'createForUser' );
+        spy.mockReturnValue( Promise.resolve( mockReset as PasswordResetDocument ) );
+
+        const response = {
+            json: jest.fn(),
+        };
+
+        await controller.requestPasswordReset( { email }, response as any );
+
+        expect( response.json ).toBeCalledWith( {
+            result: mockReset,
+        } );
+
+        expect( spy ).toBeCalledWith( email );
     } );
 } );

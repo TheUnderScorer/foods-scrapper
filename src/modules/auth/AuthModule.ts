@@ -7,10 +7,12 @@ import { PassportModule } from '@nestjs/passport';
 import { JWTStrategy } from './jwt-strategy/JWTStrategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import passwordResetSchema from './schemas/passwordResetSchema';
+import EmailModule from '../email/EmailModule';
 
 @Module( {
     providers:   [ AuthService, LocalStrategy, JWTStrategy ],
     imports:     [
+        EmailModule,
         UsersModule,
         PassportModule,
         MongooseModule.forFeature( [
