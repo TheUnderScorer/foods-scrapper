@@ -18,4 +18,17 @@ describe( 'Users Controller', () =>
     {
         expect( controller ).toBeDefined();
     } );
+
+    it( 'getMe', async () =>
+    {
+        const request = {
+            user: {
+                _id: '1',
+            },
+        };
+
+        const result = await controller.getMe( request as any );
+
+        expect( result.result ).toEqual( request.user );
+    } );
 } );
