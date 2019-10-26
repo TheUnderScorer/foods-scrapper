@@ -2,12 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './AuthController';
 import { AuthService } from './auth-service/AuthService';
 import { getModelToken } from '@nestjs/mongoose';
-import MockUser from '../../test/mocks/users/MockUser';
 import { UsersService } from '../users/users-service/UsersService';
 import { ConfigModule } from '../config/ConfigModule';
 import * as faker from 'faker';
 import UserDto from './dto/UserDto';
 import User from '../users/types/User';
+import MockModel from '../../test/mocks/models/MockModel';
+import UserDocument from '../users/types/UserDocument';
 
 describe( 'Auth Controller', () =>
 {
@@ -23,7 +24,7 @@ describe( 'Auth Controller', () =>
                 UsersService,
                 {
                     provide:  getModelToken( 'User' ),
-                    useValue: MockUser,
+                    useValue: MockModel,
                 },
             ],
             imports:     [ ConfigModule ],
@@ -102,7 +103,7 @@ describe( 'Auth Controller', () =>
         const userSpy = jest.spyOn( usersService, 'create' );
 
         authSpy.mockReturnValue( Promise.resolve( jwt ) );
-        userSpy.mockReturnValue( Promise.resolve( user as User ) );
+        userSpy.mockReturnValue( Promise.resolve( user as UserDocument ) );
 
         const dto: UserDto = {
             email:    faker.internet.email(),

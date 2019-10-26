@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+import PasswordReset from '../../auth/types/PasswordReset';
 
 export default interface User
 {
@@ -7,5 +8,5 @@ export default interface User
     password: string;
     updatedAt?: Date;
     createdAt?: Date;
-    resetPasswordDate?: Date;
+    passwordReset?: PasswordReset;
 }

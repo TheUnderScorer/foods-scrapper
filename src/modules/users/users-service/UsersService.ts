@@ -20,17 +20,17 @@ export class UsersService
     {
     }
 
-    public async findById( id: string ): Promise<User | undefined>
+    public async findById( id: string ): Promise<UserDocument | undefined>
     {
-        return this.model.findById( id ).exec();
+        return await this.model.findById( id ).exec();
     }
 
-    public async findByEmail( email: string ): Promise<User | undefined>
+    public async findByEmail( email: string ): Promise<UserDocument | undefined>
     {
-        return this.model.findOne( { email } ).exec();
+        return await this.model.findOne( { email } ).exec();
     }
 
-    public async create( email: string, password: string ): Promise<User>
+    public async create( email: string, password: string ): Promise<UserDocument>
     {
         if ( await this.findByEmail( email ) ) {
             throw new BadRequestException( `Provided email ${ email } is already taken.` );
