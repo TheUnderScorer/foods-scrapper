@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { FoodsModule } from './modules/foods/FoodsModule';
 import { PageLoaderService } from './services/page-loader/PageLoaderService';
 import { PyszneScrapperService } from './services/scrappers/pyszne-scrapper/PyszneScrapperService';
@@ -10,7 +10,6 @@ import { RenderModule } from 'nest-next';
 import { AppController } from './AppController';
 import { AuthModule } from './modules/auth/AuthModule';
 import { ConfigModule } from './modules/config/ConfigModule';
-import { NotLoggedRedirect } from './modules/auth/middlewares/NotLoggedRedirect';
 
 @Module( {
     providers:   [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
@@ -27,10 +26,7 @@ import { NotLoggedRedirect } from './modules/auth/middlewares/NotLoggedRedirect'
     ],
     controllers: [ AppController ],
 } )
-export class AppModule implements NestModule
+export class AppModule
 {
-    public configure( consumer: MiddlewareConsumer ): void
-    {
-        consumer.apply( NotLoggedRedirect ).forRoutes( AppController );
-    }
+
 }

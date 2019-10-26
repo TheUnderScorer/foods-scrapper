@@ -31,7 +31,6 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
     const {
               handleBlur,
               handleSubmit,
-              error,
               touched,
               errors,
               handleChange,
@@ -173,10 +172,13 @@ const formikWrapper = withFormik<RegisterFormProps, RegisterInput>( {
 
                           if ( !isEmpty() ) {
                               const { jwt, user } = response.data.result;
+                              const status: FormikStatus = {
+                                  result: true,
+                              };
 
                               resetForm();
 
-                              setStatus( true );
+                              setStatus( status );
 
                               if ( onSubmit ) {
                                   onSubmit( jwt, user );

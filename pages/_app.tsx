@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { NextPage, NextPageContext } from 'next';
+import { NextPage } from 'next';
 import ThemeProvider from './components/theme-provider/ThemeProvider';
 import { CssBaseline } from '@material-ui/core';
 import { Provider } from 'react-redux';
 import store from './redux/stores/appStore';
+import GlobalStyle from './components/global-style/GlobalStyle';
 
 const App: NextPage<any> = ( { Component, pageProps } ) =>
 {
@@ -21,19 +22,13 @@ const App: NextPage<any> = ( { Component, pageProps } ) =>
         <main>
             <Provider store={ store }>
                 <ThemeProvider>
+                    <GlobalStyle/>
                     <CssBaseline/>
                     <Component { ...pageProps } />
                 </ThemeProvider>
             </Provider>
         </main>
     );
-};
-
-App.getInitialProps = async ( ctx: NextPageContext ) =>
-{
-    const { query } = ctx;
-
-    return { ...query };
 };
 
 export default App;

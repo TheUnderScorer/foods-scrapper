@@ -1,4 +1,4 @@
-import UserState from './interfaces/UserState';
+import UserState from './types/UserState';
 import { ReducerHandlers } from '@theunderscorer/utils/dist/reducer/types/ReducerHandlers';
 import { UserActions } from '../actions/types/UserActions';
 import { reducer } from '@theunderscorer/utils/dist';

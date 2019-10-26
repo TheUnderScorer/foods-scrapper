@@ -18,4 +18,13 @@ describe( 'App Controller', () =>
     {
         expect( controller ).toBeDefined();
     } );
+
+    it( 'GET / endpoint', () =>
+    {
+        const result = controller.index();
+
+        expect( result ).toEqual( {
+            title: 'Foods scrapper',
+        } );
+    } );
 } );
