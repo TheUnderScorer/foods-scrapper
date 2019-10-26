@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import store from './redux/stores/appStore';
 import GlobalStyle from './components/global-style/GlobalStyle';
 import ErrorDialog from './components/error-dialog/ErrorDialog';
+import fetchCurrentUser from './redux/actions/user/fetchCurrentUser';
 
 const App: NextPage<any> = ( { Component, pageProps } ) =>
 {
@@ -18,6 +19,11 @@ const App: NextPage<any> = ( { Component, pageProps } ) =>
         if ( jssStyles ) {
             jssStyles.parentNode.removeChild( jssStyles );
         }
+    } );
+
+    useEffect( () =>
+    {
+        store.dispatch( fetchCurrentUser() as any );
     } );
 
     return (
