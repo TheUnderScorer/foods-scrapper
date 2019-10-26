@@ -36,3 +36,4 @@ src/coverage
 !.vscode/extensions.json
 
 production.env
+development.env

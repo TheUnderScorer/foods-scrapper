@@ -10,6 +10,7 @@ import { RenderModule } from 'nest-next';
 import { AppController } from './AppController';
 import { AuthModule } from './modules/auth/AuthModule';
 import { ConfigModule } from './modules/config/ConfigModule';
+import EmailModule from './modules/email/EmailModule';
 
 @Module( {
     providers:   [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
@@ -23,6 +24,7 @@ import { ConfigModule } from './modules/config/ConfigModule';
         RenderModule,
         AuthModule,
         ConfigModule,
+        EmailModule,
     ],
     controllers: [ AppController ],
 } )
