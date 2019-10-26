@@ -21,10 +21,12 @@ export default () => async ( dispatch: Dispatch<UserActions | ErrorActions> ): P
     } catch ( e ) {
         console.error( 'fetchCurrentUser error: ', e );
 
-        dispatch( {
-            type:    'SetError',
-            payload: e,
-        } );
+        if ( !e.response || e.response.status !== 401 ) {
+            dispatch( {
+                type:    'SetError',
+                payload: e,
+            } );
+        }
     }
 
     return dispatch( {

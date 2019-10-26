@@ -40,7 +40,7 @@ describe( 'fetchCurrentUser', () =>
         } );
     } );
 
-    it( 'should dispatch setError on request error', async () =>
+    it( 'should dispatch setError on request error if status is not 401', async () =>
     {
         mockAxios.onGet( Routes.getMe ).networkErrorOnce();
 
