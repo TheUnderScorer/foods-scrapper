@@ -14,6 +14,8 @@ import { Email, Lock } from '@material-ui/icons';
 import { AuthForm } from '../auth-page/styled';
 import { ErrorBox } from '../styled/boxes';
 import redirect from '../../http/redirect';
+import FormikStatus from '../../types/formik/FormikStatus';
+import getDefaultStatus from '../../formik/getDefaultStatus';
 
 const validationSchema = Yup.object().shape<LoginInput>( {
     email:    Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -21,17 +23,19 @@ const validationSchema = Yup.object().shape<LoginInput>( {
 } );
 
 // TODO Tests
-const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, error, isSubmitting }: FormikProps<LoginInput> & LoginFormProps ) =>
+const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, isSubmitting, ...props }: FormikProps<LoginInput> & LoginFormProps ) =>
 {
+    const status = props.status as FormikStatus;
+
     const getError = getInputError<LoginInput>( touched, errors );
 
     return (
         <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
             <Grid justify="center" container>
-                { error &&
+                { status && status.error &&
                   <ErrorBox item xs={ 10 } className="error-box">
                       <Typography variant="body2">
-                          { error }
+                          { status.message }
                       </Typography>
                   </ErrorBox>
                 }
@@ -106,11 +110,11 @@ const formikWrapper = withFormik<LoginFormProps, LoginInput>( {
         password: '',
     } ),
     validationSchema,
-    handleSubmit:     async ( values, { setSubmitting, setError, props } ) =>
+    handleSubmit:     async ( values, { setSubmitting, setStatus, props } ) =>
                       {
-                          setError( '' );
+                          setStatus( getDefaultStatus() );
 
-                          const requestHandler = buildHttpHandler<ResponseResult<RegisterResult>>( setError );
+                          const requestHandler = buildHttpHandler<ResponseResult<RegisterResult>>( setStatus );
                           const { response, isEmpty } = await requestHandler( () => client.post( '/auth/login', { ...values } ) );
 
                           if ( !isEmpty() ) {
