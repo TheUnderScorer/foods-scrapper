@@ -15,7 +15,7 @@ const CheckIcon = styled( Check )`
 const RegisterSuccessDialog: FC<RegisterSuccessDialogProps> = ( { visible } ) =>
 {
     return (
-        <Dialog fullWidth maxWidth="xs" open={ !visible }>
+        <Dialog fullWidth maxWidth="xs" open={ visible }>
             <DialogHeader icon={ <CheckIcon/> }>
                 You have registered!
             </DialogHeader>
