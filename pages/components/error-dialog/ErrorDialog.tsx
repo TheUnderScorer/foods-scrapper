@@ -1,16 +1,13 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import AppStore from '../../redux/stores/types/AppStore';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, Grid, Typography } from '@material-ui/core';
 import { Error } from '@material-ui/icons';
 import styled from 'styled-components';
 import reloadPage from '../../http/reloadPage';
+import DialogHeader from '../dialog/DialogHeader';
 
 const ErrorDialogContainer = styled( Dialog )`
-    .error-icon {
-        margin-right: 0.5rem;
-    }
-    
     .desc-text {
         margin-bottom: 0.4rem;
     }
@@ -42,14 +39,9 @@ const ErrorDialog = () =>
 
     return (
         <ErrorDialogContainer fullWidth maxWidth="xs" keepMounted={ false } open={ !!appError }>
-            <DialogTitle id="error-dialog">
-                <Grid alignItems="center" container>
-                    <Error color="error" className="error-icon"/>
-                    <Typography variant="h6">
-                        Error occured!
-                    </Typography>
-                </Grid>
-            </DialogTitle>
+            <DialogHeader icon={ <Error color="error"/> }>
+                Error occured!
+            </DialogHeader>
             <DialogContent dividers>
                 <div>
                     <Typography className="desc-text">
