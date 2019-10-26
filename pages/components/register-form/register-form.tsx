@@ -16,6 +16,8 @@ import RegisterResult from '../../../src/modules/auth/interfaces/register-result
 import client from '../../http/client';
 import redirect from '../../http/redirect';
 import RegisterSuccessDialog from './register-success-dialog';
+import FormikStatus from '../../types/formik/FormikStatus';
+import getDefaultStatus from '../../formik/getDefaultStatus';
 
 const validationSchema = Yup.object().shape<RegisterInput>( {
     email:          Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -23,6 +25,7 @@ const validationSchema = Yup.object().shape<RegisterInput>( {
     passwordRepeat: Yup.string().required( 'Repeat your password.' ),
 } );
 
+// TODO Tests
 const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props ) =>
 {
     const {
@@ -33,25 +36,26 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
               errors,
               handleChange,
               isSubmitting,
-              status,
+              values,
           } = props;
     const getError = getInputError<RegisterInput>( touched, errors );
+    const status: FormikStatus = props.status;
 
     const [ dialogVisible, setDialogVisible ] = useState( false );
 
     useEffect( () =>
     {
-        setDialogVisible( status );
+        setDialogVisible( !!status.result );
     }, [ status ] );
 
     return (
-        <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
+        <AuthForm className="container register-form" action="#" onSubmit={ handleSubmit }>
             <RegisterSuccessDialog visible={ dialogVisible }/>
             <Grid justify="center" container>
-                { error &&
+                { status.error &&
                   <ErrorBox item xs={ 10 } className="error-box">
                       <Typography variant="body2">
-                          { error }
+                          { status.message }
                       </Typography>
                   </ErrorBox>
                 }
@@ -69,6 +73,7 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
                         helperText={ getError( 'email' ) }
                         error={ !!getError( 'email' ) }
                         onChange={ handleChange }
+                        defaultValue={ values.email }
                         fullWidth
                         label="Email"
                         name="email"
@@ -89,6 +94,7 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
                         error={ !!getError( 'password' ) }
                         onChange={ handleChange }
                         fullWidth
+                        defaultValue={ values.password }
                         label="Password"
                         id="password"
                         name="password"
@@ -108,6 +114,7 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
                         helperText={ getError( 'passwordRepeat' ) }
                         error={ !!getError( 'passwordRepeat' ) }
                         onChange={ handleChange }
+                        defaultValue={ values.passwordRepeat }
                         fullWidth
                         label="Repeat password"
                         id="passwordRepeat"
@@ -128,7 +135,6 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
                 </Grid>
                 <Grid className="register-container" container alignItems="center" justify="center">
                     <Typography variant="subtitle2">
-                        {/* eslint-disable-next-line react/no-unescaped-entities */ }
                         Already have account?
                     </Typography>
                     <Button href="/auth/login">
@@ -141,11 +147,12 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
 };
 
 const formikWrapper = withFormik<RegisterFormProps, RegisterInput>( {
-    mapPropsToValues: () => ( {
-        password:       '',
-        email:          '',
-        passwordRepeat: '',
+    mapPropsToValues: ( { initialValues: { password = '', passwordRepeat = '', email = '' } = {} } ) => ( {
+        password,
+        email,
+        passwordRepeat,
     } ),
+    mapPropsToStatus: () => false,
     validationSchema,
     validate:         ( { passwordRepeat, password } ) =>
                       {
@@ -157,11 +164,11 @@ const formikWrapper = withFormik<RegisterFormProps, RegisterInput>( {
 
                           return errors;
                       },
-    handleSubmit:     async ( { email, password }, { setSubmitting, setError, setStatus, props: { redirectUrl, onSubmit }, resetForm } ) =>
+    handleSubmit:     async ( { email, password }, { setSubmitting, setStatus, props: { redirectUrl, onSubmit }, resetForm } ) =>
                       {
-                          setError( '' );
+                          setStatus( getDefaultStatus() );
 
-                          const requestHandler = buildHttpHandler<Result<RegisterResult>>( setError );
+                          const requestHandler = buildHttpHandler<Result<RegisterResult>>( setStatus );
                           const { response, isEmpty } = await requestHandler( () => client.post( '/auth/register', { email, password } ) );
 
                           if ( !isEmpty() ) {

@@ -20,6 +20,7 @@ const validationSchema = Yup.object().shape<LoginInput>( {
     password: Yup.string().required( 'Provide password.' ),
 } );
 
+// TODO Tests
 const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, error, isSubmitting }: FormikProps<LoginInput> & LoginFormProps ) =>
 {
     const getError = getInputError<LoginInput>( touched, errors );

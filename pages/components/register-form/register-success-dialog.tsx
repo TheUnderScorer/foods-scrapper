@@ -3,6 +3,7 @@ import { FC } from 'react';
 import RegisterSuccessDialogProps from './interfaces/register-success-dialog-props.interface';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
+// TODO Tests
 const RegisterSuccessDialog: FC<RegisterSuccessDialogProps> = ( { visible } ) =>
 {
     return (
