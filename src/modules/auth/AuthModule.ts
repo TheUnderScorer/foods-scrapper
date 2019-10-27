@@ -23,6 +23,7 @@ import PasswordResetService from './password-reset-service/PasswordResetService'
             },
         ] ),
     ],
+    exports:     [ AuthService, LocalStrategy, JWTStrategy, PasswordResetService ],
     controllers: [ AuthController ],
 } )
 export class AuthModule

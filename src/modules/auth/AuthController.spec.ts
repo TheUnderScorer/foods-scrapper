@@ -12,6 +12,7 @@ import UserDocument from '../users/types/UserDocument';
 import PasswordResetService from './password-reset-service/PasswordResetService';
 import PasswordReset from './types/PasswordReset';
 import PasswordResetDocument from './types/PasswordResetDocument';
+import EmailModule from '../email/EmailModule';
 
 describe( 'Auth Controller', () =>
 {
@@ -35,7 +36,7 @@ describe( 'Auth Controller', () =>
                     useValue: MockModel,
                 },
             ],
-            imports:     [ ConfigModule ],
+            imports:     [ ConfigModule, EmailModule ],
         } ).compile();
 
         controller = module.get<AuthController>( AuthController );

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import EmailService from './EmailService';
-import { ConfigService } from '../../config/config-service/ConfigService';
+import { ConfigModule } from '../../config/ConfigModule';
 
 describe( 'EmailService', () =>
 {
@@ -9,7 +9,8 @@ describe( 'EmailService', () =>
     beforeEach( async () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
-            providers: [ EmailService, ConfigService ],
+            providers: [ EmailService ],
+            imports:   [ ConfigModule ],
         } ).compile();
 
         service = module.get<EmailService>( EmailService );

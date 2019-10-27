@@ -8,7 +8,6 @@ import { v4 } from 'uuid';
 import UserDocument from '../../users/types/UserDocument';
 import { Nullable } from '../../../types/Nullable';
 import PasswordResetRequestCreatedException from './exceptions/PasswordResetRequestCreatedException';
-import EmailService from '../../email/email-service/EmailService';
 import { ConfigService } from '../../config/config-service/ConfigService';
 import { EmailTypesService } from '../../email/email-types/EmailTypesService';
 
@@ -20,9 +19,8 @@ export default class PasswordResetService
         @InjectModel( 'PasswordReset' )
         protected readonly model: Model<PasswordResetDocument>,
         protected readonly usersService: UsersService,
-        protected readonly emailService: EmailService,
         protected readonly configService: ConfigService,
-        protected emailTypesService: EmailTypesService,
+        protected readonly emailTypesService: EmailTypesService,
     )
     {
     }

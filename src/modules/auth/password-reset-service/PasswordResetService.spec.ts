@@ -11,6 +11,8 @@ import UserDocument from '../../users/types/UserDocument';
 import { v4 } from 'uuid';
 import { Schema } from 'mongoose';
 import * as faker from 'faker';
+import EmailModule from '../../email/EmailModule';
+import { EmailTypesService } from '../../email/email-types/EmailTypesService';
 
 jest.mock( 'uuid', () => ( {
     v4: () => 'test',
@@ -24,7 +26,7 @@ describe( 'PasswordResetService', () =>
     beforeEach( async () =>
     {
         module = await Test.createTestingModule( {
-            imports:   [ ConfigModule ],
+            imports:   [ ConfigModule, EmailModule ],
             providers: [
                 PasswordResetService,
                 AuthService,
@@ -82,11 +84,16 @@ describe( 'PasswordResetService', () =>
         const haveRequestedResetSpy = jest.spyOn( service, 'haveRequestedReset' );
         haveRequestedResetSpy.mockReturnValue( Promise.resolve( false ) );
 
+        const emailTypesService = module.get( EmailTypesService );
+        const sendPasswordResetLinkSpy = jest.spyOn( emailTypesService, 'sendPasswordResetLink' );
+        sendPasswordResetLinkSpy.mockReturnValue( Promise.resolve( true ) );
+
         const result = await service.createForUser( email );
 
         expect( haveRequestedResetSpy ).toBeCalledWith( email );
 
         expect( result.user ).toEqual( user );
         expect( result.token ).toEqual( 'test' );
+        expect( sendPasswordResetLinkSpy ).toBeCalledTimes( 1 );
     } );
 } );
