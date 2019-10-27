@@ -18,6 +18,10 @@ jest.mock( 'uuid', () => ( {
     v4: () => 'test',
 } ) );
 
+jest.mock( 'bcrypt', () => ( {
+    hash: jest.fn().mockReturnValue( Promise.resolve( 'hashed' ) ),
+} ) );
+
 describe( 'PasswordResetService', () =>
 {
     let service: PasswordResetService;
@@ -52,21 +56,26 @@ describe( 'PasswordResetService', () =>
 
     it( 'resetPassword', async () =>
     {
+        const password = 'test';
+
         const user: Partial<UserDocument> = {
             _id:  new Schema.Types.ObjectId( '1' ),
             save: jest.fn(),
         };
         const passwordResetDoc: Partial<PasswordResetDocument> = {
-            user: user as UserDocument,
+            user:   user as UserDocument,
+            remove: jest.fn(),
         };
 
         jest
             .spyOn( service, 'findByToken' )
             .mockReturnValue( Promise.resolve( passwordResetDoc as PasswordResetDocument ) );
 
-        await service.resetPassword( v4() );
+        await service.resetPassword( v4(), password );
 
-        expect( user.password ).toEqual( 'test' );
+        expect( user.password ).toEqual( 'hashed' );
+        expect( user.save ).toBeCalledTimes( 1 );
+        expect( passwordResetDoc.remove ).toBeCalledTimes( 1 );
     } );
 
     it( 'createForUser', async () =>

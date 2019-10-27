@@ -65,9 +65,9 @@ export class AuthController
 
     @UseGuards( new NotLoggedGuard() )
     @Post( 'reset-password' )
-    public async resetPassword( @Body() { token }: PasswordResetDto, @Res() response: Response )
+    public async resetPassword( @Body() { token, password }: PasswordResetDto, @Res() response: Response )
     {
-        const result = await this.passwordResetService.resetPassword( token );
+        const result = await this.passwordResetService.resetPassword( token, password );
 
         return response.json( {
             result,

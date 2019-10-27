@@ -72,7 +72,7 @@ export default class PasswordResetService
         return passwordReset;
     }
 
-    public async resetPassword( token: string ): Promise<ResetPasswordResult>
+    public async resetPassword( token: string, password: string ): Promise<ResetPasswordResult>
     {
         const passwordReset = await this.findByToken( token );
 
@@ -87,16 +87,14 @@ export default class PasswordResetService
         const { user } = passwordReset;
         const rounds = parseInt( this.configService.get( 'BCRYPT_ROUNDS' ) );
 
-        const newPassword = v4();
-
-        user.password = await hash( newPassword, rounds );
+        user.password = await hash( password, rounds );
         await user.save();
 
         await passwordReset.remove();
 
         return {
             user,
-            password: newPassword,
+            password,
         };
     }
 

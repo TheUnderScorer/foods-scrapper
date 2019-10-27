@@ -163,7 +163,8 @@ describe( 'Auth Controller', () =>
     it( 'resetPassword', async () =>
     {
         const dto: PasswordResetDto = {
-            token: 'test',
+            token:    'test',
+            password: faker.internet.password(),
         };
         const password = 'newPassword';
 
@@ -184,7 +185,7 @@ describe( 'Auth Controller', () =>
 
         await controller.resetPassword( dto, response as any );
 
-        expect( spy ).toBeCalledWith( dto.token );
+        expect( spy ).toBeCalledWith( dto.token, dto.password );
         expect( response.json ).toBeCalledWith( {
             result: { user, password },
         } );

@@ -8,6 +8,8 @@ import store from './redux/stores/appStore';
 import GlobalStyle from './components/global-style/GlobalStyle';
 import ErrorDialog from './components/error-dialog/ErrorDialog';
 import fetchCurrentUser from './redux/actions/user/fetchCurrentUser';
+import { configure } from 'axios-hooks';
+import client from './http/client';
 
 const App: NextPage<any> = ( { Component, pageProps } ) =>
 {
@@ -24,6 +26,13 @@ const App: NextPage<any> = ( { Component, pageProps } ) =>
     useEffect( () =>
     {
         store.dispatch( fetchCurrentUser() as any );
+    } );
+
+    useEffect( () =>
+    {
+        configure( {
+            axios: client,
+        } );
     } );
 
     return (
