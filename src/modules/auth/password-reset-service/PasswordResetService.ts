@@ -10,6 +10,7 @@ import { Nullable } from '../../../types/Nullable';
 import PasswordResetRequestCreatedException from './exceptions/PasswordResetRequestCreatedException';
 import EmailService from '../../email/email-service/EmailService';
 import { ConfigService } from '../../config/config-service/ConfigService';
+import { EmailTypesService } from '../../email/email-types/EmailTypesService';
 
 @Injectable()
 export default class PasswordResetService
@@ -21,6 +22,7 @@ export default class PasswordResetService
         protected readonly usersService: UsersService,
         protected readonly emailService: EmailService,
         protected readonly configService: ConfigService,
+        protected emailTypesService: EmailTypesService,
     )
     {
     }
@@ -65,7 +67,7 @@ export default class PasswordResetService
 
         await passwordReset.save();
 
-        await this.emailService.sendPasswordResetLink( passwordReset, email );
+        await this.emailTypesService.sendPasswordResetLink( passwordReset, email );
 
         return passwordReset;
     }
