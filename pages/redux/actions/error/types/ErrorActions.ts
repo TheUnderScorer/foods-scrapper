@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { Nullable } from '../../../../types/Nullable';
+import { Nullable } from '../../../../../src/types/Nullable';
 
 export interface SetError extends Action<'SetError'>
 {

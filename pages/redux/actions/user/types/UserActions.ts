@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { Nullable } from '../../../../types/Nullable';
+import { Nullable } from '../../../../../src/types/Nullable';
 import User from '../../../../../src/modules/users/types/User';
 
 export interface SetCurrentUser extends Action<'SetCurrentUser'>

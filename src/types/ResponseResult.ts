@@ -1,6 +1,6 @@
 export default interface ResponseResult<T>
 {
     result: T;
-    error?: boolean;
+    error?: string;
     message?: string;
 }

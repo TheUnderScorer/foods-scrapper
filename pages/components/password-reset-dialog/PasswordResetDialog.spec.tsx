@@ -8,14 +8,13 @@ import client from '../../http/client';
 import { act } from 'react-dom/test-utils';
 import { wait } from '../../../src/utils/timeout';
 import { Routes } from '../../http/types/Routes';
-import { createMuiTheme } from '@material-ui/core';
 import ThemeProvider from '../theme-provider/ThemeProvider';
+import { ErrorCodes } from '../../../src/enums/ErrorCodes';
+import ResponseResult from '../../../src/types/ResponseResult';
 
 describe( 'PasswordResetDialog', () =>
 {
     let mockAxios: MockAdapter;
-
-    const theme = createMuiTheme();
 
     beforeEach( () =>
     {
@@ -58,5 +57,37 @@ describe( 'PasswordResetDialog', () =>
 
         expect( onSubmit ).toBeCalledWith( true );
         expect( noticeText ).toEqual( 'We have sent you an e-mail with password reset link.' );
+    } );
+
+    it( 'PasswordResetRequestCreated error should show link to re-send e-mail with link', async () =>
+    {
+        const response: ResponseResult<boolean> = {
+            error:   ErrorCodes.PasswordResetRequestCreated,
+            result:  false,
+            message: 'Test',
+        };
+
+        mockAxios.onPost( Routes.requestPasswordReset ).replyOnce( 401, response );
+
+        const initialValues: ResetPasswordDto = {
+            email: faker.internet.email(),
+        };
+
+        const component = mount( (
+            <ThemeProvider>
+                <PasswordResetDialog isOpen onClose={ jest.fn() } defaultValues={ initialValues }/>
+            </ThemeProvider>
+        ) );
+        const form = component.find( 'form' );
+
+        await act( async () =>
+        {
+            form.simulate( 'submit' );
+
+            await wait( 100 );
+        } );
+
+        const notice = component.update().find( '.error-notice' ).at( 0 );
+        expect( notice.text() ).toContain( 'Re-send e-mail with link?' );
     } );
 } );

@@ -6,7 +6,7 @@ import PasswordResetDocument from '../types/PasswordResetDocument';
 import PasswordReset from '../types/PasswordReset';
 import { v4 } from 'uuid';
 import UserDocument from '../../users/types/UserDocument';
-import { Nullable } from '../../../../pages/types/Nullable';
+import { Nullable } from '../../../types/Nullable';
 import PasswordResetRequestCreatedException from './exceptions/PasswordResetRequestCreatedException';
 
 @Injectable()

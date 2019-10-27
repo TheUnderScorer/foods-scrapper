@@ -1,4 +1,5 @@
 export enum ErrorCodes
 {
-    BrowserProcessesLimitExceeded = 'BrowserProcessesLimitExceeded'
+    BrowserProcessesLimitExceeded = 'BrowserProcessesLimitExceeded',
+    PasswordResetRequestCreated   = 'PasswordResetRequestCreated'
 }

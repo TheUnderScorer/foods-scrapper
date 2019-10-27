@@ -1,4 +1,4 @@
-import { Nullable } from '../../../types/Nullable';
+import { Nullable } from '../../../../src/types/Nullable';
 
 export default interface ErrorState
 {

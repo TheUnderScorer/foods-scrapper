@@ -13,8 +13,9 @@ import ResponseResult from '../../../src/types/ResponseResult';
 import client from '../../http/client';
 import { Routes } from '../../http/types/Routes';
 import Notice from '../notice/Notice';
-import FormikStatus from '../../types/formik/FormikStatus';
 import getDefaultStatus from '../../formik/getDefaultStatus';
+import { ErrorCodes } from '../../../src/enums/ErrorCodes';
+import PasswordResetStatus from './types/PasswordResetStatus';
 
 const validationSchema = Yup.object().shape<ResetPasswordDto>( {
     email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -29,7 +30,7 @@ const Container = styled( Dialog )`
 const PasswordResetDialog: FC<FormikProps<ResetPasswordDto> & PasswordResetDialogProps> = ( props ) =>
 {
     const { isOpen = false, onClose, handleChange, handleBlur, values, touched, errors, isSubmitting, handleSubmit, setSubmitting } = props;
-    const status = props.status as FormikStatus;
+    const status = props.status as PasswordResetStatus;
 
     const getError = getInputError<ResetPasswordDto>( touched, errors );
 
@@ -50,8 +51,17 @@ const PasswordResetDialog: FC<FormikProps<ResetPasswordDto> & PasswordResetDialo
                       </Notice>
                     }
                     { status && status.error &&
-                      <Notice type="error">
+                      <Notice className="error-notice" type="error">
                           { status.message }
+
+                          { status.isPasswordResetRequestCreatedError &&
+                            <>
+                                { ' ' }
+                                <a href="#">
+                                    Re-send e-mail with link?
+                                </a>
+                            </>
+                          }
                       </Notice>
                     }
                     <Grid justify="center" container>
@@ -99,15 +109,15 @@ const formikWrapper = withFormik<PasswordResetDialogProps, ResetPasswordDto>( {
 
                           const httpHandler = buildHttpHandler<ResponseResult<boolean>>( setStatus );
                           const { isEmpty, response } = await httpHandler( () => client.post( Routes.requestPasswordReset, values ) );
+                          const { data } = response;
 
                           if ( !isEmpty() ) {
-                              const { data } = response;
 
                               if ( props.onSubmit ) {
                                   props.onSubmit( data.result );
                               }
 
-                              const status: FormikStatus = {
+                              const status: PasswordResetStatus = {
                                   result:  true,
                                   message: 'We have sent you an e-mail with password reset link.',
                               };
@@ -115,6 +125,16 @@ const formikWrapper = withFormik<PasswordResetDialogProps, ResetPasswordDto>( {
                               resetForm();
 
                               setStatus( status );
+                          } else {
+                              if ( data.error === ErrorCodes.PasswordResetRequestCreated ) {
+                                  const status: PasswordResetStatus = {
+                                      error:                              true,
+                                      message:                            data.message,
+                                      isPasswordResetRequestCreatedError: true,
+                                  };
+
+                                  setStatus( status );
+                              }
                           }
 
                           setSubmitting( false );
