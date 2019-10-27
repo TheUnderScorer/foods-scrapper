@@ -8,9 +8,10 @@ import { JWTStrategy } from './jwt-strategy/JWTStrategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import passwordResetSchema from './schemas/passwordResetSchema';
 import EmailModule from '../email/EmailModule';
+import PasswordResetService from './password-reset-service/PasswordResetService';
 
 @Module( {
-    providers:   [ AuthService, LocalStrategy, JWTStrategy ],
+    providers:   [ AuthService, LocalStrategy, JWTStrategy, PasswordResetService ],
     imports:     [
         EmailModule,
         UsersModule,
