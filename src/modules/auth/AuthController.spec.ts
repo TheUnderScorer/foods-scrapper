@@ -152,7 +152,7 @@ describe( 'Auth Controller', () =>
         await controller.requestPasswordReset( { email }, response as any );
 
         expect( response.json ).toBeCalledWith( {
-            result: mockReset,
+            result: true,
         } );
 
         expect( spy ).toBeCalledWith( email );

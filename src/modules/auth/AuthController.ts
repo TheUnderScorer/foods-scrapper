@@ -52,7 +52,7 @@ export class AuthController
         const passwordReset = await this.passwordResetService.createForUser( email );
 
         return response.json( {
-            result: passwordReset,
+            result: !!passwordReset,
         } );
     }
 
