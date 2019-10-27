@@ -1,6 +1,6 @@
 import { IsEmail } from 'class-validator';
 
-export default class ResetPasswordDto
+export default class RequestPasswordResetDto
 {
     @IsEmail()
     public readonly email: string;

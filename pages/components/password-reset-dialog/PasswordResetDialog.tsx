@@ -3,7 +3,7 @@ import { FC } from 'react';
 import PasswordResetDialogProps from './types/PasswordResetDialogProps';
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, Grid, TextField } from '@material-ui/core';
 import { FormikProps, withFormik } from 'formik';
-import ResetPasswordDto from '../../../src/modules/auth/dto/ResetPasswordDto';
+import RequestPasswordResetDto from '../../../src/modules/auth/dto/RequestPasswordResetDto';
 import * as Yup from 'yup';
 import DialogHeader from '../dialog/DialogHeader';
 import { getInputError } from '../../formik/errors';
@@ -17,7 +17,7 @@ import getDefaultStatus from '../../formik/getDefaultStatus';
 import { ErrorCodes } from '../../../src/enums/ErrorCodes';
 import PasswordResetStatus from './types/PasswordResetStatus';
 
-const validationSchema = Yup.object().shape<ResetPasswordDto>( {
+const validationSchema = Yup.object().shape<RequestPasswordResetDto>( {
     email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
 } );
 
@@ -27,12 +27,12 @@ const Container = styled( Dialog )`
     }
 `;
 
-const PasswordResetDialog: FC<FormikProps<ResetPasswordDto> & PasswordResetDialogProps> = ( props ) =>
+const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordResetDialogProps> = ( props ) =>
 {
     const { isOpen = false, onClose, handleChange, handleBlur, values, touched, errors, isSubmitting, handleSubmit, setSubmitting } = props;
     const status = props.status as PasswordResetStatus;
 
-    const getError = getInputError<ResetPasswordDto>( touched, errors );
+    const getError = getInputError<RequestPasswordResetDto>( touched, errors );
 
     return (
         <Container keepMounted={ false } maxWidth="sm" open={ isOpen } onClose={ onClose }>
@@ -99,7 +99,7 @@ const PasswordResetDialog: FC<FormikProps<ResetPasswordDto> & PasswordResetDialo
     );
 };
 
-const formikWrapper = withFormik<PasswordResetDialogProps, ResetPasswordDto>( {
+const formikWrapper = withFormik<PasswordResetDialogProps, RequestPasswordResetDto>( {
     mapPropsToValues: ( { defaultValues } ) => ( {
         email: defaultValues ? defaultValues.email : '',
     } ),

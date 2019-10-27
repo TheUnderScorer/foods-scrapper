@@ -6,7 +6,7 @@ import { AuthService } from './auth-service/AuthService';
 import UserDto from './dto/UserDto';
 import { UsersService } from '../users/users-service/UsersService';
 import { NotLoggedGuard } from './guards/NotLoggedGuard';
-import ResetPasswordDto from './dto/ResetPasswordDto';
+import RequestPasswordResetDto from './dto/RequestPasswordResetDto';
 import PasswordResetService from './password-reset-service/PasswordResetService';
 
 @Controller( 'auth' )
@@ -47,7 +47,7 @@ export class AuthController
 
     @UseGuards( new NotLoggedGuard() )
     @Post( 'request-password-reset' )
-    public async requestPasswordReset( @Body() { email }: ResetPasswordDto, @Res() response: Response )
+    public async requestPasswordReset( @Body() { email }: RequestPasswordResetDto, @Res() response: Response )
     {
         const passwordReset = await this.passwordResetService.createForUser( email );
 

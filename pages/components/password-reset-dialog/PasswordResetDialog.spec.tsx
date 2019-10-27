@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 import PasswordResetDialog from './PasswordResetDialog';
-import ResetPasswordDto from '../../../src/modules/auth/dto/ResetPasswordDto';
+import RequestPasswordResetDto from '../../../src/modules/auth/dto/RequestPasswordResetDto';
 import * as faker from 'faker';
 import MockAdapter from 'axios-mock-adapter';
 import client from '../../http/client';
@@ -34,7 +34,7 @@ describe( 'PasswordResetDialog', () =>
 
         const onSubmit = jest.fn();
 
-        const initialValues: ResetPasswordDto = {
+        const initialValues: RequestPasswordResetDto = {
             email: faker.internet.email(),
         };
 
@@ -69,7 +69,7 @@ describe( 'PasswordResetDialog', () =>
 
         mockAxios.onPost( Routes.requestPasswordReset ).replyOnce( 401, response );
 
-        const initialValues: ResetPasswordDto = {
+        const initialValues: RequestPasswordResetDto = {
             email: faker.internet.email(),
         };
 
