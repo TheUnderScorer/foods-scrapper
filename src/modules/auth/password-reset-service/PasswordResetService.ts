@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from '../../users/users-service/UsersService';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -65,29 +65,9 @@ export default class PasswordResetService
 
         await passwordReset.save();
 
-        this.sendEmail( passwordReset, email );
+        await this.emailService.sendPasswordResetLink( passwordReset, email );
 
         return passwordReset;
-    }
-
-    public async sendEmail( passwordReset: PasswordResetDocument, email: string ): Promise<boolean>
-    {
-        try {
-            const siteUrl = this.configService.get( 'SITE_URL' );
-            const resetLink = passwordReset.generateLink( siteUrl );
-
-            await this.emailService.sendEmail( {
-                subject: 'Foods Scrapper - Password reset request',
-                html:    `You receive this e-mail, because someone (hopefully you) have requested password reset on foods scrapper. To do that, click this <a href="${ resetLink }">link</a>.`,
-                to:      email,
-            } );
-        } catch ( e ) {
-            console.error( { e } );
-
-            throw new InternalServerErrorException( 'Unable to send e-mail with password reset link, please try again.' );
-        }
-
-        return true;
     }
 
     public async resetPassword( token: string ): Promise<UserDocument>
