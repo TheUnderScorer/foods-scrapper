@@ -5,7 +5,6 @@ import Next from 'next';
 import { RenderModule, RenderService } from 'nest-next';
 import cookieParser from 'cookie-parser';
 
-// TODO Setup next.js testing
 async function bootstrap()
 {
     const dev = process.env.NODE_ENV !== 'production';
