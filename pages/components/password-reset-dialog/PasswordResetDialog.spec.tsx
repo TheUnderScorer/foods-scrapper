@@ -8,4 +8,9 @@ describe( 'PasswordResetDialog', () =>
     {
         mount( <PasswordResetDialog onClose={ jest.fn() }/> );
     } );
+
+    it( 'should send reset password email', () =>
+    {
+
+    } );
 } );
