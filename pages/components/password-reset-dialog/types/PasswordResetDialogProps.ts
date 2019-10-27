@@ -5,4 +5,5 @@ export default interface PasswordResetDialogProps
     isOpen?: boolean;
     onClose: () => any;
     defaultValues?: ResetPasswordDto;
+    onSubmit?: ( result: boolean ) => any;
 }

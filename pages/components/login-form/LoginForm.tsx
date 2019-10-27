@@ -12,13 +12,13 @@ import RegisterResult from '../../../src/modules/auth/types/RegisterResult';
 import LoginFormProps from './types/LoginFormProps';
 import { Email, Lock } from '@material-ui/icons';
 import { AuthForm } from '../auth-page/styled';
-import { ErrorBox } from '../styled/boxes';
 import redirect from '../../http/redirect';
 import FormikStatus from '../../types/formik/FormikStatus';
 import getDefaultStatus from '../../formik/getDefaultStatus';
 import PasswordResetDialog from '../password-reset-dialog/PasswordResetDialog';
 import UserDto from '../../../src/modules/auth/dto/UserDto';
 import { Routes } from '../../http/types/Routes';
+import Notice from '../notice/Notice';
 
 const validationSchema = Yup.object().shape<UserDto>( {
     email:    Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -41,11 +41,9 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, e
             <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
                 <Grid justify="center" container>
                     { status && status.error &&
-                      <ErrorBox item xs={ 10 } className="error-box">
-                          <Typography variant="body2">
-                              { status.message }
-                          </Typography>
-                      </ErrorBox>
+                      <Notice item xs={ 10 } type={ 'error' }>
+                          { status.message }
+                      </Notice>
                     }
                     <Grid item xs={ 10 }>
                         <TextField

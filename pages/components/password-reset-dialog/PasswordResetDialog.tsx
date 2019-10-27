@@ -8,6 +8,10 @@ import * as Yup from 'yup';
 import DialogHeader from '../dialog/DialogHeader';
 import { getInputError } from '../../formik/errors';
 import styled from 'styled-components';
+import buildHttpHandler from '../../formik/buildHttpHandler';
+import ResponseResult from '../../../src/types/ResponseResult';
+import client from '../../http/client';
+import { Routes } from '../../http/types/Routes';
 
 const validationSchema = Yup.object().shape<ResetPasswordDto>( {
     email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -75,9 +79,10 @@ const formikWrapper = withFormik<PasswordResetDialogProps, ResetPasswordDto>( {
     mapPropsToValues: ( { defaultValues } ) => ( {
         email: defaultValues ? defaultValues.email : '',
     } ),
-    handleSubmit:     async ( { email }, { setStatus, resetForm, setSubmitting } ) =>
+    handleSubmit:     async ( values, { setStatus, resetForm, setSubmitting, props } ) =>
                       {
-
+                          const httpHandler = buildHttpHandler<ResponseResult<boolean>>( setStatus );
+                          const response = httpHandler( () => client.post( Routes.requestPasswordReset, values ) );
                       },
     validationSchema,
 } );

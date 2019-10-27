@@ -5,7 +5,6 @@ import RegisterFormProps from './types/RegisterFormProps';
 import RegisterInput from './types/RegisterInput';
 import { AuthForm } from '../auth-page/styled';
 import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
-import { ErrorBox } from '../styled/boxes';
 import { Email, Lock } from '@material-ui/icons';
 import { getInputError } from '../../formik/errors';
 import { isEmpty } from 'lodash';
@@ -18,6 +17,7 @@ import redirect from '../../http/redirect';
 import RegisterSuccessDialog from './RegisterSuccessDialog';
 import FormikStatus from '../../types/formik/FormikStatus';
 import getDefaultStatus from '../../formik/getDefaultStatus';
+import Notice from '../notice/Notice';
 
 const validationSchema = Yup.object().shape<RegisterInput>( {
     email:          Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -52,11 +52,9 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
             <RegisterSuccessDialog visible={ dialogVisible }/>
             <Grid justify="center" container>
                 { status.error &&
-                  <ErrorBox item xs={ 10 } className="error-box">
-                      <Typography variant="body2">
-                          { status.message }
-                      </Typography>
-                  </ErrorBox>
+                  <Notice type="error" item xs={ 10 }>
+                      { status.message }
+                  </Notice>
                 }
                 <Grid item xs={ 10 }>
                     <TextField
