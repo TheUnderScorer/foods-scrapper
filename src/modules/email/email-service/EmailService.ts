@@ -41,7 +41,7 @@ export default class EmailService
             const resetLink = passwordReset.generateLink( siteUrl );
 
             await this.sendEmail( {
-                subject: 'Foods Scrapper - Password reset request',
+                subject: this.getEmailTitle( 'Password reset request' ),
                 html:    `You receive this e-mail, because someone (hopefully you) have requested password reset on foods scrapper. To do that, click this <a href="${ resetLink }">link</a>.`,
                 to:      email,
             } );
@@ -52,6 +52,11 @@ export default class EmailService
         }
 
         return true;
+    }
+
+    protected getEmailTitle( title: string ): string
+    {
+        return `[Foods Scrapper] - ${ title }`;
     }
 
 }
