@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FC, useCallback, useState } from 'react';
 import { FormikProps, withFormik } from 'formik';
 import LoginInput from './types/LoginInput';
 import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
@@ -16,6 +17,7 @@ import { ErrorBox } from '../styled/boxes';
 import redirect from '../../http/redirect';
 import FormikStatus from '../../types/formik/FormikStatus';
 import getDefaultStatus from '../../formik/getDefaultStatus';
+import PasswordResetDialog from '../password-reset-dialog/PasswordResetDialog';
 
 const validationSchema = Yup.object().shape<LoginInput>( {
     email:    Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -23,11 +25,15 @@ const validationSchema = Yup.object().shape<LoginInput>( {
 } );
 
 // TODO Tests
-const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, isSubmitting, ...props }: FormikProps<LoginInput> & LoginFormProps ) =>
+const LoginForm: FC<FormikProps<LoginInput> & LoginFormProps> = ( { handleSubmit, errors, touched, handleChange, handleBlur, isSubmitting, ...props } ) =>
 {
     const status = props.status as FormikStatus;
 
     const getError = getInputError<LoginInput>( touched, errors );
+
+    const [ isResetPasswordVisible, setPasswordResetVisible ] = useState( false );
+    const closeResetPassword = useCallback( () => setPasswordResetVisible( false ), [] );
+    const openClosePassword = useCallback( () => setPasswordResetVisible( true ), [] );
 
     return (
         <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
@@ -101,7 +107,13 @@ const LoginForm = ( { handleSubmit, errors, touched, handleChange, handleBlur, i
                         Register
                     </Button>
                 </Grid>
+                <Grid alignItems="center" justify="center" container>
+                    <Button onClick={ openClosePassword }>
+                        Forgot password?
+                    </Button>
+                </Grid>
             </Grid>
+            <PasswordResetDialog isOpen={ isResetPasswordVisible } onClose={ closeResetPassword }/>
         </AuthForm>
     );
 };
