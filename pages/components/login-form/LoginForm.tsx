@@ -41,7 +41,12 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, e
             <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
                 <Grid justify="center" container>
                     { status && status.error &&
-                      <Notice item xs={ 10 } type={ 'error' }>
+                      <Notice item xs={ 10 } type="error">
+                          { status.message }
+                      </Notice>
+                    }
+                    { status && status.result &&
+                      <Notice item xs={ 10 } type="success">
                           { status.message }
                       </Notice>
                     }
@@ -127,7 +132,7 @@ const formikWrapper = withFormik<LoginFormProps, UserDto>( {
         password: defaults ? defaults.password : '',
     } ),
     validationSchema,
-    handleSubmit:     async ( values, { setSubmitting, setStatus, props } ) =>
+    handleSubmit:     async ( values, { setSubmitting, setStatus, props, resetForm } ) =>
                       {
                           setStatus( getDefaultStatus() );
 
@@ -141,7 +146,16 @@ const formikWrapper = withFormik<LoginFormProps, UserDto>( {
                                   props.onSubmit( data.result.user, data.result.jwt );
                               }
 
-                              redirect( '/' );
+                              const status: FormikStatus = {
+                                  message: 'You have logged in.',
+                                  result:  true,
+                              };
+
+                              resetForm();
+
+                              setStatus( status );
+
+                              setTimeout( () => redirect( '/' ), 300 );
                           }
 
                           setSubmitting( false );
