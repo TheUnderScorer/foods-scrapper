@@ -13,6 +13,7 @@ import PasswordResetService from './password-reset-service/PasswordResetService'
 import PasswordReset from './types/PasswordReset';
 import PasswordResetDocument from './types/PasswordResetDocument';
 import EmailModule from '../email/EmailModule';
+import PasswordResetDto from './dto/PasswordResetDto';
 
 describe( 'Auth Controller', () =>
 {
@@ -157,5 +158,31 @@ describe( 'Auth Controller', () =>
         } );
 
         expect( spy ).toBeCalledWith( email );
+    } );
+
+    it( 'resetPassword', async () =>
+    {
+        const dto: PasswordResetDto = {
+            token: 'test',
+        };
+
+        const user: Partial<User> = {
+            _id: '1',
+        };
+
+        const passwordResetService = module.get( PasswordResetService );
+        const spy = jest.spyOn( passwordResetService, 'resetPassword' );
+        spy.mockReturnValue( Promise.resolve( user as UserDocument ) );
+
+        const response = {
+            json: jest.fn(),
+        };
+
+        await controller.resetPassword( dto, response as any );
+
+        expect( spy ).toBeCalledWith( dto.token );
+        expect( response.json ).toBeCalledWith( {
+            result: user,
+        } );
     } );
 } );

@@ -4,5 +4,6 @@ export enum Routes
     login                = '/auth/login',
     register             = '/auth/register',
     requestPasswordReset = '/auth/request-password-reset',
+    resetPassword        = '/auth/reset-password',
     home                 = '/'
 }
