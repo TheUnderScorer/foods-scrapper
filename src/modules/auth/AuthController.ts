@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import User from '../users/types/User';
 import { Request, Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
@@ -57,14 +57,20 @@ export class AuthController
         } );
     }
 
-    @UseGuards( new NotLoggedGuard() )
     @Get( 'reset-password' )
-    public async resetPassword( @Query() { token }: PasswordResetDto, @Res() response: Response )
+    public async renderResetPassword( @Res() response: Response )
     {
-        const user = await this.passwordResetService.resetPassword( token );
+        return response.render( 'ResetPassword' );
+    }
+
+    @UseGuards( new NotLoggedGuard() )
+    @Post( 'reset-password' )
+    public async resetPassword( @Body() { token }: PasswordResetDto, @Res() response: Response )
+    {
+        const result = await this.passwordResetService.resetPassword( token );
 
         return response.json( {
-            result: user,
+            result,
         } );
     }
 

@@ -10,6 +10,8 @@ import { Nullable } from '../../../types/Nullable';
 import PasswordResetRequestCreatedException from './exceptions/PasswordResetRequestCreatedException';
 import { ConfigService } from '../../config/config-service/ConfigService';
 import { EmailTypesService } from '../../email/email-types/EmailTypesService';
+import { hash } from 'bcrypt';
+import ResetPasswordResult from './types/ResetPasswordResult';
 
 @Injectable()
 export default class PasswordResetService
@@ -70,7 +72,7 @@ export default class PasswordResetService
         return passwordReset;
     }
 
-    public async resetPassword( token: string ): Promise<UserDocument>
+    public async resetPassword( token: string ): Promise<ResetPasswordResult>
     {
         const passwordReset = await this.findByToken( token );
 
@@ -83,10 +85,19 @@ export default class PasswordResetService
         }
 
         const { user } = passwordReset;
-        user.password = v4();
+        const rounds = parseInt( this.configService.get( 'BCRYPT_ROUNDS' ) );
+
+        const newPassword = v4();
+
+        user.password = await hash( newPassword, rounds );
         await user.save();
 
-        return user;
+        await passwordReset.remove();
+
+        return {
+            user,
+            password: newPassword,
+        };
     }
 
     public async haveRequestedReset( email: string ): Promise<boolean>

@@ -165,6 +165,7 @@ describe( 'Auth Controller', () =>
         const dto: PasswordResetDto = {
             token: 'test',
         };
+        const password = 'newPassword';
 
         const user: Partial<User> = {
             _id: '1',
@@ -172,7 +173,10 @@ describe( 'Auth Controller', () =>
 
         const passwordResetService = module.get( PasswordResetService );
         const spy = jest.spyOn( passwordResetService, 'resetPassword' );
-        spy.mockReturnValue( Promise.resolve( user as UserDocument ) );
+        spy.mockReturnValue( Promise.resolve( {
+            user: user as UserDocument,
+            password,
+        } ) );
 
         const response = {
             json: jest.fn(),
@@ -182,7 +186,7 @@ describe( 'Auth Controller', () =>
 
         expect( spy ).toBeCalledWith( dto.token );
         expect( response.json ).toBeCalledWith( {
-            result: user,
+            result: { user, password },
         } );
     } );
 } );
