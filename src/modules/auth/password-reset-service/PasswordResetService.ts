@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UsersService } from '../../users/users-service/UsersService';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -8,6 +8,8 @@ import { v4 } from 'uuid';
 import UserDocument from '../../users/types/UserDocument';
 import { Nullable } from '../../../types/Nullable';
 import PasswordResetRequestCreatedException from './exceptions/PasswordResetRequestCreatedException';
+import EmailService from '../../email/email-service/EmailService';
+import { ConfigService } from '../../config/config-service/ConfigService';
 
 @Injectable()
 export default class PasswordResetService
@@ -17,6 +19,8 @@ export default class PasswordResetService
         @InjectModel( 'PasswordReset' )
         protected readonly model: Model<PasswordResetDocument>,
         protected readonly usersService: UsersService,
+        protected readonly emailService: EmailService,
+        protected readonly configService: ConfigService,
     )
     {
     }
@@ -61,7 +65,29 @@ export default class PasswordResetService
 
         await passwordReset.save();
 
+        this.sendEmail( passwordReset, email );
+
         return passwordReset;
+    }
+
+    public async sendEmail( passwordReset: PasswordResetDocument, email: string ): Promise<boolean>
+    {
+        try {
+            const siteUrl = this.configService.get( 'SITE_URL' );
+            const resetLink = passwordReset.generateLink( siteUrl );
+
+            await this.emailService.sendEmail( {
+                subject: 'Foods Scrapper - Password reset request',
+                html:    `You receive this e-mail, because someone (hopefully you) have requested password reset on foods scrapper. To do that, click this <a href="${ resetLink }">link</a>.`,
+                to:      email,
+            } );
+        } catch ( e ) {
+            console.error( { e } );
+
+            throw new InternalServerErrorException( 'Unable to send e-mail with password reset link, please try again.' );
+        }
+
+        return true;
     }
 
     public async resetPassword( token: string ): Promise<UserDocument>

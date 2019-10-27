@@ -1,6 +1,7 @@
 import { Schema } from 'mongoose';
+import PasswordResetDocument from '../types/PasswordResetDocument';
 
-export default new Schema( {
+const passwordResetSchema = new Schema( {
     user:  {
         type: Schema.Types.ObjectId,
         ref:  'User',
@@ -9,3 +10,12 @@ export default new Schema( {
 }, {
     timestamps: true,
 } );
+
+passwordResetSchema.methods = {
+    generateLink( this: PasswordResetDocument, siteUrl: string )
+    {
+        return `${ siteUrl }/auth/reset-password?token=${ this.token }`;
+    },
+};
+
+export default passwordResetSchema;
