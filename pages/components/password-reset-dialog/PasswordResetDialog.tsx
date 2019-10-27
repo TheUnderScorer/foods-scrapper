@@ -12,6 +12,8 @@ import buildHttpHandler from '../../formik/buildHttpHandler';
 import ResponseResult from '../../../src/types/ResponseResult';
 import client from '../../http/client';
 import { Routes } from '../../http/types/Routes';
+import Notice from '../notice/Notice';
+import FormikStatus from '../../types/formik/FormikStatus';
 
 const validationSchema = Yup.object().shape<ResetPasswordDto>( {
     email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -25,7 +27,8 @@ const Container = styled( Dialog )`
 
 const PasswordResetDialog: FC<FormikProps<ResetPasswordDto> & PasswordResetDialogProps> = ( props ) =>
 {
-    const { isOpen = false, onClose, handleChange, handleBlur, values, touched, errors, isSubmitting, handleSubmit } = props;
+    const { isOpen = false, onClose, handleChange, handleBlur, values, touched, errors, isSubmitting, handleSubmit, setSubmitting } = props;
+    const status = props.status as FormikStatus;
 
     const getError = getInputError<ResetPasswordDto>( touched, errors );
 
@@ -40,6 +43,16 @@ const PasswordResetDialog: FC<FormikProps<ResetPasswordDto> & PasswordResetDialo
                         If you have forgotten your password provide e-mail that you have used to register your account below.
                         We will sent you an e-mail with link that will reset your password.
                     </DialogContentText>
+                    { status && status.result &&
+                      <Notice className="success-notice" type="success">
+                          { status.message }
+                      </Notice>
+                    }
+                    { status && status.error &&
+                      <Notice type="error">
+                          { status.message }
+                      </Notice>
+                    }
                     <Grid justify="center" container>
                         <Grid item xs={ 12 }>
                             <TextField
@@ -56,10 +69,10 @@ const PasswordResetDialog: FC<FormikProps<ResetPasswordDto> & PasswordResetDialo
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={ onClose }>
+                    <Button disabled={ isSubmitting } onClick={ onClose }>
                         Cancel
                     </Button>
-                    <Button type="submit" variant="contained" color="primary">
+                    <Button disabled={ isSubmitting } type="submit" variant="contained" color="primary">
                         { isSubmitting ?
                             <>
                                 <CircularProgress size={ 30 }/>
@@ -82,7 +95,26 @@ const formikWrapper = withFormik<PasswordResetDialogProps, ResetPasswordDto>( {
     handleSubmit:     async ( values, { setStatus, resetForm, setSubmitting, props } ) =>
                       {
                           const httpHandler = buildHttpHandler<ResponseResult<boolean>>( setStatus );
-                          const response = httpHandler( () => client.post( Routes.requestPasswordReset, values ) );
+                          const { isEmpty, response } = await httpHandler( () => client.post( Routes.requestPasswordReset, values ) );
+
+                          if ( !isEmpty() ) {
+                              const { data } = response;
+
+                              if ( props.onSubmit ) {
+                                  props.onSubmit( data.result );
+                              }
+
+                              const status: FormikStatus = {
+                                  result:  true,
+                                  message: 'We have sent you an e-mail with password reset link.',
+                              };
+
+                              resetForm();
+
+                              setStatus( status );
+                          }
+
+                          setSubmitting( false );
                       },
     validationSchema,
 } );

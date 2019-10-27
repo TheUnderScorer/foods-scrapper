@@ -62,7 +62,7 @@ const Notice: FC<NoticeProps> = ( { children, type, icon, ...props } ) =>
                     { icon ? icon : iconsMap[ type ] }
                 </Grid>
                 <Grid className="with-icon" item xs={ 11 }>
-                    <Typography variant="body2">
+                    <Typography className="notice-text" variant="body2">
                         { children }
                     </Typography>
                 </Grid>

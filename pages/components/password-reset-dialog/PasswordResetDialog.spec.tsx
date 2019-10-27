@@ -8,10 +8,14 @@ import client from '../../http/client';
 import { act } from 'react-dom/test-utils';
 import { wait } from '../../../src/utils/timeout';
 import { Routes } from '../../http/types/Routes';
+import { createMuiTheme } from '@material-ui/core';
+import ThemeProvider from '../theme-provider/ThemeProvider';
 
 describe( 'PasswordResetDialog', () =>
 {
     let mockAxios: MockAdapter;
+
+    const theme = createMuiTheme();
 
     beforeEach( () =>
     {
@@ -35,7 +39,11 @@ describe( 'PasswordResetDialog', () =>
             email: faker.internet.email(),
         };
 
-        const component = mount( <PasswordResetDialog isOpen onSubmit={ onSubmit } onClose={ jest.fn() } defaultValues={ initialValues }/> );
+        const component = mount( (
+            <ThemeProvider>
+                <PasswordResetDialog isOpen onSubmit={ onSubmit } onClose={ jest.fn() } defaultValues={ initialValues }/>
+            </ThemeProvider>
+        ) );
         const form = component.find( 'form' );
 
         await act( async () =>
@@ -45,6 +53,10 @@ describe( 'PasswordResetDialog', () =>
             await wait( 100 );
         } );
 
+        const notice = component.update().find( '.success-notice' ).at( 0 );
+        const noticeText = notice.find( '.notice-text' ).at( 0 ).text();
+
         expect( onSubmit ).toBeCalledWith( true );
+        expect( noticeText ).toEqual( 'We have sent you an e-mail with password reset link.' );
     } );
 } );
