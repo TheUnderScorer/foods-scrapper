@@ -1,11 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from '../../users/users-service/UsersService';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Schema } from 'mongoose';
+import { Model } from 'mongoose';
 import PasswordResetDocument from '../types/PasswordResetDocument';
 import PasswordReset from '../types/PasswordReset';
 import { v4 } from 'uuid';
 import UserDocument from '../../users/types/UserDocument';
+import { Nullable } from '../../../../pages/types/Nullable';
+import PasswordResetRequestCreatedException from './exceptions/PasswordResetRequestCreatedException';
 
 @Injectable()
 export default class PasswordResetService
@@ -19,14 +21,25 @@ export default class PasswordResetService
     {
     }
 
-    public async findByUserId( id: Schema.Types.ObjectId | string ): Promise<PasswordResetDocument | undefined>
+    public async findByUser( user: UserDocument ): Promise<PasswordResetDocument | undefined>
     {
-        return await this.model.findOne( { user: id } ).populate( 'passwordReset' ).exec();
+        return await this.model.findOne( { user } ).populate( 'passwordReset' ).exec();
     }
 
     public async findByToken( token: string ): Promise<PasswordResetDocument | undefined>
     {
         return await this.model.findOne( { token } ).populate( 'user' ).exec();
+    }
+
+    public async findByEmail( email: string ): Promise<Nullable<PasswordResetDocument> | undefined>
+    {
+        const user = await this.usersService.findByEmail( email );
+
+        if ( !user ) {
+            return null;
+        }
+
+        return await this.findByUser( user );
     }
 
     public async createForUser( email: string ): Promise<PasswordResetDocument>
@@ -35,6 +48,10 @@ export default class PasswordResetService
 
         if ( !user ) {
             throw new BadRequestException( `Unable to find user with e-mail ${ email }.` );
+        }
+
+        if ( await this.haveRequestedReset( email ) ) {
+            throw new PasswordResetRequestCreatedException( email );
         }
 
         const passwordReset = new this.model( {
@@ -64,6 +81,13 @@ export default class PasswordResetService
         await user.save();
 
         return user;
+    }
+
+    public async haveRequestedReset( email: string ): Promise<boolean>
+    {
+        const request = await this.findByEmail( email );
+
+        return !!request;
     }
 
 }

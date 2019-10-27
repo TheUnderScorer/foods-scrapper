@@ -14,6 +14,7 @@ import client from '../../http/client';
 import { Routes } from '../../http/types/Routes';
 import Notice from '../notice/Notice';
 import FormikStatus from '../../types/formik/FormikStatus';
+import getDefaultStatus from '../../formik/getDefaultStatus';
 
 const validationSchema = Yup.object().shape<ResetPasswordDto>( {
     email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -33,7 +34,7 @@ const PasswordResetDialog: FC<FormikProps<ResetPasswordDto> & PasswordResetDialo
     const getError = getInputError<ResetPasswordDto>( touched, errors );
 
     return (
-        <Container maxWidth="sm" open={ isOpen } onClose={ onClose }>
+        <Container keepMounted={ false } maxWidth="sm" open={ isOpen } onClose={ onClose }>
             <form action="#" onSubmit={ handleSubmit }>
                 <DialogHeader>
                     Reset password
@@ -94,6 +95,8 @@ const formikWrapper = withFormik<PasswordResetDialogProps, ResetPasswordDto>( {
     } ),
     handleSubmit:     async ( values, { setStatus, resetForm, setSubmitting, props } ) =>
                       {
+                          setStatus( getDefaultStatus() );
+
                           const httpHandler = buildHttpHandler<ResponseResult<boolean>>( setStatus );
                           const { isEmpty, response } = await httpHandler( () => client.post( Routes.requestPasswordReset, values ) );
 

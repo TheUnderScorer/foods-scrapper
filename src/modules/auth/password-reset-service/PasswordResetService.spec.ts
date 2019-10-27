@@ -10,6 +10,7 @@ import PasswordResetDocument from '../types/PasswordResetDocument';
 import UserDocument from '../../users/types/UserDocument';
 import { v4 } from 'uuid';
 import { Schema } from 'mongoose';
+import * as faker from 'faker';
 
 jest.mock( 'uuid', () => ( {
     v4: () => 'test',
@@ -18,10 +19,11 @@ jest.mock( 'uuid', () => ( {
 describe( 'PasswordResetService', () =>
 {
     let service: PasswordResetService;
+    let module: TestingModule;
 
     beforeEach( async () =>
     {
-        const module: TestingModule = await Test.createTestingModule( {
+        module = await Test.createTestingModule( {
             imports:   [ ConfigModule ],
             providers: [
                 PasswordResetService,
@@ -63,5 +65,28 @@ describe( 'PasswordResetService', () =>
         await service.resetPassword( v4() );
 
         expect( user.password ).toEqual( 'test' );
+    } );
+
+    it( 'createForUser', async () =>
+    {
+        const email = faker.internet.email();
+        const user: Partial<User> = {
+            _id: '1',
+            email,
+        };
+
+        const usersService = module.get( UsersService );
+        const findByEmailSpy = jest.spyOn( usersService, 'findByEmail' );
+        findByEmailSpy.mockReturnValue( Promise.resolve( user as UserDocument ) );
+
+        const haveRequestedResetSpy = jest.spyOn( service, 'haveRequestedReset' );
+        haveRequestedResetSpy.mockReturnValue( Promise.resolve( false ) );
+
+        const result = await service.createForUser( email );
+
+        expect( haveRequestedResetSpy ).toBeCalledWith( email );
+
+        expect( result.user ).toEqual( user );
+        expect( result.token ).toEqual( 'test' );
     } );
 } );
