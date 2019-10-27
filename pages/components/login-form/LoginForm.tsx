@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { FC, useCallback, useState } from 'react';
 import { FormikProps, withFormik } from 'formik';
-import LoginInput from './types/LoginInput';
 import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
 import client from '../../http/client';
 import * as Yup from 'yup';
@@ -18,110 +17,116 @@ import redirect from '../../http/redirect';
 import FormikStatus from '../../types/formik/FormikStatus';
 import getDefaultStatus from '../../formik/getDefaultStatus';
 import PasswordResetDialog from '../password-reset-dialog/PasswordResetDialog';
+import UserDto from '../../../src/modules/auth/dto/UserDto';
+import { Routes } from '../../http/types/Routes';
 
-const validationSchema = Yup.object().shape<LoginInput>( {
+const validationSchema = Yup.object().shape<UserDto>( {
     email:    Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
     password: Yup.string().required( 'Provide password.' ),
 } );
 
 // TODO Tests
-const LoginForm: FC<FormikProps<LoginInput> & LoginFormProps> = ( { handleSubmit, errors, touched, handleChange, handleBlur, isSubmitting, ...props } ) =>
+const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, errors, touched, handleChange, handleBlur, isSubmitting, values, ...props } ) =>
 {
     const status = props.status as FormikStatus;
 
-    const getError = getInputError<LoginInput>( touched, errors );
+    const getError = getInputError<UserDto>( touched, errors );
 
     const [ isResetPasswordVisible, setPasswordResetVisible ] = useState( false );
     const closeResetPassword = useCallback( () => setPasswordResetVisible( false ), [] );
     const openClosePassword = useCallback( () => setPasswordResetVisible( true ), [] );
 
     return (
-        <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
-            <Grid justify="center" container>
-                { status && status.error &&
-                  <ErrorBox item xs={ 10 } className="error-box">
-                      <Typography variant="body2">
-                          { status.message }
-                      </Typography>
-                  </ErrorBox>
-                }
-                <Grid item xs={ 10 }>
-                    <TextField
-                        autoComplete="off"
-                        variant="outlined"
-                        InputProps={ {
-                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Email/>
-                                                </InputAdornment>
-                                            ),
-                        } }
-                        onBlur={ handleBlur }
-                        helperText={ getError( 'email' ) }
-                        error={ !!getError( 'email' ) }
-                        onChange={ handleChange }
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        id="email"/>
-                </Grid>
-                <Grid className="form-item" item xs={ 10 }>
-                    <TextField
-                        autoComplete="off"
-                        variant="outlined"
-                        InputProps={ {
-                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Lock/>
-                                                </InputAdornment>
-                                            ),
-                        } }
-                        onBlur={ handleBlur }
-                        helperText={ getError( 'password' ) }
-                        error={ !!getError( 'password' ) }
-                        onChange={ handleChange }
-                        fullWidth
-                        label="Password"
-                        id="password"
-                        name="password"
-                        type="password"/>
-                </Grid>
-                <Grid className="form-item button-container" item xs={ 10 }>
-                    <Button variant="contained" className="submit-button" disabled={ !isEmpty( errors ) || isSubmitting } type="submit" color="primary">
-                        { isSubmitting ?
-                            <>
-                                <CircularProgress size={ 30 }/>
-                                <span className="loader-label">
+        <>
+            <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
+                <Grid justify="center" container>
+                    { status && status.error &&
+                      <ErrorBox item xs={ 10 } className="error-box">
+                          <Typography variant="body2">
+                              { status.message }
+                          </Typography>
+                      </ErrorBox>
+                    }
+                    <Grid item xs={ 10 }>
+                        <TextField
+                            autoComplete="off"
+                            variant="outlined"
+                            InputProps={ {
+                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <Email/>
+                                                    </InputAdornment>
+                                                ),
+                            } }
+                            onBlur={ handleBlur }
+                            helperText={ getError( 'email' ) }
+                            error={ !!getError( 'email' ) }
+                            onChange={ handleChange }
+                            value={ values.email }
+                            fullWidth
+                            label="Email"
+                            name="email"
+                            id="email"/>
+                    </Grid>
+                    <Grid className="form-item" item xs={ 10 }>
+                        <TextField
+                            autoComplete="off"
+                            variant="outlined"
+                            InputProps={ {
+                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <Lock/>
+                                                    </InputAdornment>
+                                                ),
+                            } }
+                            value={ values.password }
+                            onBlur={ handleBlur }
+                            helperText={ getError( 'password' ) }
+                            error={ !!getError( 'password' ) }
+                            onChange={ handleChange }
+                            fullWidth
+                            label="Password"
+                            id="password"
+                            name="password"
+                            type="password"/>
+                    </Grid>
+                    <Grid className="form-item button-container" item xs={ 10 }>
+                        <Button variant="contained" className="submit-button" disabled={ !isEmpty( errors ) || isSubmitting } type="submit" color="primary">
+                            { isSubmitting ?
+                                <>
+                                    <CircularProgress size={ 30 }/>
+                                    <span className="loader-label">
                                     Logging in...
                                 </span>
-                            </> :
-                            'Login' }
-                    </Button>
+                                </> :
+                                'Login' }
+                        </Button>
+                    </Grid>
+                    <Grid className="register-container" container alignItems="center" justify="center">
+                        <Typography variant="subtitle2">
+                            {/* eslint-disable-next-line react/no-unescaped-entities */ }
+                            Don't have account?
+                        </Typography>
+                        <Button href="/auth/register">
+                            Register
+                        </Button>
+                    </Grid>
+                    <Grid alignItems="center" justify="center" container>
+                        <Button className="forgot-password-btn" onClick={ openClosePassword }>
+                            Forgot password?
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid className="register-container" container alignItems="center" justify="center">
-                    <Typography variant="subtitle2">
-                        {/* eslint-disable-next-line react/no-unescaped-entities */ }
-                        Don't have account?
-                    </Typography>
-                    <Button href="/auth/register">
-                        Register
-                    </Button>
-                </Grid>
-                <Grid alignItems="center" justify="center" container>
-                    <Button onClick={ openClosePassword }>
-                        Forgot password?
-                    </Button>
-                </Grid>
-            </Grid>
+            </AuthForm>
             <PasswordResetDialog isOpen={ isResetPasswordVisible } onClose={ closeResetPassword }/>
-        </AuthForm>
+        </>
     );
 };
 
-const formikWrapper = withFormik<LoginFormProps, LoginInput>( {
-    mapPropsToValues: () => ( {
-        email:    '',
-        password: '',
+const formikWrapper = withFormik<LoginFormProps, UserDto>( {
+    mapPropsToValues: ( { defaults } ) => ( {
+        email:    defaults ? defaults.email : '',
+        password: defaults ? defaults.password : '',
     } ),
     validationSchema,
     handleSubmit:     async ( values, { setSubmitting, setStatus, props } ) =>
@@ -129,7 +134,7 @@ const formikWrapper = withFormik<LoginFormProps, LoginInput>( {
                           setStatus( getDefaultStatus() );
 
                           const requestHandler = buildHttpHandler<ResponseResult<RegisterResult>>( setStatus );
-                          const { response, isEmpty } = await requestHandler( () => client.post( '/auth/login', { ...values } ) );
+                          const { response, isEmpty } = await requestHandler( () => client.post( Routes.login, { ...values } ) );
 
                           if ( !isEmpty() ) {
                               const { data } = response;
