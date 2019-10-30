@@ -190,4 +190,28 @@ describe( 'Auth Controller', () =>
             result: { user, password },
         } );
     } );
+
+    it( 'logout', async () =>
+    {
+        const user: Partial<User> = {
+            _id: '1',
+        };
+        const response = {
+            json: jest.fn(),
+        };
+
+        const authService = module.get( AuthService );
+        const spy = jest.spyOn( authService, 'logout' );
+        spy.mockImplementation( () =>
+        {
+        } );
+
+        await controller.logout( user as User, response as any );
+
+        expect( spy ).toBeCalledWith( response );
+        expect( response.json ).toBeCalledWith( {
+            result: user,
+        } );
+
+    } );
 } );

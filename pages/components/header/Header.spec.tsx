@@ -28,4 +28,9 @@ describe( 'Header', () =>
         const menuButton = component.find( '.menu-icon' ).at( 0 );
         expect( menuButton ).toHaveLength( 1 );
     } );
+
+    it( 'logout button should handle logout', () =>
+    {
+
+    } );
 } );

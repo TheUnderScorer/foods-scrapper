@@ -77,16 +77,27 @@ export class AuthController
     @Post( 'register' )
     @UsePipes( new ValidationPipe() )
     @UseGuards( new NotLoggedGuard() )
-    public async register( @Body() { email, password }: UserDto, @Res() res: Response )
+    public async register( @Body() { email, password }: UserDto, @Res() response: Response )
     {
         const user = await this.usersService.create( email, password );
-        const jwt = await this.authService.login( user, res );
+        const jwt = await this.authService.login( user, response );
 
-        return res.json( {
+        return response.json( {
             result: {
                 user,
                 jwt,
             },
+        } );
+    }
+
+    @Post( 'logout' )
+    @UseGuards( AuthGuard( 'jwt' ) )
+    public async logout( @Body() user: User, @Res() response: Response )
+    {
+        this.authService.logout( response );
+
+        return response.json( {
+            result: user,
         } );
     }
 

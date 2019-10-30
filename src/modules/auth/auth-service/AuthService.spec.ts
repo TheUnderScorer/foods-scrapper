@@ -83,4 +83,15 @@ describe( 'AuthService', () =>
 
         expect( mockCompare ).toBeCalledWith( password, user.password );
     } );
+
+    it( 'logout', () =>
+    {
+        const response = {
+            clearCookie: jest.fn(),
+        };
+
+        service.logout( response as any );
+
+        expect( response.clearCookie ).toBeCalledWith( AuthService.cookieKey );
+    } );
 } );

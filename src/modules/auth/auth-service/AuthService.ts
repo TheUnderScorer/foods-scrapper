@@ -10,6 +10,8 @@ import { Response } from 'express';
 export class AuthService
 {
 
+    public static readonly cookieKey: string = 'jwt';
+
     public constructor(
         protected readonly usersService: UsersService,
         protected readonly configService: ConfigService,
@@ -35,9 +37,14 @@ export class AuthService
         const payload = { email: user.email, sub: user._id };
 
         const token = jwt.sign( payload, this.configService.get( 'JWT_SECRET' ) );
-        res.cookie( 'jwt', token );
+        res.cookie( AuthService.cookieKey, token );
 
         return token;
+    }
+
+    public logout( res: Response ): void
+    {
+        res.clearCookie( AuthService.cookieKey );
     }
 
 }
