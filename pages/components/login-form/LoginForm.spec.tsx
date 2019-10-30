@@ -10,6 +10,7 @@ import MockAdapter from 'axios-mock-adapter';
 import client from '../../http/client';
 import { Routes } from '../../http/types/Routes';
 import { wait } from '../../../src/utils/timeout';
+import ThemeProvider from '../theme-provider/ThemeProvider';
 
 jest.mock( '../../http/redirect', () => ( {
     default: jest.fn(),
@@ -50,14 +51,18 @@ describe( 'LoginForm', () =>
             password: faker.internet.password(),
         };
 
-        const component = mount( <LoginForm onSubmit={ onSubmit } defaults={ dto }/> );
+        const component = mount( (
+            <ThemeProvider>
+                <LoginForm onSubmit={ onSubmit } defaults={ dto }/>
+            </ThemeProvider>
+        ) );
         const form = component.find( 'form' );
 
         await act( async () =>
         {
             form.simulate( 'submit' );
 
-            await wait( 100 );
+            await wait( 400 );
         } );
 
         expect( onSubmit ).toBeCalledWith( result.user, result.jwt );

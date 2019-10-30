@@ -34,7 +34,7 @@ const Header: FC<HeaderProps> = ( { title } ) =>
                           <MoreVert fontSize="large"/>
                       </IconButton>
                       <Menu onClose={ closeMenu } open={ !!anchorEl } anchorEl={ anchorEl }>
-                          <MenuItem class="logout">
+                          <MenuItem className="logout">
                               <ListItemIcon>
                                   <Input/>
                               </ListItemIcon>
