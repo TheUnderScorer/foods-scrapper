@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { NextPage, NextPageContext } from 'next';
 import AppHead from '../components/app-head/AppHead';
-import { AppBar, Container, Toolbar, Typography } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import useAuthGuard from '../hooks/useAuthGuard';
+import Header from '../components/header/Header';
 
 const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
 {
@@ -11,13 +12,7 @@ const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
     return (
         <>
             <AppHead title={ title }/>
-            <AppBar position="sticky">
-                <Toolbar>
-                    <Typography variant="h5">
-                        { title }
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <Header title={ title }/>
             <Container fixed>
                 Welcome on { title }!
             </Container>
