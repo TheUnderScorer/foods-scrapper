@@ -119,7 +119,7 @@ const formikWrapper = withFormik<PasswordResetDialogProps, RequestPasswordResetD
 
                               const status: PasswordResetStatus = {
                                   result:  true,
-                                  message: 'We have sent you an e-mail with password reset link.',
+                                  message: 'We have sent you an e-mail with password reset link. The link will expire in 24 hours.',
                               };
 
                               resetForm();
