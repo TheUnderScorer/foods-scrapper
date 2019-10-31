@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { createGlobalStyle } from 'styled-components';
-import card from './styles/card';
+import card from './styles/cards';
 import code from './styles/code';
+import buttons from './styles/buttons';
 
 export default createGlobalStyle`
     body {
@@ -10,4 +11,5 @@ export default createGlobalStyle`
     
     ${ card }
     ${ code }
+    ${ buttons }
 `;

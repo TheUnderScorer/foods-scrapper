@@ -4,6 +4,8 @@ import SocialLoginProps from './types/SocialLoginProps';
 import { Button, Grid } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
 import { onError, onSuccess } from './googleHandlers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disabled } ) =>
 {
@@ -25,8 +27,11 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
                   <GoogleLogin
                       onRequest={ onGoogleRequest }
                       render={ props => (
-                          <Button id="google_login" fullWidth { ...props } disabled={ disabled || props.disabled } variant="outlined">
-                              Continue with Google
+                          <Button className="btn-with-icon" id="google_login" fullWidth { ...props } disabled={ disabled || props.disabled } variant="outlined">
+                              <FontAwesomeIcon className="btn-icon" icon={ faGoogle }/>
+                              <span>
+                                  Continue with Google
+                            </span>
                           </Button>
                       ) }
                       clientId={ googleID }
