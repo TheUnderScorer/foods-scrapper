@@ -62,7 +62,7 @@ describe( 'LoginForm', () =>
         {
             form.simulate( 'submit' );
 
-            await wait( 400 );
+            await wait( 600 );
         } );
 
         expect( onSubmit ).toBeCalledWith( result.user, result.jwt );

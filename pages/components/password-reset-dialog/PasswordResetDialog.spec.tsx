@@ -57,7 +57,7 @@ describe( 'PasswordResetDialog', () =>
         const noticeText = notice.find( '.notice-text' ).at( 0 ).text();
 
         expect( onSubmit ).toBeCalledWith( true );
-        expect( noticeText ).toEqual( 'We have sent you an e-mail with password reset link.' );
+        expect( noticeText ).toEqual( 'We have sent you an e-mail with password reset link. The link will expire in 24 hours.' );
     } );
 
     it( 'PasswordResetRequestCreated error should show link to re-send e-mail with link', async () =>
