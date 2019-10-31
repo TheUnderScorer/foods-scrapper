@@ -4,6 +4,7 @@ import mountWithStore from '../test/mountWithStore';
 import { wait } from '../../src/utils/timeout';
 import ResetPasswordForm from '../components/reset-password-form/ResetPasswordForm';
 import * as faker from 'faker';
+import ThemeProvider from '../components/theme-provider/ThemeProvider';
 
 describe( 'ResetPassword', () =>
 {
@@ -24,7 +25,11 @@ describe( 'ResetPassword', () =>
 
         const query = new URLSearchParams();
 
-        const { component } = mountWithStore( <ResetPassword query={ query }/>, {
+        const { component } = mountWithStore( (
+            <ThemeProvider>
+                <ResetPassword query={ query }/>
+            </ThemeProvider>
+        ), {
             user: {
                 currentUser: null,
             },
