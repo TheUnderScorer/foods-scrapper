@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC, useCallback, useState } from 'react';
 import { FormikProps, withFormik } from 'formik';
-import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
+import { Button, CircularProgress, Divider, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
 import client from '../../http/client';
 import * as Yup from 'yup';
 import { isEmpty } from 'lodash';
@@ -19,14 +19,20 @@ import PasswordResetDialog from '../password-reset-dialog/PasswordResetDialog';
 import UserDto from '../../../src/modules/auth/dto/UserDto';
 import { Routes } from '../../http/types/Routes';
 import Notice from '../notice/Notice';
+import SocialLogin from '../social-login/SocialLogin';
+import styled from 'styled-components';
 
 const validationSchema = Yup.object().shape<UserDto>( {
     email:    Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
     password: Yup.string().required( 'Provide password.' ),
 } );
 
-// TODO Tests
-const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, errors, touched, handleChange, handleBlur, isSubmitting, values, ...props } ) =>
+const SocialDivider = styled( Divider )`
+    margin-bottom: 1.4rem !important;
+    margin-top: 1rem !important;
+`;
+
+const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, errors, touched, handleChange, handleBlur, isSubmitting, setSubmitting, values, ...props } ) =>
 {
     const status = props.status as FormikStatus;
 
@@ -35,6 +41,11 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, e
     const [ isResetPasswordVisible, setPasswordResetVisible ] = useState( false );
     const closeResetPassword = useCallback( () => setPasswordResetVisible( false ), [] );
     const openClosePassword = useCallback( () => setPasswordResetVisible( true ), [] );
+
+    const onSocialLoadingChange = useCallback( ( loading: boolean ) =>
+    {
+        setSubmitting( loading );
+    }, [ isSubmitting ] );
 
     return (
         <>
@@ -52,6 +63,7 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, e
                     }
                     <Grid item xs={ 10 }>
                         <TextField
+                            disabled={ isSubmitting }
                             autoComplete="off"
                             variant="outlined"
                             InputProps={ {
@@ -73,6 +85,7 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, e
                     </Grid>
                     <Grid className="form-item" item xs={ 10 }>
                         <TextField
+                            disabled={ isSubmitting }
                             autoComplete="off"
                             variant="outlined"
                             InputProps={ {
@@ -110,17 +123,21 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, e
                             {/* eslint-disable-next-line react/no-unescaped-entities */ }
                             Don't have account?
                         </Typography>
-                        <Button href="/auth/register">
+                        <Button disabled={ isSubmitting } href="/auth/register">
                             Register
                         </Button>
                     </Grid>
                     <Grid alignItems="center" justify="center" container>
-                        <Button className="forgot-password-btn" onClick={ openClosePassword }>
+                        <Button disabled={ isSubmitting } className="forgot-password-btn" onClick={ openClosePassword }>
                             Forgot password?
                         </Button>
                     </Grid>
                 </Grid>
             </AuthForm>
+            <SocialDivider variant="fullWidth"/>
+            <Grid container>
+                <SocialLogin disabled={ isSubmitting } onLoadingChange={ onSocialLoadingChange } googleID={ process.env.GOOGLE_ID }/>
+            </Grid>
             <PasswordResetDialog isOpen={ isResetPasswordVisible } onClose={ closeResetPassword }/>
         </>
     );

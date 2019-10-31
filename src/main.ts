@@ -20,6 +20,7 @@ async function bootstrap()
         conf: {
             env: {
                 SERVER_ENV: process.env.NODE_ENV || 'development',
+                GOOGLE_ID:  process.env.GOOGLE_ID,
             },
         },
     } );
