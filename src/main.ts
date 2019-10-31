@@ -4,14 +4,26 @@ import { AppModule } from './AppModule';
 import Next from 'next';
 import { RenderModule, RenderService } from 'nest-next';
 import cookieParser from 'cookie-parser';
+import * as dotenv from 'dotenv';
 
 async function bootstrap()
 {
+    dotenv.config( {
+        path: `${ process.env.NODE_ENV || 'development' }.env`,
+    } );
+
     const dev = process.env.NODE_ENV !== 'production';
-    const next = Next( { dev } );
-    await next.prepare();
 
     const server = await NestFactory.create( AppModule );
+    const next = Next( {
+        dev,
+        conf: {
+            env: {
+                SERVER_ENV: process.env.NODE_ENV || 'development',
+            },
+        },
+    } );
+    await next.prepare();
 
     server.use( cookieParser() );
 

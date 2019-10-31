@@ -10,7 +10,7 @@ describe( 'ConfigService', () =>
         const module: TestingModule = await Test.createTestingModule( {
             providers: [ {
                 provide:  ConfigService,
-                useValue: new ConfigService( 'test.env' ),
+                useValue: new ConfigService( {} ),
             } ],
         } ).compile();
 
