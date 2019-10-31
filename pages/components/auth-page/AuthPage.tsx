@@ -16,15 +16,16 @@ const AuthContainer = styled( Container )<AuthContainerProps>`
     }
     
     .card {
-        max-width: 400px;
+        width: ${ ( { cardWidth = 'auto' } ) => cardWidth }
+        max-width: ${ ( { cardMaxWidth = '400px' } ) => cardMaxWidth };
         margin: 0 auto;
     }
 `;
 
-const AuthPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '' } ) =>
+const AuthPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) =>
 {
     return (
-        <AuthContainer backgroundUrl={ backgroundUrl } className="auth-container" maxWidth={ false }>
+        <AuthContainer cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth } backgroundUrl={ backgroundUrl } className="auth-container" maxWidth={ false }>
             <Grid className="grid-container" container alignItems="center" justify="center">
                 <Grid item>
                     <Card className="card">

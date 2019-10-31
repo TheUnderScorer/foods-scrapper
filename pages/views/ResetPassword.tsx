@@ -16,7 +16,7 @@ const ResetPassword: NextPage<ResetPasswordProps> = ( { query = new URLSearchPar
     useNotLoggedGuard();
 
     return (
-        <AuthPage title="Reset password" returnUrl={ Routes.login }>
+        <AuthPage cardWidth="350px" title="Reset password" returnUrl={ Routes.login }>
             { !query.has( 'token' ) && process.browser &&
               <Notice type="error" className="error">
                   Error: No reset password token provided.
