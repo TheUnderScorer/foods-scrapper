@@ -13,6 +13,7 @@ import { Schema } from 'mongoose';
 import * as faker from 'faker';
 import EmailModule from '../../email/EmailModule';
 import { EmailTypesService } from '../../email/email-types/EmailTypesService';
+import PasswordReset from '../types/PasswordReset';
 
 jest.mock( 'uuid', () => ( {
     v4: () => 'test',
@@ -104,5 +105,27 @@ describe( 'PasswordResetService', () =>
         expect( result.user ).toEqual( user );
         expect( result.token ).toEqual( 'test' );
         expect( sendPasswordResetLinkSpy ).toBeCalledTimes( 1 );
+    } );
+
+    it( 'reSend email', async () =>
+    {
+        const mockRequest: any = {
+            token: faker.random.uuid(),
+            user:  {
+                email: faker.internet.email(),
+            },
+        };
+        const findByEmailSpy = jest.spyOn( service, 'findByEmail' );
+        findByEmailSpy.mockReturnValue( Promise.resolve( mockRequest ) );
+
+        const emailService = module.get( EmailTypesService );
+        const emailSpy = jest.spyOn( emailService, 'sendPasswordResetLink' );
+        emailSpy.mockReturnValue( Promise.resolve( true ) );
+
+        const result = await service.reSendEmail( mockRequest.user.email );
+        expect( result ).toBeTruthy();
+
+        expect( findByEmailSpy ).toBeCalledWith( mockRequest.user.email );
+        expect( emailSpy ).toBeCalledWith( mockRequest, mockRequest.user.email );
     } );
 } );

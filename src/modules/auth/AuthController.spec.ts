@@ -214,4 +214,24 @@ describe( 'Auth Controller', () =>
         } );
 
     } );
+
+    it( 'reSendPasswordResetRequest', async () =>
+    {
+        const response = {
+            json: jest.fn(),
+        };
+
+        const email = faker.internet.email();
+
+        const service = module.get( PasswordResetService );
+        const spy = jest.spyOn( service, 'reSendEmail' );
+        spy.mockReturnValue( Promise.resolve( true ) );
+
+        await controller.reSendPasswordResetRequest( { email }, response as any );
+
+        expect( spy ).toBeCalledWith( email );
+        expect( response.json ).toBeCalledWith( {
+            result: true,
+        } );
+    } );
 } );

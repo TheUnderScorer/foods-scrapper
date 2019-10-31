@@ -101,4 +101,14 @@ export class AuthController
         } );
     }
 
+    public async reSendPasswordResetRequest(
+        @Body() { email }: RequestPasswordResetDto,
+        @Res() response: Response,
+    )
+    {
+        const result = await this.passwordResetService.reSendEmail( email );
+
+        return response.json( { result } );
+    }
+
 }

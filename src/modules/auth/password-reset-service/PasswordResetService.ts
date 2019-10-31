@@ -98,6 +98,17 @@ export default class PasswordResetService
         };
     }
 
+    public async reSendEmail( email: string ): Promise<boolean>
+    {
+        const request = await this.findByEmail( email );
+
+        if ( !request ) {
+            throw new BadRequestException( `No password reset request found for ${ email }.` );
+        }
+
+        return await this.emailTypesService.sendPasswordResetLink( request, email );
+    }
+
     public async haveRequestedReset( email: string ): Promise<boolean>
     {
         const request = await this.findByEmail( email );
