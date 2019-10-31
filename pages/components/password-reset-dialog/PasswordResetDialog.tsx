@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FC } from 'react';
+import { FC, MouseEventHandler, useCallback, useEffect } from 'react';
 import PasswordResetDialogProps from './types/PasswordResetDialogProps';
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, Grid, TextField } from '@material-ui/core';
 import { FormikProps, withFormik } from 'formik';
@@ -16,6 +16,7 @@ import Notice from '../notice/Notice';
 import getDefaultStatus from '../../formik/getDefaultStatus';
 import { ErrorCodes } from '../../../src/enums/ErrorCodes';
 import PasswordResetStatus from './types/PasswordResetStatus';
+import FormikStatus from '../../types/formik/FormikStatus';
 
 const validationSchema = Yup.object().shape<RequestPasswordResetDto>( {
     email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -29,10 +30,42 @@ const Container = styled( Dialog )`
 
 const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordResetDialogProps> = ( props ) =>
 {
-    const { isOpen = false, onClose, handleChange, handleBlur, values, touched, errors, isSubmitting, handleSubmit, setSubmitting } = props;
+    const { isOpen = false, onClose, handleChange, handleBlur, values, touched, errors, isSubmitting, handleSubmit, setSubmitting, setStatus, initialStatus } = props;
     const status = props.status as PasswordResetStatus;
 
     const getError = getInputError<RequestPasswordResetDto>( touched, errors );
+
+    const reSendEmail = useCallback<MouseEventHandler>( async ( event ) =>
+    {
+        event.preventDefault();
+
+        setSubmitting( true );
+
+        let status: FormikStatus;
+
+        const httpHandler = buildHttpHandler<ResponseResult<boolean>>( setStatus );
+        const { response, isEmpty } = await httpHandler( () => client.post( Routes.reSendPasswordResetRequest, { email: values.email } ) );
+
+        if ( !isEmpty() && response.data.result ) {
+            status = {
+                result:  true,
+                message: 'We have re-send you an e-mail with password reset link.',
+            };
+        }
+
+        setStatus( status );
+        setSubmitting( false );
+    }, [ values ] );
+
+    useEffect( () =>
+    {
+        setStatus( getDefaultStatus() );
+    }, [ values ] );
+
+    useEffect( () =>
+    {
+        setStatus( initialStatus );
+    }, [ initialStatus ] );
 
     return (
         <Container keepMounted={ false } maxWidth="sm" open={ isOpen } onClose={ onClose }>
@@ -57,7 +90,7 @@ const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordRes
                           { status.isPasswordResetRequestCreatedError &&
                             <>
                                 { ' ' }
-                                <a href="#">
+                                <a href="#" className="resend-link" onClick={ reSendEmail }>
                                     Re-send e-mail with link?
                                 </a>
                             </>
@@ -67,6 +100,7 @@ const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordRes
                     <Grid justify="center" container>
                         <Grid item xs={ 12 }>
                             <TextField
+                                disabled={ isSubmitting }
                                 fullWidth
                                 label="E-mail"
                                 helperText={ getError( 'email' ) ? getError( 'email' ) : 'E-mail address that you have used in registration.' }

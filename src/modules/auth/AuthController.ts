@@ -101,6 +101,8 @@ export class AuthController
         } );
     }
 
+    @Post( 'resend-password-reset-request' )
+    @UseGuards( new NotLoggedGuard() )
     public async reSendPasswordResetRequest(
         @Body() { email }: RequestPasswordResetDto,
         @Res() response: Response,

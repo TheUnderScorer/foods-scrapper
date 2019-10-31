@@ -11,6 +11,7 @@ import { Routes } from '../../http/types/Routes';
 import ThemeProvider from '../theme-provider/ThemeProvider';
 import { ErrorCodes } from '../../../src/enums/ErrorCodes';
 import ResponseResult from '../../../src/types/ResponseResult';
+import PasswordResetStatus from './types/PasswordResetStatus';
 
 describe( 'PasswordResetDialog', () =>
 {
@@ -89,5 +90,44 @@ describe( 'PasswordResetDialog', () =>
 
         const notice = component.update().find( '.error-notice' ).at( 0 );
         expect( notice.text() ).toContain( 'Re-send e-mail with link?' );
+    } );
+
+    it( 'should re-send password link after clicking link', async () =>
+    {
+        mockAxios
+            .onPost( Routes.reSendPasswordResetRequest )
+            .replyOnce( 200, {
+                result: true,
+            } );
+
+        const initialValues: RequestPasswordResetDto = {
+            email: faker.internet.email(),
+        };
+
+        const initialStatus: PasswordResetStatus = {
+            message:                            '',
+            isPasswordResetRequestCreatedError: true,
+            error:                              true,
+        };
+
+        const component = mount( (
+            <ThemeProvider>
+                <PasswordResetDialog isOpen onClose={ jest.fn() } initialStatus={ initialStatus } defaultValues={ initialValues }/>
+            </ThemeProvider>
+        ) );
+        const link = component.find( '.resend-link' );
+        expect( link ).toHaveLength( 1 );
+
+        await act( async () =>
+        {
+            link.simulate( 'click' );
+
+            await wait( 100 );
+        } );
+
+        component.update();
+
+        const notice = component.find( '.success-notice' ).at( 0 );
+        expect( notice.text() ).toEqual( 'We have re-send you an e-mail with password reset link.' );
     } );
 } );
