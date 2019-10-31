@@ -2,12 +2,13 @@ import * as React from 'react';
 import { FC, MouseEventHandler, useCallback, useState } from 'react';
 import { AppBar, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core';
 import HeaderProps from './types/HeaderProps';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AppStore from '../../redux/stores/types/AppStore';
 import User from '../../../src/modules/users/types/User';
 import { Nullable } from '../../../src/types/Nullable';
 import { Input, MoreVert } from '@material-ui/icons';
 import styled from 'styled-components';
+import logout from '../../redux/actions/user/logout';
 
 const Spacer = styled.div`
     flex-grow: 1;
@@ -15,6 +16,13 @@ const Spacer = styled.div`
 
 const Header: FC<HeaderProps> = ( { title } ) =>
 {
+    const dispatch = useDispatch();
+
+    const handleLogout = useCallback( () =>
+    {
+        dispatch( logout() );
+    }, [ dispatch ] );
+
     const currentUser = useSelector<AppStore, Nullable<User>>( ( store ) => store.user.currentUser );
 
     const [ anchorEl, setAnchorEl ] = useState<Nullable<HTMLButtonElement>>( null );
@@ -34,7 +42,7 @@ const Header: FC<HeaderProps> = ( { title } ) =>
                           <MoreVert fontSize="large"/>
                       </IconButton>
                       <Menu onClose={ closeMenu } open={ !!anchorEl } anchorEl={ anchorEl }>
-                          <MenuItem className="logout">
+                          <MenuItem onClick={ handleLogout } className="logout">
                               <ListItemIcon>
                                   <Input/>
                               </ListItemIcon>
