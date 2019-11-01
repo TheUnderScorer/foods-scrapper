@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import GoogleAuthController from './GoogleAuthController';
-import OauthService from './oauth/OauthService';
+import OauthService from './oauth-service/OauthService';
 import User from '../users/types/User';
 import * as faker from 'faker';
 import UserDocument from '../users/types/UserDocument';

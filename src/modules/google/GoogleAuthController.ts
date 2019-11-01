@@ -1,5 +1,5 @@
 import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
-import OauthService from './oauth/OauthService';
+import OauthService from './oauth-service/OauthService';
 import OauthDto from './dto/OauthDto';
 import { Response } from 'express';
 import { NotLoggedGuard } from '../auth/guards/NotLoggedGuard';

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import OauthService from './oauth/OauthService';
+import OauthService from './oauth-service/OauthService';
 import { ConfigModule } from '../config/ConfigModule';
 import { ConfigService } from '../config/config-service/ConfigService';
 import { OAuth2Client } from 'google-auth-library';
