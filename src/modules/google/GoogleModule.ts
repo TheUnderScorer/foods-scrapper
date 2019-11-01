@@ -4,10 +4,11 @@ import { ConfigModule } from '../config/ConfigModule';
 import { ConfigService } from '../config/config-service/ConfigService';
 import { OAuth2Client } from 'google-auth-library';
 import { UsersModule } from '../users/UsersModule';
+import GoogleAuthController from './GoogleAuthController';
 
 @Module( {
-    exports:   [ OauthService ],
-    providers: [
+    exports:     [ OauthService ],
+    providers:   [
         {
             provide:    OauthService,
             useFactory: ( config: ConfigService ) => new OAuth2Client(
@@ -18,7 +19,8 @@ import { UsersModule } from '../users/UsersModule';
             inject:     [ ConfigService ],
         },
     ],
-    imports:   [ ConfigModule, UsersModule ],
+    imports:     [ ConfigModule, UsersModule ],
+    controllers: [ GoogleAuthController ],
 } )
 export default class GoogleModule
 {
