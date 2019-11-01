@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
 import UserDocument from '../../users/types/UserDocument';
 import { Nullable } from '../../../types/Nullable';
@@ -18,6 +18,18 @@ export default class OauthService
 
     public async handleCode( code: string ): Promise<Nullable<UserDocument>>
     {
+        const { tokens: { id_token: idToken } } = await this.client.getToken( code );
+
+        if ( !idToken ) {
+            throw new InternalServerErrorException( `No ID token received from google oauth service.` );
+        }
+
+        const foundUser = await this.usersService.getByGoogleID( idToken );
+
+        if ( foundUser ) {
+            return foundUser;
+        }
+
         return null;
     }
 

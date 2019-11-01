@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import OauthService from './OauthService';
+import { UsersService } from '../../users/users-service/UsersService';
 
 describe( 'OauthService', () =>
 {
@@ -11,10 +12,12 @@ describe( 'OauthService', () =>
         mockGoogleClient = {};
 
         const module: TestingModule = await Test.createTestingModule( {
+            imports:   [ UsersService ],
             providers: [
                 {
                     provide:    OauthService,
-                    useFactory: () => new OauthService( mockGoogleClient as any ),
+                    useFactory: ( usersService: UsersService ) => new OauthService( mockGoogleClient as any, usersService ),
+                    inject:     [ UsersService ],
                 },
             ],
         } ).compile();

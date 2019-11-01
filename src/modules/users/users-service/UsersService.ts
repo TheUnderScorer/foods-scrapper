@@ -44,4 +44,9 @@ export class UsersService
 
         return result;
     }
+
+    public async getByGoogleID( googleID: string ): Promise<UserDocument | undefined>
+    {
+        return await this.model.findOne( { googleID } ).exec();
+    }
 }

@@ -15,6 +15,7 @@ import { UsersModule } from '../users/UsersModule';
                 config.get( 'GOOGLE_SECRET' ),
                 config.get( 'GOOGLE_REDIRECT_URI' ),
             ),
+            inject:     [ ConfigService ],
         },
     ],
     imports:   [ ConfigModule, UsersModule ],
