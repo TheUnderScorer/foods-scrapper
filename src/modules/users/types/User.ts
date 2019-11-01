@@ -9,4 +9,6 @@ export default interface User
     updatedAt?: Date;
     createdAt?: Date;
     passwordReset?: PasswordReset;
+    googleID?: string;
+    facebookID?: string;
 }

@@ -21,6 +21,8 @@ export default new Schema( {
         type: Schema.Types.ObjectId,
         ref:  'PasswordReset',
     },
+    facebookID:    String,
+    googleID:      String,
 }, {
     timestamps: true,
 } );

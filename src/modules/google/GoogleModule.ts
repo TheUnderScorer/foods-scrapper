@@ -3,6 +3,7 @@ import OauthService from './oauth/OauthService';
 import { ConfigModule } from '../config/ConfigModule';
 import { ConfigService } from '../config/config-service/ConfigService';
 import { OAuth2Client } from 'google-auth-library';
+import { UsersModule } from '../users/UsersModule';
 
 @Module( {
     exports:   [ OauthService ],
@@ -16,7 +17,7 @@ import { OAuth2Client } from 'google-auth-library';
             ),
         },
     ],
-    imports:   [ ConfigModule ],
+    imports:   [ ConfigModule, UsersModule ],
 } )
 export default class GoogleModule
 {
