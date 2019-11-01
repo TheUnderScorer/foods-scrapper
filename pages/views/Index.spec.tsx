@@ -1,11 +1,24 @@
-import { mount } from 'enzyme';
 import Index from './Index';
 import * as React from 'react';
+import mountWithStore from '../test/mountWithStore';
+
+jest.mock( '../http/redirect', () => ( {
+    default: jest.fn(),
+} ) );
 
 describe( 'Index component', () =>
 {
-    it( 'Renders without crashing', () =>
+    beforeEach( () =>
     {
-        mount( <Index/> );
+        jest.resetModules();
+    } );
+
+    it( 'renders without crashing', () =>
+    {
+        mountWithStore( <Index/>, {
+            user: {
+                userFetched: false,
+            },
+        } );
     } );
 } );

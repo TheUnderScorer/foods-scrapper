@@ -1,25 +1,22 @@
 import * as React from 'react';
 import { NextPage, NextPageContext } from 'next';
-import AppHead from './components/app-head/AppHead';
-import { AppBar, Container, Toolbar, Typography } from '@material-ui/core';
-import ThemeProvider from './components/theme-provider/ThemeProvider';
+import AppHead from '../components/app-head/AppHead';
+import { Container } from '@material-ui/core';
+import useAuthGuard from '../hooks/useAuthGuard';
+import Header from '../components/header/Header';
 
-const Index: NextPage<any> = ( { title } ) =>
+const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
 {
+    useAuthGuard();
+
     return (
-        <ThemeProvider>
+        <>
+            <AppHead title={ title }/>
+            <Header title={ title }/>
             <Container fixed>
-                <AppBar>
-                    <Toolbar>
-                        <Typography variant="h5">
-                            { title }
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <AppHead title={ title }/>
                 Welcome on { title }!
             </Container>
-        </ThemeProvider>
+        </>
     );
 };
 

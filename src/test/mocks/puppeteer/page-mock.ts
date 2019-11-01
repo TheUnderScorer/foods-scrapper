@@ -1,4 +1,4 @@
-import TypedValue from '../../interfaces/typed-value.interface';
+import TypedValue from '../../types/TypedValue';
 import Element from './element';
 import { WaitForSelectorOptions } from 'puppeteer';
 import { JSDOM } from 'jsdom';
