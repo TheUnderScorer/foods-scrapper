@@ -1,4 +1,3 @@
-import { mount } from 'enzyme';
 import LoginForm from './LoginForm';
 import * as React from 'react';
 import { act } from 'react-dom/test-utils';
@@ -11,6 +10,7 @@ import client from '../../http/client';
 import { Routes } from '../../http/types/Routes';
 import { wait } from '../../../src/utils/timeout';
 import ThemeProvider from '../theme-provider/ThemeProvider';
+import mountWithStore from '../../test/mountWithStore';
 
 jest.mock( '../../http/redirect', () => ( {
     default: jest.fn(),
@@ -27,7 +27,7 @@ describe( 'LoginForm', () =>
 
     it( 'renders without crashing', () =>
     {
-        mount( <LoginForm/> );
+        mountWithStore( <LoginForm/>, {} );
     } );
 
     it( 'should handle login', async () =>
@@ -51,11 +51,11 @@ describe( 'LoginForm', () =>
             password: faker.internet.password(),
         };
 
-        const component = mount( (
+        const { component } = mountWithStore( (
             <ThemeProvider>
                 <LoginForm onSubmit={ onSubmit } defaults={ dto }/>
             </ThemeProvider>
-        ) );
+        ), {} );
         const form = component.find( 'form' );
 
         await act( async () =>
@@ -71,7 +71,7 @@ describe( 'LoginForm', () =>
 
     it( 'clicking Forgot Password should open PasswordResetDialog', () =>
     {
-        const component = mount( <LoginForm/> );
+        const { component } = mountWithStore( <LoginForm/>, {} );
         const btn = component.find( '.forgot-password-btn' ).at( 0 );
 
         act( () =>

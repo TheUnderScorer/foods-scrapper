@@ -32,7 +32,7 @@ const SocialDivider = styled( Divider )`
     margin-top: 1rem !important;
 `;
 
-const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, errors, touched, handleChange, handleBlur, isSubmitting, setSubmitting, values, ...props } ) =>
+const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, setStatus, errors, touched, handleChange, handleBlur, isSubmitting, setSubmitting, values, ...props } ) =>
 {
     const status = props.status as FormikStatus;
 
@@ -45,7 +45,17 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, e
     const onSocialLoadingChange = useCallback( ( loading: boolean ) =>
     {
         setSubmitting( loading );
-    }, [ isSubmitting ] );
+    }, [] );
+
+    const onSocialLoginError = useCallback( ( error: string ) =>
+    {
+        const status: FormikStatus = {
+            error:   true,
+            message: error,
+        };
+
+        setStatus( status );
+    }, [] );
 
     return (
         <>
@@ -136,7 +146,7 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, e
             </AuthForm>
             <SocialDivider variant="fullWidth"/>
             <Grid container>
-                <SocialLogin disabled={ isSubmitting } onLoadingChange={ onSocialLoadingChange } googleID={ process.env.GOOGLE_ID }/>
+                <SocialLogin onError={ onSocialLoginError } disabled={ isSubmitting } onLoadingChange={ onSocialLoadingChange } googleID={ process.env.GOOGLE_ID }/>
             </Grid>
             <PasswordResetDialog isOpen={ isResetPasswordVisible } onClose={ closeResetPassword }/>
         </>

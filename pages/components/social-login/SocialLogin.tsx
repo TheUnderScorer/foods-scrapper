@@ -3,12 +3,15 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import SocialLoginProps from './types/SocialLoginProps';
 import { Button, Grid } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
-import { onError, onSuccess } from './googleHandlers';
+import { onError as onGoogleError, onSuccess } from './googleHandlers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { useDispatch } from 'react-redux';
 
-const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disabled } ) =>
+const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disabled, onError } ) =>
 {
+    const dispatch = useDispatch();
+
     const [ loading, setLoading ] = useState( false );
 
     const onGoogleRequest = useCallback( () => setLoading( true ), [] );
@@ -36,8 +39,8 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
                       ) }
                       clientId={ googleID }
                       responseType="code"
-                      onSuccess={ onSuccess( setLoading ) }
-                      onFailure={ onError( setLoading ) }
+                      onSuccess={ onSuccess( setLoading, dispatch, onError ) }
+                      onFailure={ onGoogleError( setLoading, onError ) }
                   />
               </Grid>
             }

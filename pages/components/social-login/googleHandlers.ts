@@ -1,14 +1,36 @@
 import { GoogleLoginResponseOffline } from 'react-google-login';
-import { SetLoading } from './types/SocialLoginProps';
+import { OnError, SetLoading } from './types/SocialLoginProps';
 import GoogleError from './types/GoogleError';
+import client from '../../http/client';
+import { Routes } from '../../http/types/Routes';
+import ResponseResult from '../../../src/types/ResponseResult';
+import User from '../../../src/modules/users/types/User';
+import { Dispatch } from 'redux';
+import { SetCurrentUser } from '../../redux/actions/user/types/UserActions';
 
-export const onSuccess = ( setLoading: SetLoading ) => async ( response: GoogleLoginResponseOffline ) =>
+export const onSuccess = ( setLoading: SetLoading, dispatch: Dispatch, onError: OnError ) => async ( { code }: GoogleLoginResponseOffline ) =>
 {
-    setLoading( false );
-    console.log( { response } );
+    try {
+        const { data } = await client.post<ResponseResult<User>>( Routes.googleLogin, { code } );
+
+        if ( !data.result ) {
+            onError( 'Invalid response received from server.' );
+        } else {
+            dispatch<SetCurrentUser>( {
+                type:    'SetCurrentUser',
+                payload: data.result,
+            } );
+        }
+    } catch ( e ) {
+        const { response } = e;
+
+        onError( response.data.message );
+    } finally {
+        setLoading( false );
+    }
 };
 
-export const onError = ( setLoading: SetLoading ) => ( { error = '' }: GoogleError ) =>
+export const onError = ( setLoading: SetLoading, onError: OnError ) => ( { error = '' }: GoogleError ) =>
 {
     setLoading( false );
 
