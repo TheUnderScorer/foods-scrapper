@@ -1,8 +1,10 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { OAuth2Client } from 'google-auth-library';
+import { Credentials, OAuth2Client } from 'google-auth-library';
+import { oauth2_v2 as OauthV2 } from 'googleapis';
 import UserDocument from '../../users/types/UserDocument';
 import { Nullable } from '../../../types/Nullable';
 import { UsersService } from '../../users/users-service/UsersService';
+import { v4 } from 'uuid';
 
 @Injectable()
 export default class OauthService
@@ -10,6 +12,7 @@ export default class OauthService
 
     public constructor(
         protected readonly client: OAuth2Client,
+        protected readonly oauth: OauthV2.Oauth2,
         protected readonly usersService: UsersService,
     )
     {
@@ -18,19 +21,51 @@ export default class OauthService
 
     public async handleCode( code: string ): Promise<Nullable<UserDocument>>
     {
-        const { tokens: { id_token: idToken } } = await this.client.getToken( code );
+        let credentials: Credentials;
+        let userData: OauthV2.Schema$Userinfoplus;
 
-        if ( !idToken ) {
-            throw new InternalServerErrorException( `No ID token received from google oauth service.` );
+        console.log( `Handling code: ${ code }` );
+
+        try {
+            const { tokens } = await this.client.getToken( code );
+
+            credentials = tokens;
+        } catch ( e ) {
+            console.error( e );
+
+            throw new InternalServerErrorException( `Google API error: ${ e.message }` );
         }
 
-        const foundUser = await this.usersService.getByGoogleID( idToken );
+        this.client.setCredentials( credentials );
+
+        try {
+            const { data } = await this.oauth.userinfo.get();
+            userData = data;
+        } catch ( e ) {
+            console.error( e );
+
+            throw new InternalServerErrorException( `Google API error: ${ e.message }` );
+        }
+
+        const foundUser = await this.usersService.getByGoogleID( userData.id );
 
         if ( foundUser ) {
             return foundUser;
         }
 
-        return null;
+        return await this.createFromUserData( userData );
     }
+
+    protected async createFromUserData( { email, id }: OauthV2.Schema$Userinfoplus ): Promise<UserDocument>
+    {
+        const password = v4();
+        const user = await this.usersService.create( email, password );
+        user.googleID = id;
+
+        await user.save();
+
+        return user;
+    }
+
 
 }

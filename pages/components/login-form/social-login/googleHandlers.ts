@@ -11,7 +11,9 @@ import { SetCurrentUser } from '../../../redux/actions/user/types/UserActions';
 export const onSuccess = ( setLoading: SetLoading, dispatch: Dispatch, onError: OnError ) => async ( { code }: GoogleLoginResponseOffline ) =>
 {
     try {
-        const { data } = await client.post<ResponseResult<User>>( Routes.googleLogin, { code } );
+        const { data } = await client.get<ResponseResult<User>>( `${ Routes.googleLogin }`, {
+            params: { code },
+        } );
 
         if ( !data.result ) {
             onError( 'Invalid response received from server.' );
@@ -37,4 +39,6 @@ export const onError = ( setLoading: SetLoading, onError: OnError ) => ( { error
     if ( error === 'popup_closed_by_user' ) {
         return;
     }
+
+    onError( error );
 };

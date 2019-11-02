@@ -66,6 +66,7 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( {
 
     const onSocialLoadingChange = useCallback( ( loading: boolean ) =>
     {
+        setStatus( getDefaultStatus() );
         setSubmitting( loading );
     }, [] );
 

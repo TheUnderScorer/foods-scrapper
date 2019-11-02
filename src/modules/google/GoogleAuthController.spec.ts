@@ -8,12 +8,12 @@ import { UsersService } from '../users/users-service/UsersService';
 import { ConfigModule } from '../config/ConfigModule';
 import { getModelToken } from '@nestjs/mongoose';
 import MockModel from '../../test/mocks/models/MockModel';
+import { AuthService } from '../auth/auth-service/AuthService';
 
 describe( 'Google Controller', () =>
 {
     let controller: GoogleAuthController;
     let module: TestingModule;
-    let mockGoogleClient: any;
 
     beforeEach( async () =>
     {
@@ -22,10 +22,15 @@ describe( 'Google Controller', () =>
             imports: [ ConfigModule ],
             providers: [
                 UsersService,
+                AuthService,
                 {
                     provide: OauthService,
-                    useFactory: ( usersService: UsersService ) => new OauthService( mockGoogleClient as any, usersService ),
+                    useFactory: ( usersService: UsersService ) => new OauthService( {} as any, {} as any, usersService ),
                     inject: [ UsersService ],
+                },
+                {
+                    provide: getModelToken( 'PasswordReset' ),
+                    useValue: MockModel,
                 },
                 {
                     provide: getModelToken( 'User' ),
@@ -44,6 +49,10 @@ describe( 'Google Controller', () =>
 
     it( 'handleLogin', async () =>
     {
+        const authService = module.get( AuthService );
+        const authSpy = jest.spyOn( authService, 'login' );
+        authSpy.mockReturnValue( Promise.resolve( faker.random.uuid() ) );
+
         const mockUser: Partial<User> = {
             _id: '1',
         };
@@ -64,5 +73,6 @@ describe( 'Google Controller', () =>
         expect( response.json ).toBeCalledWith( {
             result: mockUser,
         } );
+        expect( authSpy ).toBeCalledWith( mockUser, response );
     } );
 } );

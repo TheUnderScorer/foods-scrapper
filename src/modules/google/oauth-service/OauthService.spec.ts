@@ -13,16 +13,25 @@ describe( 'OauthService', () =>
     let service: OauthService;
     let module: TestingModule;
     let mockGoogleClient: any;
+    let mockOAuth: any;
     let mockUser: Partial<User>;
 
     beforeEach( async () =>
     {
         mockGoogleClient = {
             getToken: jest.fn(),
+            setCredentials: jest.fn(),
+        };
+
+        mockOAuth = {
+            userinfo: {
+                get: jest.fn(),
+            },
         };
 
         mockUser = {
             _id: '1',
+            email: faker.internet.email(),
         };
 
         module = await Test.createTestingModule( {
@@ -31,7 +40,7 @@ describe( 'OauthService', () =>
                 UsersService,
                 {
                     provide: OauthService,
-                    useFactory: ( usersService: UsersService ) => new OauthService( mockGoogleClient as any, usersService ),
+                    useFactory: ( usersService: UsersService ) => new OauthService( mockGoogleClient as any, mockOAuth as any, usersService ),
                     inject: [ UsersService ],
                 },
                 {
@@ -52,23 +61,34 @@ describe( 'OauthService', () =>
     it( 'handleCode should search for user with given googleID', async () =>
     {
         const idToken = faker.random.uuid();
-        mockGoogleClient.getToken.mockReturnValue( Promise.resolve( {
+        const getTokenResponse = {
             tokens: {
                 // eslint-disable-next-line @typescript-eslint/camelcase
                 id_token: idToken,
+            },
+        };
+        mockGoogleClient.getToken.mockReturnValue( Promise.resolve( getTokenResponse ) );
+
+        const userGoogleId = faker.random.uuid();
+        mockOAuth.userinfo.get.mockReturnValue( Promise.resolve( {
+            data: {
+                email: mockUser.email,
+                id: userGoogleId,
             },
         } ) );
 
         const code = faker.random.uuid();
 
         const usersService = module.get( UsersService );
-        const spy = jest.spyOn( usersService, 'getByGoogleID' );
-        spy.mockReturnValue( Promise.resolve( mockUser as UserDocument ) );
+        const usersServiceSpy = jest.spyOn( usersService, 'getByGoogleID' );
+        usersServiceSpy.mockReturnValue( Promise.resolve( mockUser as UserDocument ) );
 
         const result = await service.handleCode( code );
 
         expect( result ).toEqual( mockUser );
-        expect( spy ).toBeCalledWith( idToken );
+        expect( usersServiceSpy ).toBeCalledWith( userGoogleId );
         expect( mockGoogleClient.getToken ).toBeCalledWith( code );
+        expect( mockGoogleClient.setCredentials ).toBeCalledWith( getTokenResponse.tokens );
+        expect( mockOAuth.userinfo.get ).toBeCalledTimes( 1 );
     } );
 } );
