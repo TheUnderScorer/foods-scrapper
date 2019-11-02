@@ -20,7 +20,7 @@ export class SearchController
     @UseGuards( AuthGuard( 'jwt' ) )
     public async getSearch( @Param() params, @Req() req: Request ): Promise<ResponseResult<SearchDocument>>
     {
-        const model = await this.searchService.getBySearchID( params.searchID, ( req.user as User )._id.toString() );
+        const model = await this.searchService.getBySearchID( params.searchID, (req.user as User)._id.toString() );
 
         return {
             result: model,

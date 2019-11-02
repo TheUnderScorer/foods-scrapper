@@ -8,15 +8,13 @@ import { getModelToken } from '@nestjs/mongoose';
 import MockModel from '../../../test/mocks/models/MockModel';
 import { ConfigModule } from '../../config/ConfigModule';
 
-describe( 'OauthService', () =>
-{
+describe( 'OauthService', () => {
     let service: OauthService;
     let module: TestingModule;
     let mockGoogleClient: any;
     let mockUser: Partial<User>;
 
-    beforeEach( async () =>
-    {
+    beforeEach( async () => {
         mockGoogleClient = {
             getToken: jest.fn(),
         };
@@ -26,38 +24,36 @@ describe( 'OauthService', () =>
         };
 
         module = await Test.createTestingModule( {
-            imports:   [ ConfigModule ],
-            providers: [
-                UsersService,
-                {
-                    provide:    OauthService,
-                    useFactory: ( usersService: UsersService ) => new OauthService( mockGoogleClient as any, usersService ),
-                    inject:     [ UsersService ],
-                },
-                {
-                    provide:  getModelToken( 'User' ),
-                    useValue: MockModel,
-                },
-            ],
-        } ).compile();
+                                                     imports: [ ConfigModule ],
+                                                     providers: [
+                                                         UsersService,
+                                                         {
+                                                             provide: OauthService,
+                                                             useFactory: ( usersService: UsersService ) => new OauthService( mockGoogleClient as any, usersService ),
+                                                             inject: [ UsersService ],
+                                                         },
+                                                         {
+                                                             provide: getModelToken( 'User' ),
+                                                             useValue: MockModel,
+                                                         },
+                                                     ],
+                                                 } ).compile();
 
         service = module.get<OauthService>( OauthService );
     } );
 
-    it( 'should be defined', () =>
-    {
+    it( 'should be defined', () => {
         expect( service ).toBeDefined();
     } );
 
-    it( 'handleCode should search for user with given googleID', async () =>
-    {
+    it( 'handleCode should search for user with given googleID', async () => {
         const idToken = faker.random.uuid();
         mockGoogleClient.getToken.mockReturnValue( Promise.resolve( {
-            tokens: {
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                id_token: idToken,
-            },
-        } ) );
+                                                                        tokens: {
+                                                                            // eslint-disable-next-line @typescript-eslint/camelcase
+                                                                            id_token: idToken,
+                                                                        },
+                                                                    } ) );
 
         const code = faker.random.uuid();
 

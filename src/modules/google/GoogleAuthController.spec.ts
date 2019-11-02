@@ -9,41 +9,37 @@ import { ConfigModule } from '../config/ConfigModule';
 import { getModelToken } from '@nestjs/mongoose';
 import MockModel from '../../test/mocks/models/MockModel';
 
-describe( 'Google Controller', () =>
-{
+describe( 'Google Controller', () => {
     let controller: GoogleAuthController;
     let module: TestingModule;
     let mockGoogleClient: any;
 
-    beforeEach( async () =>
-    {
+    beforeEach( async () => {
         module = await Test.createTestingModule( {
-            controllers: [ GoogleAuthController ],
-            imports:     [ ConfigModule ],
-            providers:   [
-                UsersService,
-                {
-                    provide:    OauthService,
-                    useFactory: ( usersService: UsersService ) => new OauthService( mockGoogleClient as any, usersService ),
-                    inject:     [ UsersService ],
-                },
-                {
-                    provide:  getModelToken( 'User' ),
-                    useValue: MockModel,
-                },
-            ],
-        } ).compile();
+                                                     controllers: [ GoogleAuthController ],
+                                                     imports: [ ConfigModule ],
+                                                     providers: [
+                                                         UsersService,
+                                                         {
+                                                             provide: OauthService,
+                                                             useFactory: ( usersService: UsersService ) => new OauthService( mockGoogleClient as any, usersService ),
+                                                             inject: [ UsersService ],
+                                                         },
+                                                         {
+                                                             provide: getModelToken( 'User' ),
+                                                             useValue: MockModel,
+                                                         },
+                                                     ],
+                                                 } ).compile();
 
         controller = module.get<GoogleAuthController>( GoogleAuthController );
     } );
 
-    it( 'should be defined', () =>
-    {
+    it( 'should be defined', () => {
         expect( controller ).toBeDefined();
     } );
 
-    it( 'handleLogin', async () =>
-    {
+    it( 'handleLogin', async () => {
         const mockUser: Partial<User> = {
             _id: '1',
         };
@@ -62,7 +58,7 @@ describe( 'Google Controller', () =>
 
         expect( spy ).toBeCalledWith( code );
         expect( response.json ).toBeCalledWith( {
-            result: mockUser,
-        } );
+                                                    result: mockUser,
+                                                } );
     } );
 } );

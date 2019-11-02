@@ -17,8 +17,7 @@ export default abstract class MockModel<T>
 
     public static findOne( keys: object )
     {
-        this.execResult = this.items.find( item =>
-        {
+        this.execResult = this.items.find( item => {
             for ( const key in keys ) {
                 if ( !keys.hasOwnProperty( key ) ) {
                     continue;

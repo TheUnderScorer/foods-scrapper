@@ -8,41 +8,36 @@ import MockAdapter from 'axios-mock-adapter';
 import client from '../../http/client';
 import { Routes } from '../../http/types/Routes';
 
-describe( 'Header', () =>
-{
+describe( 'Header', () => {
     let user: Partial<User>;
     let mockAxios: MockAdapter;
 
-    beforeEach( () =>
-    {
+    beforeEach( () => {
         mockAxios = new MockAdapter( client );
         user = {
             _id: '1',
         };
     } );
 
-    it( 'renders without crashing', () =>
-    {
+    it( 'renders without crashing', () => {
         mountWithStore( <Header/>, {
-            user: {
-                currentUser: null,
-            },
-        } );
+                                       user: {
+                                           currentUser: null,
+                                       },
+                                   } );
     } );
 
-    it( 'should display menu icon if user is logged in', () =>
-    {
+    it( 'should display menu icon if user is logged in', () => {
         const { component } = mountWithStore( <Header/>, {
-            user: {
-                currentUser: user,
-            },
-        } );
+                                                             user: {
+                                                                 currentUser: user,
+                                                             },
+                                                         } );
         const menuButton = component.find( '.menu-icon' ).at( 0 );
         expect( menuButton ).toHaveLength( 1 );
     } );
 
-    it( 'logout button should handle logout', async () =>
-    {
+    it( 'logout button should handle logout', async () => {
         mockAxios
             .onPost( Routes.logout )
             .replyOnce( 200, {
@@ -50,15 +45,14 @@ describe( 'Header', () =>
             } );
 
         const { component, store } = mountWithStore( <Header/>, {
-            user: {
-                currentUser: user,
-            },
-        } );
+                                                                    user: {
+                                                                        currentUser: user,
+                                                                    },
+                                                                } );
 
         const menuBtn = component.find( '.menu-icon' ).at( 0 );
 
-        await act( async () =>
-        {
+        await act( async () => {
             menuBtn.simulate( 'click' );
 
             await wait( 10 );
@@ -68,8 +62,7 @@ describe( 'Header', () =>
 
         const logoutBtn = component.find( '.logout' ).at( 0 );
 
-        await act( async () =>
-        {
+        await act( async () => {
             logoutBtn.simulate( 'click' );
 
             await wait( 100 );
@@ -77,8 +70,8 @@ describe( 'Header', () =>
 
         const actions = store.getActions();
         expect( actions ).toContainEqual( {
-            type:    'SetCurrentUser',
-            payload: null,
-        } );
+                                              type: 'SetCurrentUser',
+                                              payload: null,
+                                          } );
     } );
 } );

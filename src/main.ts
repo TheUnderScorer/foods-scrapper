@@ -9,21 +9,21 @@ import * as dotenv from 'dotenv';
 async function bootstrap()
 {
     dotenv.config( {
-        path: `${ process.env.NODE_ENV || 'development' }.env`,
-    } );
+                       path: `${ process.env.NODE_ENV || 'development' }.env`,
+                   } );
 
     const dev = process.env.NODE_ENV !== 'production';
 
     const server = await NestFactory.create( AppModule );
     const next = Next( {
-        dev,
-        conf: {
-            env: {
-                SERVER_ENV: process.env.NODE_ENV || 'development',
-                GOOGLE_ID:  process.env.GOOGLE_ID,
-            },
-        },
-    } );
+                           dev,
+                           conf: {
+                               env: {
+                                   SERVER_ENV: process.env.NODE_ENV || 'development',
+                                   GOOGLE_ID: process.env.GOOGLE_ID,
+                               },
+                           },
+                       } );
     await next.prepare();
 
     server.use( cookieParser() );
@@ -32,8 +32,7 @@ async function bootstrap()
     const rendererService = server.get( RenderService );
 
     await renderer.register( server, next );
-    rendererService.setErrorHandler( async ( err, req, res ) =>
-    {
+    rendererService.setErrorHandler( async ( err, req, res ) => {
         res.send( err.response );
     } );
 

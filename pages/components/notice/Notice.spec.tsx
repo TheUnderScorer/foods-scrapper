@@ -7,45 +7,40 @@ import { ThemeProvider } from 'styled-components';
 import { green, yellow } from '@material-ui/core/colors';
 import { CropSquare } from '@material-ui/icons';
 
-describe( 'Notice', () =>
-{
+describe( 'Notice', () => {
     const theme = createMuiTheme();
 
-    const mountComponent = ( props: NoticeProps ) =>
-    {
+    const mountComponent = ( props: NoticeProps ) => {
         return mount( (
-            <MuiThemeProvder theme={ theme }>
-                <ThemeProvider theme={ theme }>
-                    <Notice { ...props } />
-                </ThemeProvider>
-            </MuiThemeProvder>
-        ) );
+                          <MuiThemeProvder theme={ theme }>
+                              <ThemeProvider theme={ theme }>
+                                  <Notice { ...props } />
+                              </ThemeProvider>
+                          </MuiThemeProvder>
+                      ) );
     };
 
-    it( 'renders without crashing', () =>
-    {
+    it( 'renders without crashing', () => {
         mountComponent( {
-            type: 'error',
-        } );
+                            type: 'error',
+                        } );
     } );
 
     it.each( [
-        [ 'error', theme.palette.error.main ],
-        [ 'success', green.A400 ],
-        [ 'notice', yellow.A400 ],
-    ] )( 'getNoticeColor', ( type: NoticeColor, expectedColor: string ) =>
-    {
+                 [ 'error', theme.palette.error.main ],
+                 [ 'success', green.A400 ],
+                 [ 'notice', yellow.A400 ],
+             ] )( 'getNoticeColor', ( type: NoticeColor, expectedColor: string ) => {
         const color = getNoticeColor( type, theme );
 
         expect( color ).toEqual( expectedColor );
     } );
 
-    it( 'renders icon if it is provided', () =>
-    {
+    it( 'renders icon if it is provided', () => {
         const component = mountComponent( {
-            type: 'notice',
-            icon: <CropSquare/>,
-        } );
+                                              type: 'notice',
+                                              icon: <CropSquare/>,
+                                          } );
 
         const icon = component.find( CropSquare );
         expect( icon ).toHaveLength( 1 );

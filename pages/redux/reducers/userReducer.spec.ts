@@ -3,23 +3,20 @@ import userReducer, { initialState } from './userReducer';
 import User from '../../../src/modules/users/types/User';
 import { SetCurrentUser, SetUserFetched } from '../actions/user/types/UserActions';
 
-describe( 'userReducer', () =>
-{
+describe( 'userReducer', () => {
     let state: UserState;
 
-    beforeEach( () =>
-    {
+    beforeEach( () => {
         state = { ...initialState };
     } );
 
-    it( 'SetCurrentUser', () =>
-    {
+    it( 'SetCurrentUser', () => {
         const user: Partial<User> = {
             _id: '1',
         };
         const action: SetCurrentUser = {
             payload: user as User,
-            type:    'SetCurrentUser',
+            type: 'SetCurrentUser',
         };
 
         const newState = userReducer( state, action );
@@ -27,10 +24,9 @@ describe( 'userReducer', () =>
         expect( newState.currentUser ).toEqual( user );
     } );
 
-    it( 'SetUserFetched', () =>
-    {
+    it( 'SetUserFetched', () => {
         const action: SetUserFetched = {
-            type:    'SetUserFetched',
+            type: 'SetUserFetched',
             payload: true,
         };
 

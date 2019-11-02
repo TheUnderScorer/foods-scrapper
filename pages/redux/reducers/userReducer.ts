@@ -9,14 +9,14 @@ export const initialState: UserState = {
 };
 
 const handlers: ReducerHandlers<UserActions, UserState> = {
-    SetCurrentUser: ( state, currentUser ) => ( {
+    SetCurrentUser: ( state, currentUser ) => ({
         ...state,
         currentUser,
-    } ),
-    SetUserFetched: ( state, userFetched ) => ( {
+    }),
+    SetUserFetched: ( state, userFetched ) => ({
         ...state,
         userFetched,
-    } ),
+    }),
 };
 
 const userReducer = reducer( handlers, initialState );

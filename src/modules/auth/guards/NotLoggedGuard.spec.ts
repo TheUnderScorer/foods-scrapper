@@ -2,15 +2,12 @@ import { NotLoggedGuard } from './NotLoggedGuard';
 import MockHttpArgumentHost from '../../../test/mocks/nest/MockHttpArgumentHost';
 import MockContext from '../../../test/mocks/nest/MockContext';
 
-describe( 'NotLoggedGuardGuard', () =>
-{
-    it( 'should be defined', () =>
-    {
+describe( 'NotLoggedGuardGuard', () => {
+    it( 'should be defined', () => {
         expect( new NotLoggedGuard() ).toBeDefined();
     } );
 
-    it( 'Should redirect to home if user is logged in ', async () =>
-    {
+    it( 'Should redirect to home if user is logged in ', async () => {
         const guard = new NotLoggedGuard();
         const request = {
             cookies: {

@@ -4,19 +4,16 @@ import User from '../../../../src/modules/users/types/User';
 import { Routes } from '../../../http/types/Routes';
 import fetchCurrentUser from './fetchCurrentUser';
 
-describe( 'fetchCurrentUser', () =>
-{
+describe( 'fetchCurrentUser', () => {
     let mockAxios: MockAdapter;
     let dispatch: jest.Mock;
 
-    beforeEach( () =>
-    {
+    beforeEach( () => {
         mockAxios = new MockAdapter( client );
         dispatch = jest.fn();
     } );
 
-    it( 'should fetch current user', async () =>
-    {
+    it( 'should fetch current user', async () => {
         const user: Partial<User> = {
             _id: '1',
         };
@@ -30,18 +27,17 @@ describe( 'fetchCurrentUser', () =>
         const { mock: { calls } } = dispatch;
 
         expect( calls[ 0 ][ 0 ] ).toEqual( {
-            type:    'SetCurrentUser',
-            payload: user,
-        } );
+                                               type: 'SetCurrentUser',
+                                               payload: user,
+                                           } );
 
         expect( calls[ 1 ][ 0 ] ).toEqual( {
-            type:    'SetUserFetched',
-            payload: true,
-        } );
+                                               type: 'SetUserFetched',
+                                               payload: true,
+                                           } );
     } );
 
-    it( 'should dispatch setError on request error if status is not 401', async () =>
-    {
+    it( 'should dispatch setError on request error if status is not 401', async () => {
         mockAxios.onGet( Routes.getMe ).networkErrorOnce();
 
         await fetchCurrentUser()( dispatch );

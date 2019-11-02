@@ -22,10 +22,10 @@ const AuthContainer = styled( Container )<AuthContainerProps>`
     }
 `;
 
-const AuthPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) =>
-{
+const AuthPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) => {
     return (
-        <AuthContainer cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth } backgroundUrl={ backgroundUrl } className="auth-container" maxWidth={ false }>
+        <AuthContainer cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth } backgroundUrl={ backgroundUrl }
+                       className="auth-container" maxWidth={ false }>
             <Grid className="grid-container" container alignItems="center" justify="center">
                 <Grid item>
                     <Card className="card">

@@ -14,23 +14,23 @@ export default class MyDocument extends Document
 
         try {
             ctx.renderPage = () => originalRenderPage( {
-                enhanceApp: App => props => sheet.collectStyles(
-                    sheets.collect( <App { ...props } /> ),
-                ),
-            } );
+                                                           enhanceApp: App => props => sheet.collectStyles(
+                                                               sheets.collect( <App { ...props } /> ),
+                                                           ),
+                                                       } );
 
             const initialProps = await Document.getInitialProps( ctx );
 
             return {
                 ...initialProps,
                 styles: (
-                            <>
-                                { initialProps.styles }
-                                { sheets.getStyleElement() }
-                                { sheet.getStyleElement() }
-                                { flush() || null }
-                            </>
-                        ),
+                    <>
+                        { initialProps.styles }
+                        { sheets.getStyleElement() }
+                        { sheet.getStyleElement() }
+                        { flush() || null }
+                    </>
+                ),
             };
         } finally {
             sheet.seal();

@@ -11,8 +11,7 @@ export interface HttpHandlerResult<T>
     isEmpty: () => boolean;
 }
 
-const buildHttpHandler = <ResponseType extends ResponseResult<any>>( setStatus: ( status: FormikStatus ) => any ) => async ( requestHandler: () => RequestHandler<ResponseType> ): ReturnResult<ResponseType> =>
-{
+const buildHttpHandler = <ResponseType extends ResponseResult<any>>( setStatus: ( status: FormikStatus ) => any ) => async ( requestHandler: () => RequestHandler<ResponseType> ): ReturnResult<ResponseType> => {
     let data: ResponseType;
     let response: AxiosResponse<ResponseType>;
 
@@ -26,20 +25,19 @@ const buildHttpHandler = <ResponseType extends ResponseResult<any>>( setStatus: 
     } finally {
         if ( data.error ) {
             setStatus( {
-                error:   true,
-                message: data.message,
-            } );
+                           error: true,
+                           message: data.message,
+                       } );
         }
     }
 
     return {
         response,
-        isEmpty: () =>
-                 {
-                     const notEmpty = !!response && !!response.data && !!response.data.result;
+        isEmpty: () => {
+            const notEmpty = !!response && !!response.data && !!response.data.result;
 
-                     return !notEmpty;
-                 },
+            return !notEmpty;
+        },
     };
 };
 

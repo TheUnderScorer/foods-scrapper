@@ -7,9 +7,9 @@ const middlewares = [ thunk ];
 
 const store = createStore(
     combineReducers( {
-        user:  userReducer,
-        error: errorReducer,
-    } ),
+                         user: userReducer,
+                         error: errorReducer,
+                     } ),
     {},
     applyMiddleware( ...middlewares ),
 );

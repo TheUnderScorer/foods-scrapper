@@ -1,43 +1,39 @@
 import buildHttpHandler from './buildHttpHandler';
 
-describe( 'buildHttpHandler', () =>
-{
-    it( 'should handle errors', async () =>
-    {
+describe( 'buildHttpHandler', () => {
+    it( 'should handle errors', async () => {
         const response = {
             data: {
-                error:   true,
+                error: true,
                 message: 'Error',
             },
         };
 
         const setStatus = jest.fn();
-        const requestHandler = () =>
-        {
+        const requestHandler = () => {
             return Promise.reject( {
-                response,
-            } );
+                                       response,
+                                   } );
         };
 
         const httpHandler = buildHttpHandler( setStatus );
         const { isEmpty } = await httpHandler( requestHandler );
 
         expect( setStatus ).toBeCalledWith( {
-            error:   true,
-            message: response.data.message,
-        } );
+                                                error: true,
+                                                message: response.data.message,
+                                            } );
         expect( isEmpty() ).toBeTruthy();
     } );
 
-    it( 'should return correct result', async () =>
-    {
+    it( 'should return correct result', async () => {
         const result = {
             result: true,
         };
         const httpHandler = buildHttpHandler( jest.fn() );
-        const { response, isEmpty } = await httpHandler( async () => ( {
+        const { response, isEmpty } = await httpHandler( async () => ({
             data: result,
-        } ) as any );
+        }) as any );
 
         expect( isEmpty() ).toBeFalsy();
         expect( response.data ).toEqual( result );

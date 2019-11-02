@@ -5,8 +5,7 @@ import { Container } from '@material-ui/core';
 import useAuthGuard from '../hooks/useAuthGuard';
 import Header from '../components/header/Header';
 
-const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
-{
+const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) => {
     useAuthGuard();
 
     return (
@@ -20,8 +19,7 @@ const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
     );
 };
 
-Index.getInitialProps = async ( ctx: NextPageContext ) =>
-{
+Index.getInitialProps = async ( ctx: NextPageContext ) => {
     const { query } = ctx;
 
     return { ...query };

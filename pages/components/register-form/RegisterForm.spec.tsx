@@ -8,22 +8,18 @@ import * as faker from 'faker';
 import { act } from 'react-dom/test-utils';
 import { wait } from '../../../src/utils/timeout';
 
-describe( 'RegisterForm component', () =>
-{
+describe( 'RegisterForm component', () => {
     let mockAxios: MockAdapter;
 
-    beforeEach( () =>
-    {
+    beforeEach( () => {
         mockAxios = new MockAdapter( client );
     } );
 
-    it( 'renders without crashing', () =>
-    {
+    it( 'renders without crashing', () => {
         mount( <RegisterForm/> );
     } );
 
-    it( 'submit button should show loading icon and change label text on submit', async () =>
-    {
+    it( 'submit button should show loading icon and change label text on submit', async () => {
         mockAxios = new MockAdapter( client, {
             delayResponse: 5000,
         } );
@@ -35,7 +31,7 @@ describe( 'RegisterForm component', () =>
         const password = faker.internet.password();
 
         const values: RegisterInput = {
-            email:          faker.internet.email(),
+            email: faker.internet.email(),
             password,
             passwordRepeat: password,
         };
@@ -43,8 +39,7 @@ describe( 'RegisterForm component', () =>
         const component = mount( <RegisterForm initialValues={ values }/> );
         const form = component.find( '.register-form' ).at( 0 );
 
-        act( () =>
-        {
+        act( () => {
             form.simulate( 'submit' );
         } );
 

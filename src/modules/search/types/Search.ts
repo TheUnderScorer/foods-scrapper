@@ -18,6 +18,6 @@ export default interface Search
 export enum SearchStatus
 {
     Pending = 'Pending',
-    Done    = 'Done',
-    Error   = 'Error'
+    Done = 'Done',
+    Error = 'Error'
 }

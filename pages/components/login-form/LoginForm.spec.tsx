@@ -12,33 +12,29 @@ import { wait } from '../../../src/utils/timeout';
 import ThemeProvider from '../theme-provider/ThemeProvider';
 import mountWithStore from '../../test/mountWithStore';
 
-jest.mock( '../../http/redirect', () => ( {
+jest.mock( '../../http/redirect', () => ({
     default: jest.fn(),
-} ) );
+}) );
 
-describe( 'LoginForm', () =>
-{
+describe( 'LoginForm', () => {
     let mockAxios: MockAdapter;
 
-    beforeEach( () =>
-    {
+    beforeEach( () => {
         mockAxios = new MockAdapter( client );
     } );
 
-    it( 'renders without crashing', () =>
-    {
+    it( 'renders without crashing', () => {
         mountWithStore( <LoginForm/>, {} );
     } );
 
-    it( 'should handle login', async () =>
-    {
+    it( 'should handle login', async () => {
         const onSubmit = jest.fn();
 
         const result = {
             user: {
                 _id: '1',
             },
-            jwt:  faker.random.uuid(),
+            jwt: faker.random.uuid(),
         };
         mockAxios.onPost( Routes.login ).replyOnce( 201, {
             result,
@@ -47,19 +43,18 @@ describe( 'LoginForm', () =>
         const mockRedirect = redirect as jest.Mock;
 
         const dto: UserDto = {
-            email:    faker.internet.email(),
+            email: faker.internet.email(),
             password: faker.internet.password(),
         };
 
         const { component } = mountWithStore( (
-            <ThemeProvider>
-                <LoginForm onSubmit={ onSubmit } defaults={ dto }/>
-            </ThemeProvider>
-        ), {} );
+                                                  <ThemeProvider>
+                                                      <LoginForm onSubmit={ onSubmit } defaults={ dto }/>
+                                                  </ThemeProvider>
+                                              ), {} );
         const form = component.find( 'form' );
 
-        await act( async () =>
-        {
+        await act( async () => {
             form.simulate( 'submit' );
 
             await wait( 600 );
@@ -69,13 +64,11 @@ describe( 'LoginForm', () =>
         expect( mockRedirect ).toBeCalledWith( '/' );
     } );
 
-    it( 'clicking Forgot Password should open PasswordResetDialog', () =>
-    {
+    it( 'clicking Forgot Password should open PasswordResetDialog', () => {
         const { component } = mountWithStore( <LoginForm/>, {} );
         const btn = component.find( '.forgot-password-btn' ).at( 0 );
 
-        act( () =>
-        {
+        act( () => {
             btn.simulate( 'click' );
         } );
 

@@ -15,9 +15,9 @@ export default class PageMock extends EventEmitter
     public async type( selector: string, value: string ): Promise<this>
     {
         this.typedValues.push( {
-            selector,
-            value,
-        } );
+                                   selector,
+                                   value,
+                               } );
 
         return this;
     }

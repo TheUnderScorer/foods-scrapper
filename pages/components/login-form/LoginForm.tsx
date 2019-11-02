@@ -23,17 +23,16 @@ import SocialLogin from '../social-login/SocialLogin';
 import styled from 'styled-components';
 
 const validationSchema = Yup.object().shape<UserDto>( {
-    email:    Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
-    password: Yup.string().required( 'Provide password.' ),
-} );
+                                                          email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
+                                                          password: Yup.string().required( 'Provide password.' ),
+                                                      } );
 
 const SocialDivider = styled( Divider )`
     margin-bottom: 1.4rem !important;
     margin-top: 1rem !important;
 `;
 
-const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, setStatus, errors, touched, handleChange, handleBlur, isSubmitting, setSubmitting, values, ...props } ) =>
-{
+const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, setStatus, errors, touched, handleChange, handleBlur, isSubmitting, setSubmitting, values, ...props } ) => {
     const status = props.status as FormikStatus;
 
     const getError = getInputError<UserDto>( touched, errors );
@@ -42,15 +41,13 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, s
     const closeResetPassword = useCallback( () => setPasswordResetVisible( false ), [] );
     const openClosePassword = useCallback( () => setPasswordResetVisible( true ), [] );
 
-    const onSocialLoadingChange = useCallback( ( loading: boolean ) =>
-    {
+    const onSocialLoadingChange = useCallback( ( loading: boolean ) => {
         setSubmitting( loading );
     }, [] );
 
-    const onSocialLoginError = useCallback( ( error: string ) =>
-    {
+    const onSocialLoginError = useCallback( ( error: string ) => {
         const status: FormikStatus = {
-            error:   true,
+            error: true,
             message: error,
         };
 
@@ -62,14 +59,14 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, s
             <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
                 <Grid justify="center" container>
                     { status && status.error &&
-                      <Notice item xs={ 10 } type="error">
-                          { status.message }
-                      </Notice>
+                    <Notice item xs={ 10 } type="error">
+                        { status.message }
+                    </Notice>
                     }
                     { status && status.result &&
-                      <Notice item xs={ 10 } type="success">
-                          { status.message }
-                      </Notice>
+                    <Notice item xs={ 10 } type="success">
+                        { status.message }
+                    </Notice>
                     }
                     <Grid item xs={ 10 }>
                         <TextField
@@ -78,10 +75,10 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, s
                             variant="outlined"
                             InputProps={ {
                                 startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <Email/>
-                                                    </InputAdornment>
-                                                ),
+                                    <InputAdornment position="start">
+                                        <Email/>
+                                    </InputAdornment>
+                                ),
                             } }
                             onBlur={ handleBlur }
                             helperText={ getError( 'email' ) }
@@ -100,10 +97,10 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, s
                             variant="outlined"
                             InputProps={ {
                                 startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <Lock/>
-                                                    </InputAdornment>
-                                                ),
+                                    <InputAdornment position="start">
+                                        <Lock/>
+                                    </InputAdornment>
+                                ),
                             } }
                             value={ values.password }
                             onBlur={ handleBlur }
@@ -117,7 +114,8 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, s
                             type="password"/>
                     </Grid>
                     <Grid className="form-item button-container" item xs={ 10 }>
-                        <Button variant="contained" className="submit-button" disabled={ !isEmpty( errors ) || isSubmitting } type="submit" color="primary">
+                        <Button variant="contained" className="submit-button"
+                                disabled={ !isEmpty( errors ) || isSubmitting } type="submit" color="primary">
                             { isSubmitting ?
                                 <>
                                     <CircularProgress size={ 30 }/>
@@ -146,7 +144,8 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, s
             </AuthForm>
             <SocialDivider variant="fullWidth"/>
             <Grid container>
-                <SocialLogin onError={ onSocialLoginError } disabled={ isSubmitting } onLoadingChange={ onSocialLoadingChange } googleID={ process.env.GOOGLE_ID }/>
+                <SocialLogin onError={ onSocialLoginError } disabled={ isSubmitting }
+                             onLoadingChange={ onSocialLoadingChange } googleID={ process.env.GOOGLE_ID }/>
             </Grid>
             <PasswordResetDialog isOpen={ isResetPasswordVisible } onClose={ closeResetPassword }/>
         </>
@@ -154,39 +153,38 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, s
 };
 
 const formikWrapper = withFormik<LoginFormProps, UserDto>( {
-    mapPropsToValues: ( { defaults } ) => ( {
-        email:    defaults ? defaults.email : '',
-        password: defaults ? defaults.password : '',
-    } ),
-    validationSchema,
-    handleSubmit:     async ( values, { setSubmitting, setStatus, props, resetForm } ) =>
-                      {
-                          setStatus( getDefaultStatus() );
+                                                               mapPropsToValues: ( { defaults } ) => ({
+                                                                   email: defaults ? defaults.email : '',
+                                                                   password: defaults ? defaults.password : '',
+                                                               }),
+                                                               validationSchema,
+                                                               handleSubmit: async ( values, { setSubmitting, setStatus, props, resetForm } ) => {
+                                                                   setStatus( getDefaultStatus() );
 
-                          const requestHandler = buildHttpHandler<ResponseResult<RegisterResult>>( setStatus );
-                          const { response, isEmpty } = await requestHandler( () => client.post( Routes.login, { ...values } ) );
+                                                                   const requestHandler = buildHttpHandler<ResponseResult<RegisterResult>>( setStatus );
+                                                                   const { response, isEmpty } = await requestHandler( () => client.post( Routes.login, { ...values } ) );
 
-                          if ( !isEmpty() ) {
-                              const { data } = response;
+                                                                   if ( !isEmpty() ) {
+                                                                       const { data } = response;
 
-                              if ( props.onSubmit ) {
-                                  props.onSubmit( data.result.user, data.result.jwt );
-                              }
+                                                                       if ( props.onSubmit ) {
+                                                                           props.onSubmit( data.result.user, data.result.jwt );
+                                                                       }
 
-                              const status: FormikStatus = {
-                                  message: 'You have logged in.',
-                                  result:  true,
-                              };
+                                                                       const status: FormikStatus = {
+                                                                           message: 'You have logged in.',
+                                                                           result: true,
+                                                                       };
 
-                              resetForm();
+                                                                       resetForm();
 
-                              setStatus( status );
+                                                                       setStatus( status );
 
-                              setTimeout( () => redirect( '/' ), 300 );
-                          }
+                                                                       setTimeout( () => redirect( '/' ), 300 );
+                                                                   }
 
-                          setSubmitting( false );
-                      },
-} );
+                                                                   setSubmitting( false );
+                                                               },
+                                                           } );
 
 export default formikWrapper( LoginForm );

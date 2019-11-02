@@ -1,4 +1,15 @@
-import { BadRequestException, Body, Controller, flatten, Get, Post, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    flatten,
+    Get,
+    Post,
+    Request,
+    UseGuards,
+    UsePipes,
+    ValidationPipe,
+} from '@nestjs/common';
 import ResponseResult from '../../types/ResponseResult';
 import Food from './types/Food';
 import { PyszneScrapperService } from '../../services/scrappers/pyszne-scrapper/PyszneScrapperService';
@@ -45,11 +56,11 @@ export class FoodsController
         const servicesToCall = this.getServicesToCall( services );
         const search: Search = {
             searchID: new Types.ObjectId(),
-            user:     ( req.user as User )._id.toString(),
-            date:     new Date(),
-            foods:    [],
-            status:   SearchStatus.Pending,
-            error:    '',
+            user: (req.user as User)._id.toString(),
+            date: new Date(),
+            foods: [],
+            status: SearchStatus.Pending,
+            error: '',
             keywords,
             location,
             services,
@@ -77,17 +88,17 @@ export class FoodsController
     protected async handleError( error: Error, searchModel: SearchDocument ): Promise<void>
     {
         await searchModel.updateOne( {
-            status: SearchStatus.Error,
-            error:  error.message,
-        } );
+                                         status: SearchStatus.Error,
+                                         error: error.message,
+                                     } );
     }
 
     protected async saveFoods( foods: Food[], searchModel: SearchDocument ): Promise<void>
     {
         await searchModel.updateOne( {
-            foods,
-            status: SearchStatus.Done,
-        } );
+                                         foods,
+                                         status: SearchStatus.Done,
+                                     } );
 
         console.log( 'Found foods: ', foods.length );
     }
@@ -95,8 +106,7 @@ export class FoodsController
     private getServicesToCall( services: string[] ): Scrapper[]
     {
         return services
-            .map( service =>
-            {
+            .map( service => {
                 if ( this.servicesMap[ service ] ) {
                     return this.servicesMap[ service ];
                 }

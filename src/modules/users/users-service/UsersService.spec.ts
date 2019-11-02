@@ -5,41 +5,37 @@ import { ConfigModule } from '../../config/ConfigModule';
 import MockModel from '../../../test/mocks/models/MockModel';
 import User from '../types/User';
 
-describe( 'UsersService', () =>
-{
+describe( 'UsersService', () => {
     let service: UsersService;
 
-    beforeEach( async () =>
-    {
+    beforeEach( async () => {
         const module: TestingModule = await Test.createTestingModule( {
-            providers: [
-                UsersService,
-                {
-                    provide:  getModelToken( 'User' ),
-                    useValue: MockModel,
-                },
-            ],
-            imports:   [ ConfigModule ],
-        } ).compile();
+                                                                          providers: [
+                                                                              UsersService,
+                                                                              {
+                                                                                  provide: getModelToken( 'User' ),
+                                                                                  useValue: MockModel,
+                                                                              },
+                                                                          ],
+                                                                          imports: [ ConfigModule ],
+                                                                      } ).compile();
 
         service = module.get<UsersService>( UsersService );
     } );
 
-    it( 'should be defined', () =>
-    {
+    it( 'should be defined', () => {
         expect( service ).toBeDefined();
     } );
 
-    it( 'findByEmail', async () =>
-    {
+    it( 'findByEmail', async () => {
         const user: Partial<User> = {
             _id: '1',
         };
 
         const spy = jest.spyOn( MockModel, 'findOne' );
         spy.mockReturnValue( {
-            exec: () => user,
-        } as any );
+                                 exec: () => user,
+                             } as any );
 
         const result = await service.findByEmail( 'test@gmail.com' );
 

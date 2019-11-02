@@ -16,13 +16,11 @@ export class RestaurantService
 
         console.log( 'Handling restaurant: ', name );
 
-        const result = await page.evaluate( ( selectors: ScrapperSelectors, url: string, restaurantName: string, keywords: string[] ) =>
-        {
+        const result = await page.evaluate( ( selectors: ScrapperSelectors, url: string, restaurantName: string, keywords: string[] ) => {
             const foodElements = Array.from( document.querySelectorAll( selectors.mealWrapper ) );
             const result: Food[] = [];
 
-            const matchesKeyword = ( element: HTMLElement | null ): boolean =>
-            {
+            const matchesKeyword = ( element: HTMLElement | null ): boolean => {
                 if ( !element ) {
                     return false;
                 }
@@ -38,8 +36,7 @@ export class RestaurantService
                 return false;
             };
 
-            foodElements.forEach( ( foodElement ) =>
-            {
+            foodElements.forEach( ( foodElement ) => {
                 const priceEl = foodElement.querySelector( selectors.mealPrice );
                 const descriptionEl = foodElement.querySelector( selectors.mealDescription ) as HTMLElement;
                 const additionalInfoEl = foodElement.querySelector( selectors.mealAdditionalInfo ) as HTMLElement;
@@ -50,12 +47,12 @@ export class RestaurantService
                 }
 
                 result.push( {
-                    name:        nameEl.textContent.trim(),
-                    price:       parseFloat( priceEl.textContent ),
-                    url,
-                    description: `${ additionalInfoEl ? additionalInfoEl.textContent.trim() : '' }. ${ descriptionEl ? descriptionEl.textContent.trim() : '' }`,
-                    restaurantName,
-                } );
+                                 name: nameEl.textContent.trim(),
+                                 price: parseFloat( priceEl.textContent ),
+                                 url,
+                                 description: `${ additionalInfoEl ? additionalInfoEl.textContent.trim() : '' }. ${ descriptionEl ? descriptionEl.textContent.trim() : '' }`,
+                                 restaurantName,
+                             } );
             } );
 
             return result;

@@ -2,15 +2,12 @@ import { mount } from 'enzyme';
 import DialogHeader from './DialogHeader';
 import * as React from 'react';
 
-describe( 'DialogHeader', () =>
-{
-    it( 'renders without crashing', () =>
-    {
+describe( 'DialogHeader', () => {
+    it( 'renders without crashing', () => {
         mount( <DialogHeader/> );
     } );
 
-    it( 'should display icon', () =>
-    {
+    it( 'should display icon', () => {
         const component = mount( <DialogHeader icon={ <span className="icon">icon</span> }/> );
 
         const title = component.find( '.title-with-icon' ).at( 0 );

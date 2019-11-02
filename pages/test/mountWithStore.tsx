@@ -5,8 +5,7 @@ import thunk from 'redux-thunk';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-const mountWithStore = <P, S extends object>( component: ReactElement<P>, initialState: S ) =>
-{
+const mountWithStore = <P, S extends object>( component: ReactElement<P>, initialState: S ) => {
     const storeCreator = configureStore( [ thunk ] );
     const mockStore = storeCreator( initialState );
 
@@ -18,7 +17,7 @@ const mountWithStore = <P, S extends object>( component: ReactElement<P>, initia
 
     return {
         component: mountedComponent,
-        store:     mockStore,
+        store: mockStore,
     };
 };
 

@@ -19,8 +19,8 @@ export default class GoogleAuthController
     public async handleLogin( @Query() { code }: OauthDto, @Res() response: Response )
     {
         return response.json( {
-            result: await this.oauth.handleCode( code ),
-        } );
+                                  result: await this.oauth.handleCode( code ),
+                              } );
     }
 
 }

@@ -5,12 +5,10 @@ import { useEffect } from 'react';
 import redirect from '../http/redirect';
 import { Routes } from '../http/types/Routes';
 
-export default ( redirectUrl: string = Routes.login ) =>
-{
+export default ( redirectUrl: string = Routes.login ) => {
     const userReducer = useSelector<AppStore, UserState>( store => store.user );
 
-    useEffect( () =>
-    {
+    useEffect( () => {
         if ( userReducer.userFetched && !userReducer.currentUser ) {
             redirect( redirectUrl );
         }

@@ -5,8 +5,7 @@ import { NextPage } from 'next';
 import AuthPage from '../components/auth-page/AuthPage';
 import useNotLoggedGuard from '../hooks/useNotLoggedGuard';
 
-const Login: NextPage<any> = () =>
-{
+const Login: NextPage<any> = () => {
     useNotLoggedGuard();
 
     return (

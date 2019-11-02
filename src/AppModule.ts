@@ -14,22 +14,22 @@ import EmailModule from './modules/email/EmailModule';
 import GoogleModule from './modules/google/GoogleModule';
 
 @Module( {
-    providers:   [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
-    imports:     [
-        MongooseModule.forRoot( 'mongodb://localhost/expressmongo', {
-            useNewUrlParser:    true,
-            useUnifiedTopology: true,
-        } ),
-        SearchModule,
-        FoodsModule,
-        RenderModule,
-        AuthModule,
-        ConfigModule,
-        EmailModule,
-        GoogleModule,
-    ],
-    controllers: [ AppController ],
-} )
+             providers: [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
+             imports: [
+                 MongooseModule.forRoot( 'mongodb://localhost/expressmongo', {
+                     useNewUrlParser: true,
+                     useUnifiedTopology: true,
+                 } ),
+                 SearchModule,
+                 FoodsModule,
+                 RenderModule,
+                 AuthModule,
+                 ConfigModule,
+                 EmailModule,
+                 GoogleModule,
+             ],
+             controllers: [ AppController ],
+         } )
 export class AppModule
 {
 

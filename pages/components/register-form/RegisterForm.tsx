@@ -20,30 +20,28 @@ import getDefaultStatus from '../../formik/getDefaultStatus';
 import Notice from '../notice/Notice';
 
 const validationSchema = Yup.object().shape<RegisterInput>( {
-    email:          Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
-    password:       Yup.string().required( 'Provide password.' ).min( 7, 'Password should contain at least 7 characters.' ),
-    passwordRepeat: Yup.string().required( 'Repeat your password.' ),
-} );
+                                                                email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
+                                                                password: Yup.string().required( 'Provide password.' ).min( 7, 'Password should contain at least 7 characters.' ),
+                                                                passwordRepeat: Yup.string().required( 'Repeat your password.' ),
+                                                            } );
 
 // TODO Tests
-const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props ) =>
-{
+const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props ) => {
     const {
-              handleBlur,
-              handleSubmit,
-              touched,
-              errors,
-              handleChange,
-              isSubmitting,
-              values,
-          } = props;
+        handleBlur,
+        handleSubmit,
+        touched,
+        errors,
+        handleChange,
+        isSubmitting,
+        values,
+    } = props;
     const getError = getInputError<RegisterInput>( touched, errors );
     const status: FormikStatus = props.status;
 
     const [ dialogVisible, setDialogVisible ] = useState( false );
 
-    useEffect( () =>
-    {
+    useEffect( () => {
         setDialogVisible( !!status.result );
     }, [ status ] );
 
@@ -52,19 +50,19 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
             <RegisterSuccessDialog visible={ dialogVisible }/>
             <Grid justify="center" container>
                 { status.error &&
-                  <Notice type="error" item xs={ 10 }>
-                      { status.message }
-                  </Notice>
+                <Notice type="error" item xs={ 10 }>
+                    { status.message }
+                </Notice>
                 }
                 <Grid item xs={ 10 }>
                     <TextField
                         variant="outlined"
                         InputProps={ {
                             startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Email/>
-                                                </InputAdornment>
-                                            ),
+                                <InputAdornment position="start">
+                                    <Email/>
+                                </InputAdornment>
+                            ),
                         } }
                         onBlur={ handleBlur }
                         helperText={ getError( 'email' ) }
@@ -81,10 +79,10 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
                         variant="outlined"
                         InputProps={ {
                             startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Lock/>
-                                                </InputAdornment>
-                                            ),
+                                <InputAdornment position="start">
+                                    <Lock/>
+                                </InputAdornment>
+                            ),
                         } }
                         onBlur={ handleBlur }
                         helperText={ getError( 'password' ) }
@@ -102,10 +100,10 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
                         variant="outlined"
                         InputProps={ {
                             startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Lock/>
-                                                </InputAdornment>
-                                            ),
+                                <InputAdornment position="start">
+                                    <Lock/>
+                                </InputAdornment>
+                            ),
                         } }
                         onBlur={ handleBlur }
                         helperText={ getError( 'passwordRepeat' ) }
@@ -119,7 +117,8 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
                         type="password"/>
                 </Grid>
                 <Grid className="form-item button-container" item xs={ 10 }>
-                    <Button variant="contained" className="submit-button" disabled={ !isEmpty( errors ) || isSubmitting } type="submit" color="primary">
+                    <Button variant="contained" className="submit-button"
+                            disabled={ !isEmpty( errors ) || isSubmitting } type="submit" color="primary">
                         { isSubmitting ?
                             <>
                                 <CircularProgress size={ 30 }/>
@@ -144,51 +143,52 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
 };
 
 const formikWrapper = withFormik<RegisterFormProps, RegisterInput>( {
-    mapPropsToValues: ( { initialValues: { password = '', passwordRepeat = '', email = '' } = {} } ) => ( {
-        password,
-        email,
-        passwordRepeat,
-    } ),
-    mapPropsToStatus: () => false,
-    validationSchema,
-    validate:         ( { passwordRepeat, password } ) =>
-                      {
-                          const errors: any = {};
+                                                                        mapPropsToValues: ( { initialValues: { password = '', passwordRepeat = '', email = '' } = {} } ) => ({
+                                                                            password,
+                                                                            email,
+                                                                            passwordRepeat,
+                                                                        }),
+                                                                        mapPropsToStatus: () => false,
+                                                                        validationSchema,
+                                                                        validate: ( { passwordRepeat, password } ) => {
+                                                                            const errors: any = {};
 
-                          if ( passwordRepeat && password && passwordRepeat !== password ) {
-                              errors.passwordRepeat = 'Password are not equal.';
-                          }
+                                                                            if ( passwordRepeat && password && passwordRepeat !== password ) {
+                                                                                errors.passwordRepeat = 'Password are not equal.';
+                                                                            }
 
-                          return errors;
-                      },
-    handleSubmit:     async ( { email, password }, { setSubmitting, setStatus, props: { redirectUrl, onSubmit }, resetForm } ) =>
-                      {
-                          setStatus( getDefaultStatus() );
+                                                                            return errors;
+                                                                        },
+                                                                        handleSubmit: async ( { email, password }, { setSubmitting, setStatus, props: { redirectUrl, onSubmit }, resetForm } ) => {
+                                                                            setStatus( getDefaultStatus() );
 
-                          const requestHandler = buildHttpHandler<ResponseResult<RegisterResult>>( setStatus );
-                          const { response, isEmpty } = await requestHandler( () => client.post( '/auth/register', { email, password } ) );
+                                                                            const requestHandler = buildHttpHandler<ResponseResult<RegisterResult>>( setStatus );
+                                                                            const { response, isEmpty } = await requestHandler( () => client.post( '/auth/register', {
+                                                                                email,
+                                                                                password,
+                                                                            } ) );
 
-                          if ( !isEmpty() ) {
-                              const { jwt, user } = response.data.result;
-                              const status: FormikStatus = {
-                                  result: true,
-                              };
+                                                                            if ( !isEmpty() ) {
+                                                                                const { jwt, user } = response.data.result;
+                                                                                const status: FormikStatus = {
+                                                                                    result: true,
+                                                                                };
 
-                              resetForm();
+                                                                                resetForm();
 
-                              setStatus( status );
+                                                                                setStatus( status );
 
-                              if ( onSubmit ) {
-                                  onSubmit( jwt, user );
-                              }
+                                                                                if ( onSubmit ) {
+                                                                                    onSubmit( jwt, user );
+                                                                                }
 
-                              if ( redirectUrl ) {
-                                  redirect( redirectUrl );
-                              }
-                          }
+                                                                                if ( redirectUrl ) {
+                                                                                    redirect( redirectUrl );
+                                                                                }
+                                                                            }
 
-                          setSubmitting( false );
-                      },
-} );
+                                                                            setSubmitting( false );
+                                                                        },
+                                                                    } );
 
 export default formikWrapper( RegisterForm );

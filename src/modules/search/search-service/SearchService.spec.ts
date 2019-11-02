@@ -3,61 +3,57 @@ import { SearchService } from './SearchService';
 import { getModelToken } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 
-describe( 'SearchService', () =>
-{
+describe( 'SearchService', () => {
     let service: SearchService;
     let findOne: jest.Mock;
     let save: jest.Mock;
     let exec: jest.Mock;
     let serviceMock: jest.Mock;
 
-    beforeEach( async () =>
-    {
+    beforeEach( async () => {
         findOne = jest.fn();
         save = jest.fn();
         exec = jest.fn();
-        serviceMock = jest.fn().mockImplementation( () => ( {
-                findOne( args: any )
-                {
-                    findOne( args );
+        serviceMock = jest.fn().mockImplementation( () => ({
+                                                        findOne( args: any )
+                                                        {
+                                                            findOne( args );
 
-                    return this;
-                },
-                async exec()
-                {
-                    exec();
+                                                            return this;
+                                                        },
+                                                        async exec()
+                                                        {
+                                                            exec();
 
-                    return this;
-                },
-                save()
-                {
-                    save();
+                                                            return this;
+                                                        },
+                                                        save()
+                                                        {
+                                                            save();
 
-                    return this;
-                },
-            } ),
+                                                            return this;
+                                                        },
+                                                    }),
         );
 
         const module: TestingModule = await Test.createTestingModule( {
-            providers: [
-                SearchService,
-                {
-                    provide:  getModelToken( 'Search' ),
-                    useValue: serviceMock,
-                },
-            ],
-        } ).compile();
+                                                                          providers: [
+                                                                              SearchService,
+                                                                              {
+                                                                                  provide: getModelToken( 'Search' ),
+                                                                                  useValue: serviceMock,
+                                                                              },
+                                                                          ],
+                                                                      } ).compile();
 
         service = module.get<SearchService>( SearchService );
     } );
 
-    it( 'should be defined', () =>
-    {
+    it( 'should be defined', () => {
         expect( service ).toBeDefined();
     } );
 
-    it( 'create', async () =>
-    {
+    it( 'create', async () => {
         const search: any = {
             searchID: new Types.ObjectId().toHexString(),
         };
@@ -67,8 +63,7 @@ describe( 'SearchService', () =>
         expect( save ).toBeCalledTimes( 1 );
     } );
 
-    it( 'getBySearchID', async () =>
-    {
+    it( 'getBySearchID', async () => {
         const user = '1';
         const searchID = new Types.ObjectId().toHexString();
         const service = new SearchService( new serviceMock() );

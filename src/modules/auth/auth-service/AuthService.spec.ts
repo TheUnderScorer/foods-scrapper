@@ -9,58 +9,54 @@ import UserDocument from '../../users/types/UserDocument';
 import { compare } from 'bcrypt';
 import * as faker from 'faker';
 
-jest.mock( 'bcrypt', () => ( {
+jest.mock( 'bcrypt', () => ({
     compare: jest.fn(),
-} ) );
+}) );
 
-describe( 'AuthService', () =>
-{
+describe( 'AuthService', () => {
     let service: AuthService;
     let module: TestingModule;
 
-    beforeEach( async () =>
-    {
+    beforeEach( async () => {
         jest.resetModules();
 
         module = await Test.createTestingModule( {
-            imports:   [ ConfigModule ],
-            providers: [
-                AuthService,
-                {
-                    provide:  getModelToken( 'User' ),
-                    useValue: MockModel,
-                },
-                UsersService,
-            ],
-        } ).compile();
+                                                     imports: [ ConfigModule ],
+                                                     providers: [
+                                                         AuthService,
+                                                         {
+                                                             provide: getModelToken( 'User' ),
+                                                             useValue: MockModel,
+                                                         },
+                                                         UsersService,
+                                                     ],
+                                                 } ).compile();
 
         service = module.get<AuthService>( AuthService );
     } );
 
-    it( 'should be defined', () =>
-    {
+    it( 'should be defined', () => {
         expect( service ).toBeDefined();
     } );
 
     it.each( [
-        [
-            {
-                _id:      '1',
-                email:    faker.internet.email(),
-                password: faker.internet.password(),
-            },
-            'test',
-        ],
-        [
-            {
-                _id:      '1',
-                email:    faker.internet.email(),
-                password: 'test_pw',
-            },
-            'test_pw',
-        ],
-    ] )( 'validateUser', async ( user: any, password: string ) =>
-    {
+                 [
+                     {
+                         _id: '1',
+                         email: faker.internet.email(),
+                         password: faker.internet.password(),
+                     },
+                     'test',
+                 ],
+                 [
+                     {
+                         _id: '1',
+                         email: faker.internet.email(),
+                         password: 'test_pw',
+                     },
+                     'test_pw',
+                 ],
+             ] )( 'validateUser', async ( user: any, password: string ) => {
         const mockCompare = compare as jest.Mock;
         mockCompare.mockReturnValueOnce( Promise.resolve( user.password === password ) );
 
@@ -84,8 +80,7 @@ describe( 'AuthService', () =>
         expect( mockCompare ).toBeCalledWith( password, user.password );
     } );
 
-    it( 'logout', () =>
-    {
+    it( 'logout', () => {
         const response = {
             clearCookie: jest.fn(),
         };

@@ -8,8 +8,7 @@ import User from '../../../src/modules/users/types/User';
 import { Dispatch } from 'redux';
 import { SetCurrentUser } from '../../redux/actions/user/types/UserActions';
 
-export const onSuccess = ( setLoading: SetLoading, dispatch: Dispatch, onError: OnError ) => async ( { code }: GoogleLoginResponseOffline ) =>
-{
+export const onSuccess = ( setLoading: SetLoading, dispatch: Dispatch, onError: OnError ) => async ( { code }: GoogleLoginResponseOffline ) => {
     try {
         const { data } = await client.post<ResponseResult<User>>( Routes.googleLogin, { code } );
 
@@ -17,9 +16,9 @@ export const onSuccess = ( setLoading: SetLoading, dispatch: Dispatch, onError: 
             onError( 'Invalid response received from server.' );
         } else {
             dispatch<SetCurrentUser>( {
-                type:    'SetCurrentUser',
-                payload: data.result,
-            } );
+                                          type: 'SetCurrentUser',
+                                          payload: data.result,
+                                      } );
         }
     } catch ( e ) {
         const { response } = e;
@@ -30,8 +29,7 @@ export const onSuccess = ( setLoading: SetLoading, dispatch: Dispatch, onError: 
     }
 };
 
-export const onError = ( setLoading: SetLoading, onError: OnError ) => ( { error = '' }: GoogleError ) =>
-{
+export const onError = ( setLoading: SetLoading, onError: OnError ) => ( { error = '' }: GoogleError ) => {
     setLoading( false );
 
     if ( error === 'popup_closed_by_user' ) {

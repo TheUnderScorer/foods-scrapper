@@ -12,8 +12,7 @@ const CheckIcon = styled( Check )`
 `;
 
 // TODO Tests
-const RegisterSuccessDialog: FC<RegisterSuccessDialogProps> = ( { visible } ) =>
-{
+const RegisterSuccessDialog: FC<RegisterSuccessDialogProps> = ( { visible } ) => {
     return (
         <Dialog fullWidth maxWidth="xs" open={ visible }>
             <DialogHeader icon={ <CheckIcon/> }>

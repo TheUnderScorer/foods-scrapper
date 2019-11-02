@@ -11,16 +11,15 @@ export interface ResetPasswordProps
     query?: URLSearchParams;
 }
 
-const ResetPassword: NextPage<ResetPasswordProps> = ( { query = new URLSearchParams( process.browser ? location.search : '' ) } ) =>
-{
+const ResetPassword: NextPage<ResetPasswordProps> = ( { query = new URLSearchParams( process.browser ? location.search : '' ) } ) => {
     useNotLoggedGuard();
 
     return (
         <AuthPage cardWidth="350px" title="Reset password" returnUrl={ Routes.login }>
             { !query.has( 'token' ) && process.browser &&
-              <Notice type="error" className="error">
-                  Error: No reset password token provided.
-              </Notice>
+            <Notice type="error" className="error">
+                Error: No reset password token provided.
+            </Notice>
             }
             { query.has( 'token' ) && <ResetPasswordForm defaults={ { token: query.get( 'token' ), password: '' } }/> }
         </AuthPage>
