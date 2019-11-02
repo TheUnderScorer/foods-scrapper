@@ -4,7 +4,7 @@ import ResetPasswordFormProps from './types/ResetPasswordFormProps';
 import { FormikProps, withFormik } from 'formik';
 import PasswordResetDto from '../../../src/modules/auth/dto/PasswordResetDto';
 import * as Yup from 'yup';
-import { AuthForm } from '../auth-page/styled';
+import { AuthForm } from '../card-page/styled';
 import { Button, CircularProgress, Grid, TextField } from '@material-ui/core';
 import Notice from '../notice/Notice';
 import FormikStatus from '../../types/formik/FormikStatus';

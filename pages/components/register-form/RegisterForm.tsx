@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { FormikProps, withFormik } from 'formik';
 import RegisterFormProps from './types/RegisterFormProps';
 import RegisterInput from './types/RegisterInput';
-import { AuthForm } from '../auth-page/styled';
+import { AuthForm } from '../card-page/styled';
 import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
 import { Email, Lock } from '@material-ui/icons';
 import { getInputError } from '../../formik/errors';

@@ -11,7 +11,7 @@ import ResponseResult from '../../../src/types/ResponseResult';
 import RegisterResult from '../../../src/modules/auth/types/RegisterResult';
 import LoginFormProps from './types/LoginFormProps';
 import { Email, Lock } from '@material-ui/icons';
-import { AuthForm } from '../auth-page/styled';
+import { AuthForm } from '../card-page/styled';
 import redirect from '../../http/redirect';
 import FormikStatus from '../../types/formik/FormikStatus';
 import getDefaultStatus from '../../formik/getDefaultStatus';

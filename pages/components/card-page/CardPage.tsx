@@ -6,7 +6,7 @@ import { ArrowBack } from '@material-ui/icons';
 import AuthPageProps from './types/AuthPageProps';
 import AuthContainerProps from './types/AuthContainerProps';
 
-const AuthContainer = styled( Container )<AuthContainerProps>`
+const CardPageContainer = styled( Container )<AuthContainerProps>`
     height: 100vh;
     background: url(${ props => props.backgroundUrl }) center;
     background-size: cover;
@@ -22,10 +22,10 @@ const AuthContainer = styled( Container )<AuthContainerProps>`
     }
 `;
 
-const AuthPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) => {
+const CardPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) => {
     return (
-        <AuthContainer cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth } backgroundUrl={ backgroundUrl }
-                       className="auth-container" maxWidth={ false }>
+        <CardPageContainer cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth } backgroundUrl={ backgroundUrl }
+                           className="auth-container" maxWidth={ false }>
             <Grid className="grid-container" container alignItems="center" justify="center">
                 <Grid item>
                     <Card className="card">
@@ -43,8 +43,8 @@ const AuthPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUr
                     </Card>
                 </Grid>
             </Grid>
-        </AuthContainer>
+        </CardPageContainer>
     );
 };
 
-export default AuthPage;
+export default CardPage;
