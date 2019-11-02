@@ -43,7 +43,18 @@ const SocialDividerContainer = styled.div`
     }
 `;
 
-const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, setStatus, errors, touched, handleChange, handleBlur, isSubmitting, setSubmitting, values, ...props } ) =>
+const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( {
+    handleSubmit,
+    setStatus,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    setSubmitting,
+    values,
+    ...props
+} ) =>
 {
     const status = props.status as FormikStatus;
 
