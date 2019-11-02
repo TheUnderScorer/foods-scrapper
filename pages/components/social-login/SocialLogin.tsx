@@ -8,14 +8,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useDispatch } from 'react-redux';
 
-const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disabled, onError } ) => {
+const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disabled, onError } ) =>
+{
     const dispatch = useDispatch();
 
     const [ loading, setLoading ] = useState( false );
 
     const onGoogleRequest = useCallback( () => setLoading( true ), [] );
 
-    useEffect( () => {
+    useEffect( () =>
+    {
         if ( onLoadingChange ) {
             onLoadingChange( loading );
         }

@@ -9,13 +9,15 @@ import { Routes } from '../../../http/types/Routes';
 import ResponseResult from '../../../../src/types/ResponseResult';
 import InvalidLogoutResponseException from './exceptions/InvalidLogoutResponseException';
 
-const checkUserState = ( userStore: UserState ) => {
+const checkUserState = ( userStore: UserState ) =>
+{
     if ( !userStore.currentUser ) {
         throw new UserNotLoggedInException( 'logout' );
     }
 };
 
-export default () => async ( dispatch: Dispatch<UserActions | ErrorActions>, getState: () => AppStore ): Promise<SetCurrentUser | SetError> => {
+export default () => async ( dispatch: Dispatch<UserActions | ErrorActions>, getState: () => AppStore ): Promise<SetCurrentUser | SetError> =>
+{
     try {
         checkUserState( getState().user );
 
@@ -23,19 +25,19 @@ export default () => async ( dispatch: Dispatch<UserActions | ErrorActions>, get
 
         if ( response.data.result ) {
             return dispatch( {
-                                 type: 'SetCurrentUser',
-                                 payload: null,
-                             } );
+                type: 'SetCurrentUser',
+                payload: null,
+            } );
         }
 
         return dispatch( {
-                             type: 'SetError',
-                             payload: new InvalidLogoutResponseException(),
-                         } );
+            type: 'SetError',
+            payload: new InvalidLogoutResponseException(),
+        } );
     } catch ( e ) {
         return dispatch( {
-                             type: 'SetError',
-                             payload: e,
-                         } );
+            type: 'SetError',
+            payload: e,
+        } );
     }
 }

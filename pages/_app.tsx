@@ -11,8 +11,10 @@ import fetchCurrentUser from './redux/actions/user/fetchCurrentUser';
 import { configure } from 'axios-hooks';
 import client from './http/client';
 
-const App: NextPage<any> = ( { Component, pageProps } ) => {
-    useEffect( () => {
+const App: NextPage<any> = ( { Component, pageProps } ) =>
+{
+    useEffect( () =>
+    {
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector( '#jss-server-side' );
 
@@ -21,14 +23,16 @@ const App: NextPage<any> = ( { Component, pageProps } ) => {
         }
     } );
 
-    useEffect( () => {
+    useEffect( () =>
+    {
         store.dispatch( fetchCurrentUser() as any );
     } );
 
-    useEffect( () => {
+    useEffect( () =>
+    {
         configure( {
-                       axios: client,
-                   } );
+            axios: client,
+        } );
     } );
 
     return (

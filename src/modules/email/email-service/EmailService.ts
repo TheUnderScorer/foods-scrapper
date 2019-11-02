@@ -13,15 +13,15 @@ export default class EmailService
     public constructor( protected readonly configService: ConfigService )
     {
         this.transporter = createTransport( {
-                                                service: 'gmail',
-                                                auth: {
-                                                    user: configService.get( 'MAIL_USER' ),
-                                                    pass: configService.get( 'MAIL_PASS' ),
-                                                },
-                                                tls: {
-                                                    rejectUnauthorized: false,
-                                                },
-                                            } ) as Mail;
+            service: 'gmail',
+            auth: {
+                user: configService.get( 'MAIL_USER' ),
+                pass: configService.get( 'MAIL_PASS' ),
+            },
+            tls: {
+                rejectUnauthorized: false,
+            },
+        } ) as Mail;
     }
 
     public async sendEmail( options: MailOptions ): Promise<boolean>

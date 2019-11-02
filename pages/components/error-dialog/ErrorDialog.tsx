@@ -29,7 +29,8 @@ const ErrorDialogContainer = styled( Dialog )`
     }
 `;
 
-const ErrorDialog = () => {
+const ErrorDialog = () =>
+{
     const appError = useSelector<AppStore, Error>( store => store.error.error );
 
     if ( !appError ) {

@@ -21,10 +21,10 @@ export class EmailTypesService
             const resetLink = passwordReset.generateLink( siteUrl );
 
             await this.emailService.sendEmail( {
-                                                   subject: this.getEmailTitle( 'Password reset request' ),
-                                                   html: `You receive this e-mail, because someone (hopefully you) have requested password reset on foods scrapper. To do that, click this <a href="${ resetLink }">link</a>.`,
-                                                   to: email,
-                                               } );
+                subject: this.getEmailTitle( 'Password reset request' ),
+                html: `You receive this e-mail, because someone (hopefully you) have requested password reset on foods scrapper. To do that, click this <a href="${ resetLink }">link</a>.`,
+                to: email,
+            } );
         } catch ( e ) {
             console.error( { e } );
 

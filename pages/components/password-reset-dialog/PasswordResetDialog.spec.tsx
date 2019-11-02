@@ -13,18 +13,22 @@ import { ErrorCodes } from '../../../src/enums/ErrorCodes';
 import ResponseResult from '../../../src/types/ResponseResult';
 import PasswordResetStatus from './types/PasswordResetStatus';
 
-describe( 'PasswordResetDialog', () => {
+describe( 'PasswordResetDialog', () =>
+{
     let mockAxios: MockAdapter;
 
-    beforeEach( () => {
+    beforeEach( () =>
+    {
         mockAxios = new MockAdapter( client );
     } );
 
-    it( 'renders without crashing', () => {
+    it( 'renders without crashing', () =>
+    {
         mount( <PasswordResetDialog onClose={ jest.fn() }/> );
     } );
 
-    it( 'should send reset password email', async () => {
+    it( 'should send reset password email', async () =>
+    {
         mockAxios.onPost( Routes.requestPasswordReset ).replyOnce( 200, {
             result: true,
         } );
@@ -36,14 +40,15 @@ describe( 'PasswordResetDialog', () => {
         };
 
         const component = mount( (
-                                     <ThemeProvider>
-                                         <PasswordResetDialog isOpen onSubmit={ onSubmit } onClose={ jest.fn() }
-                                                              defaultValues={ initialValues }/>
-                                     </ThemeProvider>
-                                 ) );
+            <ThemeProvider>
+                <PasswordResetDialog isOpen onSubmit={ onSubmit } onClose={ jest.fn() }
+                                     defaultValues={ initialValues }/>
+            </ThemeProvider>
+        ) );
         const form = component.find( 'form' );
 
-        await act( async () => {
+        await act( async () =>
+        {
             form.simulate( 'submit' );
 
             await wait( 100 );
@@ -56,7 +61,8 @@ describe( 'PasswordResetDialog', () => {
         expect( noticeText ).toEqual( 'We have sent you an e-mail with password reset link. The link will expire in 24 hours.' );
     } );
 
-    it( 'PasswordResetRequestCreated error should show link to re-send e-mail with link', async () => {
+    it( 'PasswordResetRequestCreated error should show link to re-send e-mail with link', async () =>
+    {
         const response: ResponseResult<boolean> = {
             error: ErrorCodes.PasswordResetRequestCreated,
             result: false,
@@ -70,14 +76,15 @@ describe( 'PasswordResetDialog', () => {
         };
 
         const component = mount( (
-                                     <ThemeProvider>
-                                         <PasswordResetDialog isOpen onClose={ jest.fn() }
-                                                              defaultValues={ initialValues }/>
-                                     </ThemeProvider>
-                                 ) );
+            <ThemeProvider>
+                <PasswordResetDialog isOpen onClose={ jest.fn() }
+                                     defaultValues={ initialValues }/>
+            </ThemeProvider>
+        ) );
         const form = component.find( 'form' );
 
-        await act( async () => {
+        await act( async () =>
+        {
             form.simulate( 'submit' );
 
             await wait( 100 );
@@ -87,7 +94,8 @@ describe( 'PasswordResetDialog', () => {
         expect( notice.text() ).toContain( 'Re-send e-mail with link?' );
     } );
 
-    it( 'should re-send password link after clicking link', async () => {
+    it( 'should re-send password link after clicking link', async () =>
+    {
         mockAxios
             .onPost( Routes.reSendPasswordResetRequest )
             .replyOnce( 200, {
@@ -105,16 +113,17 @@ describe( 'PasswordResetDialog', () => {
         };
 
         const component = mount( (
-                                     <ThemeProvider>
-                                         <PasswordResetDialog isOpen onClose={ jest.fn() }
-                                                              initialStatus={ initialStatus }
-                                                              defaultValues={ initialValues }/>
-                                     </ThemeProvider>
-                                 ) );
+            <ThemeProvider>
+                <PasswordResetDialog isOpen onClose={ jest.fn() }
+                                     initialStatus={ initialStatus }
+                                     defaultValues={ initialValues }/>
+            </ThemeProvider>
+        ) );
         const link = component.find( '.resend-link' );
         expect( link ).toHaveLength( 1 );
 
-        await act( async () => {
+        await act( async () =>
+        {
             link.simulate( 'click' );
 
             await wait( 100 );

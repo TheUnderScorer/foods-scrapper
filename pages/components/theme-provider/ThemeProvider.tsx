@@ -4,7 +4,8 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { ThemeProvider as StyledTheme } from 'styled-components';
 import { createTheme } from '../../theme/createTheme';
 
-const ThemeProvider: FC = ( { children } ) => {
+const ThemeProvider: FC = ( { children } ) =>
+{
     const theme = createTheme();
 
     return (

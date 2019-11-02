@@ -28,10 +28,10 @@ export class AuthController
         const jwt = await this.authService.login( request.user as User, res );
 
         return res.json( {
-                             result: {
-                                 jwt,
-                             },
-                         } );
+            result: {
+                jwt,
+            },
+        } );
     }
 
     @Get( 'login' )
@@ -53,8 +53,8 @@ export class AuthController
         const passwordReset = await this.passwordResetService.createForUser( email );
 
         return response.json( {
-                                  result: !!passwordReset,
-                              } );
+            result: !!passwordReset,
+        } );
     }
 
     @Get( 'reset-password' )
@@ -70,8 +70,8 @@ export class AuthController
         const result = await this.passwordResetService.resetPassword( token, password );
 
         return response.json( {
-                                  result,
-                              } );
+            result,
+        } );
     }
 
     @Post( 'register' )
@@ -83,11 +83,11 @@ export class AuthController
         const jwt = await this.authService.login( user, response );
 
         return response.json( {
-                                  result: {
-                                      user,
-                                      jwt,
-                                  },
-                              } );
+            result: {
+                user,
+                jwt,
+            },
+        } );
     }
 
     @Post( 'logout' )
@@ -97,8 +97,8 @@ export class AuthController
         this.authService.logout( response );
 
         return response.json( {
-                                  result: user,
-                              } );
+            result: user,
+        } );
     }
 
     @Post( 'resend-password-reset-request' )

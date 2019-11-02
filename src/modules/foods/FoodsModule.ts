@@ -11,27 +11,27 @@ import { SearchService } from '../search/search-service/SearchService';
 import searchSchema from '../search/schemas/searchSchema';
 
 @Module( {
-             controllers: [ FoodsController ],
-             providers: [
-                 PyszneScrapperService,
-                 PageLoaderService,
-                 MealsListService,
-                 RestaurantService,
-                 FoodsService,
-                 SearchService,
-             ],
-             imports: [
-                 MongooseModule.forFeature( [
-                                                {
-                                                    name: 'Food',
-                                                    schema: foodSchema,
-                                                },
-                                                {
-                                                    name: 'Search',
-                                                    schema: searchSchema,
-                                                },
-                                            ] ) ],
-         } )
+    controllers: [ FoodsController ],
+    providers: [
+        PyszneScrapperService,
+        PageLoaderService,
+        MealsListService,
+        RestaurantService,
+        FoodsService,
+        SearchService,
+    ],
+    imports: [
+        MongooseModule.forFeature( [
+            {
+                name: 'Food',
+                schema: foodSchema,
+            },
+            {
+                name: 'Search',
+                schema: searchSchema,
+            },
+        ] ) ],
+} )
 export class FoodsModule
 {
 

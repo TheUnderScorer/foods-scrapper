@@ -11,7 +11,8 @@ export interface ResetPasswordProps
     query?: URLSearchParams;
 }
 
-const ResetPassword: NextPage<ResetPasswordProps> = ( { query = new URLSearchParams( process.browser ? location.search : '' ) } ) => {
+const ResetPassword: NextPage<ResetPasswordProps> = ( { query = new URLSearchParams( process.browser ? location.search : '' ) } ) =>
+{
     useNotLoggedGuard();
 
     return (

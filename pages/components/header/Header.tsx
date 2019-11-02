@@ -14,10 +14,12 @@ const Spacer = styled.div`
     flex-grow: 1;
 `;
 
-const Header: FC<HeaderProps> = ( { title } ) => {
+const Header: FC<HeaderProps> = ( { title } ) =>
+{
     const dispatch = useDispatch();
 
-    const handleLogout = useCallback( () => {
+    const handleLogout = useCallback( () =>
+    {
         dispatch( logout() );
     }, [ dispatch ] );
 

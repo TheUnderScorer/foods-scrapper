@@ -22,7 +22,8 @@ const CardPageContainer = styled( Container )<AuthContainerProps>`
     }
 `;
 
-const CardPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) => {
+const CardPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) =>
+{
     return (
         <CardPageContainer cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth } backgroundUrl={ backgroundUrl }
                            className="auth-container" maxWidth={ false }>

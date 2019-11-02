@@ -14,7 +14,8 @@ export interface NoticeProps extends GridProps
     icon?: ReactElement | string;
 }
 
-export const getNoticeColor = ( noticeColor: NoticeColor, theme: Theme ): string => {
+export const getNoticeColor = ( noticeColor: NoticeColor, theme: Theme ): string =>
+{
     switch ( noticeColor ) {
         case 'error':
             return theme.palette.error.main;
@@ -52,7 +53,8 @@ const NoticeContainer = styled( Grid )<NoticeProps>`
       }
 `;
 
-const Notice: FC<NoticeProps> = ( { children, type, icon, ...props } ) => {
+const Notice: FC<NoticeProps> = ( { children, type, icon, ...props } ) =>
+{
     return (
         <NoticeContainer { ...props } item type={ type }>
             <Grid alignItems="center" container>

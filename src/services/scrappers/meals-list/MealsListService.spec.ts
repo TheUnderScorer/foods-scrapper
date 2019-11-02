@@ -6,22 +6,26 @@ import * as faker from 'faker';
 import Restaurant from '../types/Restaurant';
 import selectorToClassName from '../../../selectors/selectorToClassName';
 
-describe( 'MealsListService', () => {
+describe( 'MealsListService', () =>
+{
     let service: MealsListService;
 
-    beforeEach( async () => {
+    beforeEach( async () =>
+    {
         const module: TestingModule = await Test.createTestingModule( {
-                                                                          providers: [ MealsListService ],
-                                                                      } ).compile();
+            providers: [ MealsListService ],
+        } ).compile();
 
         service = module.get<MealsListService>( MealsListService );
     } );
 
-    it( 'should be defined', () => {
+    it( 'should be defined', () =>
+    {
         expect( service ).toBeDefined();
     } );
 
-    it( 'should return meals list basing', async () => {
+    it( 'should return meals list basing', async () =>
+    {
         const mockPage = new PageMock();
         const items: Restaurant[] = [
             {
@@ -49,8 +53,10 @@ describe( 'MealsListService', () => {
             mealWrapper: '.meal-container',
         };
 
-        mockPage.on( 'document.setup', ( document: Document ) => {
-            items.forEach( ( { name, link } ) => {
+        mockPage.on( 'document.setup', ( document: Document ) =>
+        {
+            items.forEach( ( { name, link } ) =>
+            {
                 const wrapper = document.createElement( 'div' );
                 wrapper.classList.add( selectorToClassName( selectors.restaurantMenuItem ) );
 

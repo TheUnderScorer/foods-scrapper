@@ -61,9 +61,9 @@ export default class PasswordResetService
         }
 
         const passwordReset = new this.model( {
-                                                  user,
-                                                  token: v4(),
-                                              } );
+            user,
+            token: v4(),
+        } );
 
         await passwordReset.save();
 

@@ -17,11 +17,12 @@ import client from '../../http/client';
 import { Routes } from '../../http/types/Routes';
 
 const validationSchema = Yup.object().shape<PasswordResetDto>( {
-                                                                   password: Yup.string().min( 7, 'Password should contain at least 7 characters.' ).required( 'Provide your new password.' ),
-                                                                   token: Yup.string().required( 'Provide reset password token.' ),
-                                                               } );
+    password: Yup.string().min( 7, 'Password should contain at least 7 characters.' ).required( 'Provide your new password.' ),
+    token: Yup.string().required( 'Provide reset password token.' ),
+} );
 
-const ResetPasswordForm: FC<FormikProps<PasswordResetDto> & ResetPasswordFormProps> = ( props ) => {
+const ResetPasswordForm: FC<FormikProps<PasswordResetDto> & ResetPasswordFormProps> = ( props ) =>
+{
     const { isSubmitting, values, handleSubmit, handleBlur, handleChange, errors, touched } = props;
 
     const status = props.status as FormikStatus | undefined;
@@ -73,24 +74,25 @@ const ResetPasswordForm: FC<FormikProps<PasswordResetDto> & ResetPasswordFormPro
 };
 
 const formikWrapper = withFormik<ResetPasswordFormProps, PasswordResetDto>( {
-                                                                                mapPropsToValues: ( { defaults } ) => defaults,
-                                                                                handleSubmit: async ( values, { setStatus, resetForm, setSubmitting } ) => {
-                                                                                    const httpHandler = buildHttpHandler<ResponseResult<ResetPasswordResult>>( setStatus );
-                                                                                    const { isEmpty } = await httpHandler( () => client.post( Routes.resetPassword, values ) );
+    mapPropsToValues: ( { defaults } ) => defaults,
+    handleSubmit: async ( values, { setStatus, resetForm, setSubmitting } ) =>
+    {
+        const httpHandler = buildHttpHandler<ResponseResult<ResetPasswordResult>>( setStatus );
+        const { isEmpty } = await httpHandler( () => client.post( Routes.resetPassword, values ) );
 
-                                                                                    if ( !isEmpty() ) {
-                                                                                        const status: FormikStatus = {
-                                                                                            result: true,
-                                                                                            message: 'Your password have been changed, you can use it now to log in.',
-                                                                                        };
+        if ( !isEmpty() ) {
+            const status: FormikStatus = {
+                result: true,
+                message: 'Your password have been changed, you can use it now to log in.',
+            };
 
-                                                                                        resetForm();
-                                                                                        setStatus( status );
-                                                                                    }
+            resetForm();
+            setStatus( status );
+        }
 
-                                                                                    setSubmitting( false );
-                                                                                },
-                                                                                validationSchema,
-                                                                            } );
+        setSubmitting( false );
+    },
+    validationSchema,
+} );
 
 export default formikWrapper( ResetPasswordForm );

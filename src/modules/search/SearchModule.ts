@@ -5,18 +5,18 @@ import searchSchema from './schemas/searchSchema';
 import { SearchService } from './search-service/SearchService';
 
 @Module( {
-             providers: [
-                 SearchService,
-             ],
-             imports: [
-                 MongooseModule.forFeature( [
-                                                {
-                                                    name: 'Search',
-                                                    schema: searchSchema,
-                                                },
-                                            ] ) ],
-             controllers: [ SearchController ],
-         } )
+    providers: [
+        SearchService,
+    ],
+    imports: [
+        MongooseModule.forFeature( [
+            {
+                name: 'Search',
+                schema: searchSchema,
+            },
+        ] ) ],
+    controllers: [ SearchController ],
+} )
 export class SearchModule
 {
 

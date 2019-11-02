@@ -20,26 +20,30 @@ jest.mock( './redux/stores/appStore', () => ({
     default: {
         dispatch: jest.fn(),
         getState: jest.fn().mockReturnValue( {
-                                                 error: {
-                                                     error: null,
-                                                 },
-                                             } ),
+            error: {
+                error: null,
+            },
+        } ),
         subscribe: jest.fn(),
     },
 }) );
 
-describe( '_app', () => {
+describe( '_app', () =>
+{
     let mockAdapter: MockAdapter;
 
-    beforeEach( () => {
+    beforeEach( () =>
+    {
         mockAdapter = new MockAdapter( client );
     } );
 
-    it( 'renders without crashing', () => {
+    it( 'renders without crashing', () =>
+    {
         mount( <App/> );
     } );
 
-    it( 'should fetch current user and display loading animation while doing so', async () => {
+    it( 'should fetch current user and display loading animation while doing so', async () =>
+    {
         const user: Partial<User> = {
             _id: '1',
         };
@@ -48,7 +52,8 @@ describe( '_app', () => {
             result: user,
         } );
 
-        await act( async () => {
+        await act( async () =>
+        {
             mount( <App/> );
 
             await wait( 10 );
@@ -57,8 +62,8 @@ describe( '_app', () => {
         const dispatch = store.dispatch as jest.Mock;
 
         expect( dispatch ).toBeCalledWith( {
-                                               type: 'SetCurrentUser',
-                                               payload: null,
-                                           } );
+            type: 'SetCurrentUser',
+            payload: null,
+        } );
     } );
 } );

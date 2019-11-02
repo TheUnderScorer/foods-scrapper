@@ -5,7 +5,8 @@ import CardPage from '../components/card-page/CardPage';
 import RegisterForm from '../components/register-form/RegisterForm';
 import useNotLoggedGuard from '../hooks/useNotLoggedGuard';
 
-const register: NextPage<any> = () => {
+const register: NextPage<any> = () =>
+{
     useNotLoggedGuard();
 
     return (

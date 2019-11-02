@@ -7,7 +7,8 @@ interface AppHeadProps
     title: string;
 }
 
-const AppHead: FC<AppHeadProps> = ( { title } ) => {
+const AppHead: FC<AppHeadProps> = ( { title } ) =>
+{
     return (
         <Head>
             <title>{ title }</title>

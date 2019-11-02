@@ -6,16 +6,19 @@ import ResetPasswordForm from '../components/reset-password-form/ResetPasswordFo
 import * as faker from 'faker';
 import ThemeProvider from '../components/theme-provider/ThemeProvider';
 
-describe( 'ResetPassword', () => {
-    it( 'renders without crashing', () => {
+describe( 'ResetPassword', () =>
+{
+    it( 'renders without crashing', () =>
+    {
         mountWithStore( <ResetPassword/>, {
-                                              user: {
-                                                  currentUser: null,
-                                              },
-                                          } );
+            user: {
+                currentUser: null,
+            },
+        } );
     } );
 
-    it( 'should render error if no token is provided', () => {
+    it( 'should render error if no token is provided', () =>
+    {
         Object.assign( process, {
             browser: true,
         } );
@@ -23,27 +26,28 @@ describe( 'ResetPassword', () => {
         const query = new URLSearchParams();
 
         const { component } = mountWithStore( (
-                                                  <ThemeProvider>
-                                                      <ResetPassword query={ query }/>
-                                                  </ThemeProvider>
-                                              ), {
-                                                  user: {
-                                                      currentUser: null,
-                                                  },
-                                              } );
+            <ThemeProvider>
+                <ResetPassword query={ query }/>
+            </ThemeProvider>
+        ), {
+            user: {
+                currentUser: null,
+            },
+        } );
         const error = component.find( '.error' ).at( 0 );
         expect( error.text() ).toEqual( 'Error: No reset password token provided.' );
     } );
 
-    it( 'should display password reset form if query has token', async () => {
+    it( 'should display password reset form if query has token', async () =>
+    {
         const query = new URLSearchParams();
         query.set( 'token', faker.random.uuid() );
 
         const { component } = mountWithStore( <ResetPassword query={ query }/>, {
-                                                                                    user: {
-                                                                                        currentUser: null,
-                                                                                    },
-                                                                                } );
+            user: {
+                currentUser: null,
+            },
+        } );
 
         await wait( 100 );
 

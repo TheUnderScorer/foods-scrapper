@@ -11,42 +11,46 @@ import { Types } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
 import User from '../users/types/User';
 
-describe( 'Foods Controller', () => {
+describe( 'Foods Controller', () =>
+{
     let controller: FoodsController;
     let pyszneService: PyszneScrapperService;
     let searchService: SearchService;
 
-    beforeEach( async () => {
+    beforeEach( async () =>
+    {
         const module: TestingModule = await Test.createTestingModule( {
-                                                                          controllers: [ FoodsController ],
-                                                                          providers: [
-                                                                              PyszneScrapperService,
-                                                                              PageLoaderService,
-                                                                              MealsListService,
-                                                                              RestaurantService,
-                                                                              FoodsService,
-                                                                              SearchService,
-                                                                              {
-                                                                                  provide: getModelToken( 'Food' ),
-                                                                                  useValue: jest.fn(),
-                                                                              },
-                                                                              {
-                                                                                  provide: getModelToken( 'Search' ),
-                                                                                  useValue: jest.fn(),
-                                                                              },
-                                                                          ],
-                                                                      } ).compile();
+            controllers: [ FoodsController ],
+            providers: [
+                PyszneScrapperService,
+                PageLoaderService,
+                MealsListService,
+                RestaurantService,
+                FoodsService,
+                SearchService,
+                {
+                    provide: getModelToken( 'Food' ),
+                    useValue: jest.fn(),
+                },
+                {
+                    provide: getModelToken( 'Search' ),
+                    useValue: jest.fn(),
+                },
+            ],
+        } ).compile();
 
         pyszneService = await module.resolve<PyszneScrapperService>( PyszneScrapperService );
         searchService = module.get<SearchService>( SearchService );
         controller = new FoodsController( pyszneService, searchService );
     } );
 
-    it( 'should be defined', () => {
+    it( 'should be defined', () =>
+    {
         expect( controller ).toBeDefined();
     } );
 
-    it( 'Should return ID of pending search and handle search in background', async ( done ) => {
+    it( 'Should return ID of pending search and handle search in background', async ( done ) =>
+    {
         const searchID = new Types.ObjectId();
         const user: Partial<User> = {
             _id: '1',
@@ -56,23 +60,27 @@ describe( 'Foods Controller', () => {
 
         jest
             .spyOn( pyszneService, 'execute' )
-            .mockImplementation( ( keywords: string[] ) => {
-                return new Promise( resolve => {
-                    setTimeout( () => {
+            .mockImplementation( ( keywords: string[] ) =>
+            {
+                return new Promise( resolve =>
+                {
+                    setTimeout( () =>
+                    {
                         resolve( [
-                                     {
-                                         name: keywords[ 0 ],
-                                         price: 25,
-                                         url: '',
-                                     },
-                                 ] );
+                            {
+                                name: keywords[ 0 ],
+                                price: 25,
+                                url: '',
+                            },
+                        ] );
                     }, 500 );
                 } );
             } );
 
         jest
             .spyOn( searchService, 'create' )
-            .mockImplementation( async ( searchData: Search ) => {
+            .mockImplementation( async ( searchData: Search ) =>
+            {
                 const result: any = {
                     ...searchData,
                     searchID,
@@ -107,7 +115,8 @@ describe( 'Foods Controller', () => {
         expect( result.status ).toEqual( SearchStatus.Pending );
         expect( result.searchID ).toEqual( searchID );
 
-        setTimeout( () => {
+        setTimeout( () =>
+        {
             expect( search.status ).toEqual( SearchStatus.Done );
 
             done();

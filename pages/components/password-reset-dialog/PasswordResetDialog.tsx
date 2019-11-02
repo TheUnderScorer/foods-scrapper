@@ -28,8 +28,8 @@ import PasswordResetStatus from './types/PasswordResetStatus';
 import FormikStatus from '../../types/formik/FormikStatus';
 
 const validationSchema = Yup.object().shape<RequestPasswordResetDto>( {
-                                                                          email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
-                                                                      } );
+    email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
+} );
 
 const Container = styled( Dialog )`
     .loader-label{
@@ -37,13 +37,15 @@ const Container = styled( Dialog )`
     }
 `;
 
-const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordResetDialogProps> = ( props ) => {
+const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordResetDialogProps> = ( props ) =>
+{
     const { isOpen = false, onClose, handleChange, handleBlur, values, touched, errors, isSubmitting, handleSubmit, setSubmitting, setStatus, initialStatus } = props;
     const status = props.status as PasswordResetStatus;
 
     const getError = getInputError<RequestPasswordResetDto>( touched, errors );
 
-    const reSendEmail = useCallback<MouseEventHandler>( async ( event ) => {
+    const reSendEmail = useCallback<MouseEventHandler>( async ( event ) =>
+    {
         event.preventDefault();
 
         setSubmitting( true );
@@ -64,11 +66,13 @@ const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordRes
         setSubmitting( false );
     }, [ values ] );
 
-    useEffect( () => {
+    useEffect( () =>
+    {
         setStatus( getDefaultStatus() );
     }, [ values ] );
 
-    useEffect( () => {
+    useEffect( () =>
+    {
         setStatus( initialStatus );
     }, [ initialStatus ] );
 
@@ -140,45 +144,46 @@ const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordRes
 };
 
 const formikWrapper = withFormik<PasswordResetDialogProps, RequestPasswordResetDto>( {
-                                                                                         mapPropsToValues: ( { defaultValues } ) => ({
-                                                                                             email: defaultValues ? defaultValues.email : '',
-                                                                                         }),
-                                                                                         handleSubmit: async ( values, { setStatus, resetForm, setSubmitting, props } ) => {
-                                                                                             setStatus( getDefaultStatus() );
+    mapPropsToValues: ( { defaultValues } ) => ({
+        email: defaultValues ? defaultValues.email : '',
+    }),
+    handleSubmit: async ( values, { setStatus, resetForm, setSubmitting, props } ) =>
+    {
+        setStatus( getDefaultStatus() );
 
-                                                                                             const httpHandler = buildHttpHandler<ResponseResult<boolean>>( setStatus );
-                                                                                             const { isEmpty, response } = await httpHandler( () => client.post( Routes.requestPasswordReset, values ) );
-                                                                                             const { data } = response;
+        const httpHandler = buildHttpHandler<ResponseResult<boolean>>( setStatus );
+        const { isEmpty, response } = await httpHandler( () => client.post( Routes.requestPasswordReset, values ) );
+        const { data } = response;
 
-                                                                                             if ( !isEmpty() ) {
+        if ( !isEmpty() ) {
 
-                                                                                                 if ( props.onSubmit ) {
-                                                                                                     props.onSubmit( data.result );
-                                                                                                 }
+            if ( props.onSubmit ) {
+                props.onSubmit( data.result );
+            }
 
-                                                                                                 const status: PasswordResetStatus = {
-                                                                                                     result: true,
-                                                                                                     message: 'We have sent you an e-mail with password reset link. The link will expire in 24 hours.',
-                                                                                                 };
+            const status: PasswordResetStatus = {
+                result: true,
+                message: 'We have sent you an e-mail with password reset link. The link will expire in 24 hours.',
+            };
 
-                                                                                                 resetForm();
+            resetForm();
 
-                                                                                                 setStatus( status );
-                                                                                             } else {
-                                                                                                 if ( data.error === ErrorCodes.PasswordResetRequestCreated ) {
-                                                                                                     const status: PasswordResetStatus = {
-                                                                                                         error: true,
-                                                                                                         message: data.message,
-                                                                                                         isPasswordResetRequestCreatedError: true,
-                                                                                                     };
+            setStatus( status );
+        } else {
+            if ( data.error === ErrorCodes.PasswordResetRequestCreated ) {
+                const status: PasswordResetStatus = {
+                    error: true,
+                    message: data.message,
+                    isPasswordResetRequestCreatedError: true,
+                };
 
-                                                                                                     setStatus( status );
-                                                                                                 }
-                                                                                             }
+                setStatus( status );
+            }
+        }
 
-                                                                                             setSubmitting( false );
-                                                                                         },
-                                                                                         validationSchema,
-                                                                                     } );
+        setSubmitting( false );
+    },
+    validationSchema,
+} );
 
 export default formikWrapper( PasswordResetDialog );

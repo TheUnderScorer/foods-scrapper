@@ -24,9 +24,9 @@ export class SearchService
     public async getBySearchID( searchID: string, user: string ): Promise<SearchDocument>
     {
         return await this.searchModel.findOne( {
-                                                   searchID,
-                                                   user,
-                                               } ).exec();
+            searchID,
+            user,
+        } ).exec();
     }
 
 }

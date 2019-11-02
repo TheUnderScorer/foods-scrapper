@@ -15,37 +15,41 @@ import PasswordResetDocument from './types/PasswordResetDocument';
 import EmailModule from '../email/EmailModule';
 import PasswordResetDto from './dto/PasswordResetDto';
 
-describe( 'Auth Controller', () => {
+describe( 'Auth Controller', () =>
+{
     let controller: AuthController;
     let module: TestingModule;
 
-    beforeEach( async () => {
+    beforeEach( async () =>
+    {
         module = await Test.createTestingModule( {
-                                                     controllers: [ AuthController ],
-                                                     providers: [
-                                                         PasswordResetService,
-                                                         AuthService,
-                                                         UsersService,
-                                                         {
-                                                             provide: getModelToken( 'User' ),
-                                                             useValue: MockModel,
-                                                         },
-                                                         {
-                                                             provide: getModelToken( 'PasswordReset' ),
-                                                             useValue: MockModel,
-                                                         },
-                                                     ],
-                                                     imports: [ ConfigModule, EmailModule ],
-                                                 } ).compile();
+            controllers: [ AuthController ],
+            providers: [
+                PasswordResetService,
+                AuthService,
+                UsersService,
+                {
+                    provide: getModelToken( 'User' ),
+                    useValue: MockModel,
+                },
+                {
+                    provide: getModelToken( 'PasswordReset' ),
+                    useValue: MockModel,
+                },
+            ],
+            imports: [ ConfigModule, EmailModule ],
+        } ).compile();
 
         controller = module.get<AuthController>( AuthController );
     } );
 
-    it( 'should be defined', () => {
+    it( 'should be defined', () =>
+    {
         expect( controller ).toBeDefined();
     } );
 
-    it( 'login', async () => {
+    it( 'login', async () =>
+    {
         const jwt = faker.random.uuid();
         const authService = module.get( AuthService );
 
@@ -65,15 +69,16 @@ describe( 'Auth Controller', () => {
         await controller.login( request as any, response as any );
 
         expect( response.json ).toBeCalledWith( {
-                                                    result: {
-                                                        jwt,
-                                                    },
-                                                } );
+            result: {
+                jwt,
+            },
+        } );
 
         expect( spy ).toBeCalledWith( request.user, response );
     } );
 
-    it( 'getLoginPage', () => {
+    it( 'getLoginPage', () =>
+    {
         const response = {
             render: jest.fn(),
         };
@@ -83,7 +88,8 @@ describe( 'Auth Controller', () => {
         expect( response.render ).toBeCalledWith( 'Login' );
     } );
 
-    it( 'getRegisterPage', () => {
+    it( 'getRegisterPage', () =>
+    {
         const response = {
             render: jest.fn(),
         };
@@ -93,7 +99,8 @@ describe( 'Auth Controller', () => {
         expect( response.render ).toBeCalledWith( 'Register' );
     } );
 
-    it( 'register', async () => {
+    it( 'register', async () =>
+    {
         const jwt = faker.random.uuid();
         const user: Partial<User> = {
             _id: '1',
@@ -122,14 +129,15 @@ describe( 'Auth Controller', () => {
         expect( userSpy ).toBeCalledWith( dto.email, dto.password );
         expect( authSpy ).toBeCalledWith( user, response );
         expect( response.json ).toBeCalledWith( {
-                                                    result: {
-                                                        user,
-                                                        jwt,
-                                                    },
-                                                } );
+            result: {
+                user,
+                jwt,
+            },
+        } );
     } );
 
-    it( 'requestPasswordReset', async () => {
+    it( 'requestPasswordReset', async () =>
+    {
         const mockReset: Partial<PasswordReset> = {
             token: faker.random.uuid(),
         };
@@ -146,13 +154,14 @@ describe( 'Auth Controller', () => {
         await controller.requestPasswordReset( { email }, response as any );
 
         expect( response.json ).toBeCalledWith( {
-                                                    result: true,
-                                                } );
+            result: true,
+        } );
 
         expect( spy ).toBeCalledWith( email );
     } );
 
-    it( 'resetPassword', async () => {
+    it( 'resetPassword', async () =>
+    {
         const dto: PasswordResetDto = {
             token: 'test',
             password: faker.internet.password(),
@@ -166,9 +175,9 @@ describe( 'Auth Controller', () => {
         const passwordResetService = module.get( PasswordResetService );
         const spy = jest.spyOn( passwordResetService, 'resetPassword' );
         spy.mockReturnValue( Promise.resolve( {
-                                                  user: user as UserDocument,
-                                                  password,
-                                              } ) );
+            user: user as UserDocument,
+            password,
+        } ) );
 
         const response = {
             json: jest.fn(),
@@ -178,11 +187,12 @@ describe( 'Auth Controller', () => {
 
         expect( spy ).toBeCalledWith( dto.token, dto.password );
         expect( response.json ).toBeCalledWith( {
-                                                    result: { user, password },
-                                                } );
+            result: { user, password },
+        } );
     } );
 
-    it( 'logout', async () => {
+    it( 'logout', async () =>
+    {
         const user: Partial<User> = {
             _id: '1',
         };
@@ -192,19 +202,21 @@ describe( 'Auth Controller', () => {
 
         const authService = module.get( AuthService );
         const spy = jest.spyOn( authService, 'logout' );
-        spy.mockImplementation( () => {
+        spy.mockImplementation( () =>
+        {
         } );
 
         await controller.logout( user as User, response as any );
 
         expect( spy ).toBeCalledWith( response );
         expect( response.json ).toBeCalledWith( {
-                                                    result: user,
-                                                } );
+            result: user,
+        } );
 
     } );
 
-    it( 'reSendPasswordResetRequest', async () => {
+    it( 'reSendPasswordResetRequest', async () =>
+    {
         const response = {
             json: jest.fn(),
         };
@@ -219,7 +231,7 @@ describe( 'Auth Controller', () => {
 
         expect( spy ).toBeCalledWith( email );
         expect( response.json ).toBeCalledWith( {
-                                                    result: true,
-                                                } );
+            result: true,
+        } );
     } );
 } );

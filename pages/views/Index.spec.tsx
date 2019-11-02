@@ -6,16 +6,19 @@ jest.mock( '../http/redirect', () => ({
     default: jest.fn(),
 }) );
 
-describe( 'Index component', () => {
-    beforeEach( () => {
+describe( 'Index component', () =>
+{
+    beforeEach( () =>
+    {
         jest.resetModules();
     } );
 
-    it( 'renders without crashing', () => {
+    it( 'renders without crashing', () =>
+    {
         mountWithStore( <Index/>, {
-                                      user: {
-                                          userFetched: false,
-                                      },
-                                  } );
+            user: {
+                userFetched: false,
+            },
+        } );
     } );
 } );

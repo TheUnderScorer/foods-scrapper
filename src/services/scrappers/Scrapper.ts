@@ -33,7 +33,7 @@ export default abstract class Scrapper implements ScrapperInterface
 
         const limit = pLimit( 5 );
         const restaurantsPromises = restaurants.map( restaurant =>
-                                                         limit( () => this.restaurants.handle( keywords, restaurant, this.selectors ) ) );
+            limit( () => this.restaurants.handle( keywords, restaurant, this.selectors ) ) );
         const foodsResult = await Promise.all( restaurantsPromises );
 
         return flatten( foodsResult );

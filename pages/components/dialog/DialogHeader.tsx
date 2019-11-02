@@ -14,7 +14,8 @@ const Container = styled( DialogTitle )`
     }
 `;
 
-const DialogHeader: FC<DialogTitleProps> = ( { children, icon } ) => {
+const DialogHeader: FC<DialogTitleProps> = ( { children, icon } ) =>
+{
     return (
         <Container>
             <Grid alignItems="center" container>

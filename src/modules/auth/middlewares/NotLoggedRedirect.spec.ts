@@ -1,11 +1,14 @@
 import { NotLoggedRedirect } from './NotLoggedRedirect';
 
-describe( 'NotLoggedRedirectMiddleware', () => {
-    it( 'should be defined', () => {
+describe( 'NotLoggedRedirectMiddleware', () =>
+{
+    it( 'should be defined', () =>
+    {
         expect( new NotLoggedRedirect() ).toBeDefined();
     } );
 
-    it( 'Should redirect to login page if user is not logged in ', () => {
+    it( 'Should redirect to login page if user is not logged in ', () =>
+    {
         const request = {
             body: {
                 user: false,

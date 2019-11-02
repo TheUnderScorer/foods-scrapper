@@ -6,7 +6,8 @@ import { Routes } from '../../../http/types/Routes';
 import { SetCurrentUser } from './types/UserActions';
 import UserNotLoggedInException from '../../../exceptions/UserNotLoggedInException';
 
-describe( 'logout action', () => {
+describe( 'logout action', () =>
+{
     let mockAxios: MockAdapter;
     let user: Partial<User>;
     const getState = () => ({
@@ -15,14 +16,16 @@ describe( 'logout action', () => {
         },
     });
 
-    beforeEach( () => {
+    beforeEach( () =>
+    {
         mockAxios = new MockAdapter( client );
         user = {
             _id: '1',
         };
     } );
 
-    it( 'should handle logout', async () => {
+    it( 'should handle logout', async () =>
+    {
         mockAxios
             .onPost( Routes.logout )
             .replyOnce( 200, {
@@ -33,13 +36,14 @@ describe( 'logout action', () => {
         await logout()( dispatch, getState as any );
 
         expect( dispatch ).toBeCalledWith( {
-                                               type: 'SetCurrentUser',
-                                               payload: null,
-                                           } );
+            type: 'SetCurrentUser',
+            payload: null,
+        } );
         expect( dispatch ).toBeCalledTimes( 1 );
     } );
 
-    it( 'should throw error if user is not logged in', async () => {
+    it( 'should throw error if user is not logged in', async () =>
+    {
         const getState = () => ({
             user: {
                 currentUser: null,
@@ -50,9 +54,9 @@ describe( 'logout action', () => {
         await logout()( dispatch, getState as any );
 
         expect( dispatch ).toBeCalledWith( {
-                                               type: 'SetError',
-                                               payload: new UserNotLoggedInException( 'logout' ),
-                                           } );
+            type: 'SetError',
+            payload: new UserNotLoggedInException( 'logout' ),
+        } );
     } );
 
 } );

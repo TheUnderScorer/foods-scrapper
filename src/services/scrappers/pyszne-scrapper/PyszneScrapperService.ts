@@ -4,8 +4,8 @@ import { Page } from 'puppeteer';
 import ScrapperSelectors from '../types/ScrapperSelectors';
 
 @Injectable( {
-                 scope: Scope.REQUEST,
-             } )
+    scope: Scope.REQUEST,
+} )
 export class PyszneScrapperService extends Scrapper
 {
     public readonly selectors: ScrapperSelectors = {

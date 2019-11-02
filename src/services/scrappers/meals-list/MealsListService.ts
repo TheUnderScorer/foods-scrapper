@@ -9,7 +9,8 @@ export class MealsListService
 {
     public async gatherRestaurants( mealPage: Page, selectors: ScrapperSelectors ): Promise<Restaurant[]>
     {
-        return await mealPage.evaluate( async ( { selectors }: MealPageParams ) => {
+        return await mealPage.evaluate( async ( { selectors }: MealPageParams ) =>
+        {
             const meals = Array.from( document.querySelectorAll( selectors.restaurantMenuItem ) );
 
             if ( !meals.length ) {
@@ -18,7 +19,8 @@ export class MealsListService
 
             const result: Restaurant[] = [];
 
-            meals.forEach( meal => {
+            meals.forEach( meal =>
+            {
                 const link = meal.querySelector( selectors.restaurantMenuLink );
                 const name = meal.querySelector( selectors.restaurantName );
 
@@ -27,9 +29,9 @@ export class MealsListService
                 }
 
                 result.push( {
-                                 link: `${ location.origin }/${ link.getAttribute( 'href' ) }`,
-                                 name: name.textContent,
-                             } );
+                    link: `${ location.origin }/${ link.getAttribute( 'href' ) }`,
+                    name: name.textContent,
+                } );
             } );
 
             return result;

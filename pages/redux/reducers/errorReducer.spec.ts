@@ -2,14 +2,17 @@ import ErrorState from './types/ErrorState';
 import errorReducer, { initialState } from './errorReducer';
 import { SetError } from '../actions/error/types/ErrorActions';
 
-describe( 'errorReducer', () => {
+describe( 'errorReducer', () =>
+{
     let state: ErrorState;
 
-    beforeEach( () => {
+    beforeEach( () =>
+    {
         state = { ...initialState };
     } );
 
-    it( 'SetError', () => {
+    it( 'SetError', () =>
+    {
         const error = new Error( 'test' );
         const action: SetError = {
             type: 'SetError',
