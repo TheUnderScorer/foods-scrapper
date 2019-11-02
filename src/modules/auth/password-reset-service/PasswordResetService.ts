@@ -67,7 +67,13 @@ export default class PasswordResetService
 
         await passwordReset.save();
 
-        await this.emailTypesService.sendPasswordResetLink( passwordReset, email );
+        try {
+            await this.emailTypesService.sendPasswordResetLink( passwordReset, email );
+        } catch ( e ) {
+            await passwordReset.remove();
+
+            throw e;
+        }
 
         return passwordReset;
     }
