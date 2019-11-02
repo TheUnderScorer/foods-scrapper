@@ -60,6 +60,11 @@ const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordRes
                 result: true,
                 message: 'We have re-send you an e-mail with password reset link.',
             };
+        } else {
+            status = {
+                error: true,
+                message: 'Invalid server response received.',
+            };
         }
 
         setStatus( status );
