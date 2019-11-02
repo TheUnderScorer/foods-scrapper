@@ -27,9 +27,20 @@ const validationSchema = Yup.object().shape<UserDto>( {
     password: Yup.string().required( 'Provide password.' ),
 } );
 
-const SocialDivider = styled( Divider )`
-    margin-bottom: 1.4rem !important;
-    margin-top: 1rem !important;
+const SocialDividerContainer = styled.div`
+    position: relative;
+    text-align: center;
+
+    .divider {
+      margin-bottom: 1.4rem !important;
+      margin-top: 1rem !important;
+    }
+    
+    .text {
+      position: absolute;
+      bottom: -10px;
+      background-color: ${ props => props.theme.palette.background.default }
+    }
 `;
 
 const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, setStatus, errors, touched, handleChange, handleBlur, isSubmitting, setSubmitting, values, ...props } ) =>
@@ -145,7 +156,12 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( { handleSubmit, s
                     </Grid>
                 </Grid>
             </AuthForm>
-            <SocialDivider variant="fullWidth"/>
+            <SocialDividerContainer>
+                <Typography variant="caption" className="text">
+                    OR
+                </Typography>
+                <Divider className="divider" variant="fullWidth"/>
+            </SocialDividerContainer>
             <Grid container>
                 <SocialLogin onError={ onSocialLoginError } disabled={ isSubmitting }
                              onLoadingChange={ onSocialLoadingChange } googleID={ process.env.GOOGLE_ID }/>
