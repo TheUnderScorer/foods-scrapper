@@ -1,7 +1,7 @@
 import LoginForm from './LoginForm';
 import * as React from 'react';
 import { act } from 'react-dom/test-utils';
-import PasswordResetDialog from '../password-reset-dialog/PasswordResetDialog';
+import PasswordResetDialog from './password-reset-dialog/PasswordResetDialog';
 import UserDto from '../../../src/modules/auth/dto/UserDto';
 import * as faker from 'faker';
 import redirect from '../../http/redirect';

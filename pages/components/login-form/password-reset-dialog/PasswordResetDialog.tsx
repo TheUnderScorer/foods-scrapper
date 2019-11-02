@@ -12,20 +12,20 @@ import {
     TextField,
 } from '@material-ui/core';
 import { FormikProps, withFormik } from 'formik';
-import RequestPasswordResetDto from '../../../src/modules/auth/dto/RequestPasswordResetDto';
+import RequestPasswordResetDto from '../../../../src/modules/auth/dto/RequestPasswordResetDto';
 import * as Yup from 'yup';
-import DialogHeader from '../dialog/DialogHeader';
-import { getInputError } from '../../formik/errors';
+import DialogHeader from '../../dialog/DialogHeader';
+import { getInputError } from '../../../formik/errors';
 import styled from 'styled-components';
-import buildHttpHandler from '../../formik/buildHttpHandler';
-import ResponseResult from '../../../src/types/ResponseResult';
-import client from '../../http/client';
-import { Routes } from '../../http/types/Routes';
-import Notice from '../notice/Notice';
-import getDefaultStatus from '../../formik/getDefaultStatus';
-import { ErrorCodes } from '../../../src/enums/ErrorCodes';
+import buildHttpHandler from '../../../formik/buildHttpHandler';
+import ResponseResult from '../../../../src/types/ResponseResult';
+import client from '../../../http/client';
+import { Routes } from '../../../http/types/Routes';
+import Notice from '../../notice/Notice';
+import getDefaultStatus from '../../../formik/getDefaultStatus';
+import { ErrorCodes } from '../../../../src/enums/ErrorCodes';
 import PasswordResetStatus from './types/PasswordResetStatus';
-import FormikStatus from '../../types/formik/FormikStatus';
+import FormikStatus from '../../../types/formik/FormikStatus';
 
 const validationSchema = Yup.object().shape<RequestPasswordResetDto>( {
     email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),

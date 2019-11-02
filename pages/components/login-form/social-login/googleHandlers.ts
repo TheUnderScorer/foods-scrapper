@@ -1,12 +1,12 @@
 import { GoogleLoginResponseOffline } from 'react-google-login';
 import { OnError, SetLoading } from './types/SocialLoginProps';
 import GoogleError from './types/GoogleError';
-import client from '../../http/client';
-import { Routes } from '../../http/types/Routes';
-import ResponseResult from '../../../src/types/ResponseResult';
-import User from '../../../src/modules/users/types/User';
+import client from '../../../http/client';
+import { Routes } from '../../../http/types/Routes';
+import ResponseResult from '../../../../src/types/ResponseResult';
+import User from '../../../../src/modules/users/types/User';
 import { Dispatch } from 'redux';
-import { SetCurrentUser } from '../../redux/actions/user/types/UserActions';
+import { SetCurrentUser } from '../../../redux/actions/user/types/UserActions';
 
 export const onSuccess = ( setLoading: SetLoading, dispatch: Dispatch, onError: OnError ) => async ( { code }: GoogleLoginResponseOffline ) =>
 {

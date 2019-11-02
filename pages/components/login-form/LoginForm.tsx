@@ -15,11 +15,11 @@ import { AuthForm } from '../card-page/styled';
 import redirect from '../../http/redirect';
 import FormikStatus from '../../types/formik/FormikStatus';
 import getDefaultStatus from '../../formik/getDefaultStatus';
-import PasswordResetDialog from '../password-reset-dialog/PasswordResetDialog';
+import PasswordResetDialog from './password-reset-dialog/PasswordResetDialog';
 import UserDto from '../../../src/modules/auth/dto/UserDto';
 import { Routes } from '../../http/types/Routes';
 import Notice from '../notice/Notice';
-import SocialLogin from '../social-login/SocialLogin';
+import SocialLogin from './social-login/SocialLogin';
 import styled from 'styled-components';
 
 const validationSchema = Yup.object().shape<UserDto>( {

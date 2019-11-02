@@ -1,5 +1,5 @@
-import RequestPasswordResetDto from '../../../../src/modules/auth/dto/RequestPasswordResetDto';
-import FormikStatus from '../../../types/formik/FormikStatus';
+import RequestPasswordResetDto from '../../../../../src/modules/auth/dto/RequestPasswordResetDto';
+import FormikStatus from '../../../../types/formik/FormikStatus';
 
 export default interface PasswordResetDialogProps
 {

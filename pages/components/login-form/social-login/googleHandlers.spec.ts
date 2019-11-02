@@ -2,9 +2,9 @@ import { GoogleLoginResponseOffline } from 'react-google-login';
 import { onError, onSuccess } from './googleHandlers';
 import GoogleError from './types/GoogleError';
 import MockAdapter from 'axios-mock-adapter';
-import client from '../../http/client';
-import User from '../../../src/modules/users/types/User';
-import { Routes } from '../../http/types/Routes';
+import client from '../../../http/client';
+import User from '../../../../src/modules/users/types/User';
+import { Routes } from '../../../http/types/Routes';
 
 describe( 'googleHandlers', () =>
 {

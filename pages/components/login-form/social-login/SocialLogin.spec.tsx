@@ -1,6 +1,6 @@
 import SocialLogin from './SocialLogin';
 import * as React from 'react';
-import mountWithStore from '../../test/mountWithStore';
+import mountWithStore from '../../../test/mountWithStore';
 
 describe( 'SocialLogin component', () =>
 {

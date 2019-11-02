@@ -1,16 +1,16 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 import PasswordResetDialog from './PasswordResetDialog';
-import RequestPasswordResetDto from '../../../src/modules/auth/dto/RequestPasswordResetDto';
+import RequestPasswordResetDto from '../../../../src/modules/auth/dto/RequestPasswordResetDto';
 import * as faker from 'faker';
 import MockAdapter from 'axios-mock-adapter';
-import client from '../../http/client';
+import client from '../../../http/client';
 import { act } from 'react-dom/test-utils';
-import { wait } from '../../../src/utils/timeout';
-import { Routes } from '../../http/types/Routes';
-import ThemeProvider from '../theme-provider/ThemeProvider';
-import { ErrorCodes } from '../../../src/enums/ErrorCodes';
-import ResponseResult from '../../../src/types/ResponseResult';
+import { wait } from '../../../../src/utils/timeout';
+import { Routes } from '../../../http/types/Routes';
+import ThemeProvider from '../../theme-provider/ThemeProvider';
+import { ErrorCodes } from '../../../../src/enums/ErrorCodes';
+import ResponseResult from '../../../../src/types/ResponseResult';
 import PasswordResetStatus from './types/PasswordResetStatus';
 
 describe( 'PasswordResetDialog', () =>
