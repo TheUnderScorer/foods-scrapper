@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import UserData from './types/UserData';
 
 @Injectable()
 export default class GraphClient
@@ -9,12 +10,13 @@ export default class GraphClient
         baseURL: 'https://graph.facebook.com/v3.1/',
     } );
 
-    public async getMe( accessToken: string ): Promise<any>
+    public async getMe( accessToken: string, fields: string[] = [ 'email' ] ): Promise<AxiosResponse<UserData>>
     {
-        return await this.client.get( '/me', {
+        return await this.client.get<UserData>( '/me', {
             params: {
                 // eslint-disable-next-line @typescript-eslint/camelcase
                 access_token: accessToken,
+                fields: fields.join( ',' ),
             },
         } );
     }

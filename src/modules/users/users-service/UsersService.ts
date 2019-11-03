@@ -54,4 +54,9 @@ export class UsersService
     {
         return await this.model.findOne( { googleID } ).exec();
     }
+
+    public async getByFacebookID( facebookID: string ): Promise<UserDocument | undefined>
+    {
+        return await this.model.findOne( { facebookID } ).exec();
+    }
 }

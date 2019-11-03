@@ -73,7 +73,6 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( {
 
     const onSocialLoadingChange = useCallback( ( loading: boolean ) =>
     {
-        setStatus( getDefaultStatus() );
         setSubmitting( loading );
     }, [] );
 
@@ -84,8 +83,10 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( {
             message: error,
         };
 
+        console.log( 'Updating status' );
+
         setStatus( status );
-    }, [] );
+    }, [ setStatus ] );
 
     return (
         <>

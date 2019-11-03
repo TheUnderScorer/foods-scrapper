@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import UserDocument from '../../users/types/UserDocument';
-import { Nullable } from '../../../types/Nullable';
 import GraphClient from '../graph-client/GraphClient';
+import UserData from '../graph-client/types/UserData';
+import { UsersService } from '../../users/users-service/UsersService';
+import { v4 } from 'uuid';
 
 @Injectable()
 export default class OauthService
 {
 
-    public constructor( protected readonly client: GraphClient )
+    public constructor(
+        protected readonly client: GraphClient,
+        protected readonly usersService: UsersService,
+    )
     {
     }
 
-    public async handleCode( code: string ): Promise<Nullable<UserDocument>>
+    public async handleCode( code: string ): Promise<UserDocument>
     {
-        let response: any;
+        let userData: UserData;
 
         try {
-            response = await this.client.getMe( code );
+            const { data } = await this.client.getMe( code );
+
+            userData = data;
         } catch ( e ) {
             console.error( e );
         }
 
-        return null;
+        const foundUser = await this.usersService.getByFacebookID( userData.id );
+
+        if ( foundUser ) {
+            return foundUser;
+        }
+
+        return await this.createUser( userData );
+    }
+
+    protected async createUser( { email, id }: UserData ): Promise<UserDocument>
+    {
+        const password = v4();
+
+        return await this.usersService.create( email, password, ( user ) => user.facebookID = id );
     }
 }

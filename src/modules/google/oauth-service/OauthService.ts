@@ -2,7 +2,6 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { oauth2_v2 as OauthV2 } from 'googleapis';
 import UserDocument from '../../users/types/UserDocument';
-import { Nullable } from '../../../types/Nullable';
 import { UsersService } from '../../users/users-service/UsersService';
 import { v4 } from 'uuid';
 
@@ -19,7 +18,7 @@ export default class OauthService
 
     }
 
-    public async handleCode( code: string ): Promise<Nullable<UserDocument>>
+    public async handleCode( code: string ): Promise<UserDocument>
     {
         let credentials: Credentials;
         let userData: OauthV2.Schema$Userinfoplus;

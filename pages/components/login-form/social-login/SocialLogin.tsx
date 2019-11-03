@@ -32,8 +32,6 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
     const onGoogleRequest = useCallback( () => setLoading( true ), [] );
     const onFacebookClick = useCallback( ( onClick: () => any ) => () =>
     {
-        console.log( 'Facebook btn clicked' );
-
         if ( !didFbInit ) {
             window.FB.init( {
                 appId: facebookID,
