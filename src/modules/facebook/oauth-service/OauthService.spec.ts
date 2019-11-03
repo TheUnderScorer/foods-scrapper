@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import OauthService from './OauthService';
 import GraphClient from '../graph-client/GraphClient';
 import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 import { UsersService } from '../../users/users-service/UsersService';
 import { getModelToken } from '@nestjs/mongoose';
 import MockModel from '../../../test/mocks/models/MockModel';
@@ -17,7 +16,6 @@ describe( 'OauthService', () =>
 {
     let module: TestingModule;
     let service: OauthService;
-    let mockAxios: MockAdapter;
 
     beforeEach( async () =>
     {
@@ -32,8 +30,6 @@ describe( 'OauthService', () =>
                     useFactory: () =>
                     {
                         const client = axios.create();
-
-                        mockAxios = new MockAdapter( client );
 
                         return new GraphClient( client );
                     },
