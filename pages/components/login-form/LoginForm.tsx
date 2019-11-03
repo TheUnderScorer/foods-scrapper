@@ -186,7 +186,7 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( {
                     onError={ onSocialLoginError }
                     disabled={ isSubmitting }
                     onLoadingChange={ onSocialLoadingChange }
-                    facebookID={ process.env.GOOGLE_ID }
+                    facebookID={ process.env.FACEBOOK_APP_ID }
                     googleID={ process.env.GOOGLE_ID }/>
             </Grid>
             <PasswordResetDialog isOpen={ isResetPasswordVisible } onClose={ closeResetPassword }/>
