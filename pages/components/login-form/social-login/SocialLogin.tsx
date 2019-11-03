@@ -26,6 +26,7 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
 {
     const dispatch = useDispatch();
 
+    const [ didFbInit, setDidFbInit ] = useState( false );
     const [ loading, setLoading ] = useState( false );
 
     const onGoogleRequest = useCallback( () => setLoading( true ), [] );
@@ -33,15 +34,19 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
     {
         console.log( 'Facebook btn clicked' );
 
-        window.FB.init( {
-            appId: facebookID,
-            version: 'v3.1',
-        } );
+        if ( !didFbInit ) {
+            window.FB.init( {
+                appId: facebookID,
+                version: 'v3.1',
+            } );
+
+            setDidFbInit( true );
+        }
 
         setLoading( true );
 
         onClick();
-    }, [ facebookID ] );
+    }, [ facebookID, didFbInit ] );
 
     useEffect( () =>
     {
@@ -81,9 +86,9 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
             { !!facebookID &&
             <Grid item xs={ 12 }>
                 <FacebookLogin
-                    fields="name,email"
+                    fields="email"
                     appId={ facebookID }
-                    callback={ onFacebookSuccess( setLoading, dispatch ) }
+                    callback={ onFacebookSuccess( setLoading, dispatch, onError ) }
                     render={ ( props: any ) =>
                         <Button
                             onClick={ onFacebookClick( props.onClick ) }
