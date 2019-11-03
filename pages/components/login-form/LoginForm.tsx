@@ -39,7 +39,14 @@ const SocialDividerContainer = styled.div`
     .text {
       position: absolute;
       bottom: -10px;
-      background-color: ${ props => props.theme.palette.background.default }
+      background-color: ${ props => props.theme.palette.background.paper }
+      padding-left: 1rem;
+      padding-right: 1rem;
+      display: block;
+      width: 4rem;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
     }
 `;
 
