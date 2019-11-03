@@ -63,8 +63,12 @@ describe( 'UsersService', () =>
         const beforeCreate = jest.fn();
         const hashFn = hash as jest.Mock;
 
+        const findByEmailSpy = jest.spyOn( service, 'findByEmail' );
+        findByEmailSpy.mockReturnValue( Promise.resolve( undefined ) );
+
         const result = await service.create( email, password, beforeCreate );
 
+        expect( findByEmailSpy ).toBeCalledWith( email );
         expect( result.email ).toEqual( email );
         expect( result.password ).toEqual( password );
         expect( beforeCreate ).toBeCalledWith( result );
