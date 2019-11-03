@@ -21,7 +21,7 @@ describe( 'googleHandlers', () =>
             _id: '1',
         };
         mockAxios
-            .onPost( Routes.googleLogin )
+            .onGet( Routes.googleLogin )
             .replyOnce( 200, {
                 result: mockUser,
             } );

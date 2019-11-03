@@ -27,7 +27,7 @@ describe( 'LoginForm', () =>
 
     it( 'renders without crashing', () =>
     {
-        mountWithStore( <LoginForm/>, {} );
+        mountWithStore( <ThemeProvider><LoginForm/>,</ThemeProvider>, {} );
     } );
 
     it( 'should handle login', async () =>
@@ -71,7 +71,7 @@ describe( 'LoginForm', () =>
 
     it( 'clicking Forgot Password should open PasswordResetDialog', () =>
     {
-        const { component } = mountWithStore( <LoginForm/>, {} );
+        const { component } = mountWithStore( <ThemeProvider><LoginForm/>,</ThemeProvider>, {} );
         const btn = component.find( '.forgot-password-btn' ).at( 0 );
 
         act( () =>
