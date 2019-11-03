@@ -86,7 +86,7 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
             { !!facebookID &&
             <Grid item xs={ 12 }>
                 <FacebookLogin
-                    fields="email"
+                    responseType="code"
                     appId={ facebookID }
                     callback={ onFacebookSuccess( setLoading, dispatch, onError ) }
                     render={ ( props: any ) =>
@@ -99,8 +99,8 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
                             variant="outlined">
                             <FontAwesomeIcon className="btn-icon" icon={ faFacebook }/>
                             <span>
-                            Continue with Facebook
-                    </span>
+                                Continue with Facebook
+                            </span>
                         </Button>
                     }
 

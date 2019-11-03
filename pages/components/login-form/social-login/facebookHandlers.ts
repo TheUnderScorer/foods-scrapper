@@ -7,10 +7,10 @@ import { Routes } from '../../../http/types/Routes';
 import { SetCurrentUser } from '../../../redux/actions/user/types/UserActions';
 import { Dispatch } from 'redux';
 
-export const onSuccess = ( setLoading: SetLoading, dispatch: Dispatch, onError: OnError ) => async ( { id, email }: ReactFacebookLoginInfo ) =>
+export const onSuccess = ( setLoading: SetLoading, dispatch: Dispatch, onError: OnError ) => async ( { accessToken }: ReactFacebookLoginInfo ) =>
 {
     try {
-        const { data } = await client.post<ResponseResult<User>>( Routes.facebookLogin, { id, email } );
+        const { data } = await client.post<ResponseResult<User>>( Routes.facebookLogin, { token: accessToken } );
 
         if ( !data.result ) {
             onError( 'Invalid response received from server.' );
