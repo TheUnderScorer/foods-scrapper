@@ -16,4 +16,12 @@ describe( 'SocialLogin component', () =>
 
         expect( btn ).toHaveLength( 1 );
     } );
+
+    it( 'should render facebook login if facebook app ID is provided', () =>
+    {
+        const { component } = mountWithStore( <SocialLogin onError={ jest.fn() } facebookID="FACEBOOK_ID"/>, {} );
+        const btn = component.find( '#facebook_login' ).at( 0 );
+
+        expect( btn ).toHaveLength( 1 );
+    } );
 } );

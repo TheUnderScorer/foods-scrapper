@@ -5,10 +5,22 @@ import { Button, Grid } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
 import { onError as onGoogleError, onSuccess } from './googleHandlers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { blue } from '@material-ui/core/colors';
 
-const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disabled, onError } ) =>
+const SocialLoginContainer = styled( Grid )`
+  > div:not(:first-child) {
+    margin-top: 1rem;
+  }
+  
+  #facebook_login {
+    color: ${ blue.A400 }
+  }
+`;
+
+const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disabled, onError, facebookID } ) =>
 {
     const dispatch = useDispatch();
 
@@ -24,14 +36,20 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
     }, [ loading ] );
 
     return (
-        <Grid container>
+        <SocialLoginContainer container>
             { !!googleID &&
             <Grid item xs={ 12 }>
                 <GoogleLogin
                     onRequest={ onGoogleRequest }
                     render={ props => (
-                        <Button className="btn-with-icon" id="google_login" fullWidth { ...props }
-                                disabled={ disabled || props.disabled } variant="outlined">
+                        <Button
+                            className="btn-with-icon"
+                            id="google_login"
+                            fullWidth
+                            disabled={ disabled || props.disabled }
+                            variant="outlined"
+                            { ...props }
+                        >
                             <FontAwesomeIcon className="btn-icon" icon={ faGoogle }/>
                             <span>
                                   Continue with Google
@@ -45,7 +63,22 @@ const SocialLogin: FC<SocialLoginProps> = ( { googleID, onLoadingChange, disable
                 />
             </Grid>
             }
-        </Grid>
+            { !!facebookID &&
+            <Grid item xs={ 12 }>
+                <Button
+                    className="btn-with-icon"
+                    id="facebook_login"
+                    fullWidth
+                    disabled={ disabled }
+                    variant="outlined">
+                    <FontAwesomeIcon className="btn-icon" icon={ faFacebook }/>
+                    <span>
+                            Continue with Facebook
+                    </span>
+                </Button>
+            </Grid>
+            }
+        </SocialLoginContainer>
     );
 };
 

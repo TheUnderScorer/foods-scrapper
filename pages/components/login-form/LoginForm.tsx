@@ -175,8 +175,12 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( {
                 <Divider className="divider" variant="fullWidth"/>
             </SocialDividerContainer>
             <Grid container>
-                <SocialLogin onError={ onSocialLoginError } disabled={ isSubmitting }
-                             onLoadingChange={ onSocialLoadingChange } googleID={ process.env.GOOGLE_ID }/>
+                <SocialLogin
+                    onError={ onSocialLoginError }
+                    disabled={ isSubmitting }
+                    onLoadingChange={ onSocialLoadingChange }
+                    facebookID={ process.env.GOOGLE_ID }
+                    googleID={ process.env.GOOGLE_ID }/>
             </Grid>
             <PasswordResetDialog isOpen={ isResetPasswordVisible } onClose={ closeResetPassword }/>
         </>
