@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 import UserData from './types/UserData';
 
 @Injectable()
 export default class GraphClient
 {
-
-    protected client = axios.create( {
-        baseURL: 'https://graph.facebook.com/v3.1/',
-    } );
+    public constructor( protected readonly client: AxiosInstance )
+    {
+    }
 
     public async getMe( accessToken: string, fields: string[] = [ 'email' ] ): Promise<AxiosResponse<UserData>>
     {
