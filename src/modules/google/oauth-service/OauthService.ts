@@ -59,8 +59,7 @@ export default class OauthService
     protected async createFromUserData( { email, id }: OauthV2.Schema$Userinfoplus ): Promise<UserDocument>
     {
         const password = v4();
-        const user = await this.usersService.create( email, password );
-        user.googleID = id;
+        const user = await this.usersService.create( email, password, ( user ) => user.googleID = id );
 
         await user.save();
 

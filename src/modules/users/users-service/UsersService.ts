@@ -30,7 +30,7 @@ export class UsersService
         return await this.model.findOne( { email } ).exec();
     }
 
-    public async create( email: string, password: string ): Promise<UserDocument>
+    public async create( email: string, password: string, beforeCreate?: ( user: UserDocument ) => any ): Promise<UserDocument>
     {
         if ( await this.findByEmail( email ) ) {
             throw new BadRequestException( `Provided email ${ email } is already taken.` );
@@ -40,6 +40,11 @@ export class UsersService
         const hashedPassword = await bcrypt.hash( password, rounds );
 
         const result = new this.model( { email, password: hashedPassword } );
+
+        if ( beforeCreate ) {
+            beforeCreate( result );
+        }
+
         await result.save();
 
         return result;
