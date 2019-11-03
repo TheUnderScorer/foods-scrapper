@@ -12,6 +12,7 @@ import { AuthModule } from './modules/auth/AuthModule';
 import { ConfigModule } from './modules/config/ConfigModule';
 import EmailModule from './modules/email/EmailModule';
 import GoogleModule from './modules/google/GoogleModule';
+import FacebookModule from './modules/facebook/FacebookModule';
 
 @Module( {
     providers: [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
@@ -27,6 +28,7 @@ import GoogleModule from './modules/google/GoogleModule';
         ConfigModule,
         EmailModule,
         GoogleModule,
+        FacebookModule,
     ],
     controllers: [ AppController ],
 } )
