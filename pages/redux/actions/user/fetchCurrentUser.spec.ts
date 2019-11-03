@@ -30,12 +30,12 @@ describe( 'fetchCurrentUser', () =>
         const { mock: { calls } } = dispatch;
 
         expect( calls[ 0 ][ 0 ] ).toEqual( {
-            type:    'SetCurrentUser',
+            type: 'SetCurrentUser',
             payload: user,
         } );
 
         expect( calls[ 1 ][ 0 ] ).toEqual( {
-            type:    'SetUserFetched',
+            type: 'SetUserFetched',
             payload: true,
         } );
     } );

@@ -21,7 +21,7 @@ describe( 'Foods Controller', () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
             controllers: [ FoodsController ],
-            providers:   [
+            providers: [
                 PyszneScrapperService,
                 PageLoaderService,
                 MealsListService,
@@ -29,11 +29,11 @@ describe( 'Foods Controller', () =>
                 FoodsService,
                 SearchService,
                 {
-                    provide:  getModelToken( 'Food' ),
+                    provide: getModelToken( 'Food' ),
                     useValue: jest.fn(),
                 },
                 {
-                    provide:  getModelToken( 'Search' ),
+                    provide: getModelToken( 'Search' ),
                     useValue: jest.fn(),
                 },
             ],
@@ -68,9 +68,9 @@ describe( 'Foods Controller', () =>
                     {
                         resolve( [
                             {
-                                name:  keywords[ 0 ],
+                                name: keywords[ 0 ],
                                 price: 25,
-                                url:   '',
+                                url: '',
                             },
                         ] );
                     }, 500 );

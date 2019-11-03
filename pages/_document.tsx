@@ -24,13 +24,13 @@ export default class MyDocument extends Document
             return {
                 ...initialProps,
                 styles: (
-                            <>
-                                { initialProps.styles }
-                                { sheets.getStyleElement() }
-                                { sheet.getStyleElement() }
-                                { flush() || null }
-                            </>
-                        ),
+                    <>
+                        { initialProps.styles }
+                        { sheets.getStyleElement() }
+                        { sheet.getStyleElement() }
+                        { flush() || null }
+                    </>
+                ),
             };
         } finally {
             sheet.seal();

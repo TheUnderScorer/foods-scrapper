@@ -30,7 +30,7 @@ describe( 'PyszneScrapperService', () =>
 
         expect( mockPage.typedValues ).toContainEqual( {
             selector: '#imysearchstring',
-            value:    'test',
+            value: 'test',
         } );
         expect( mockPage.waitedSelectors ).toContain( '.lp__place' );
         expect( mockPage.clickedSelectors ).toContain( '.lp__place' );

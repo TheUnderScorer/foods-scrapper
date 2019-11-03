@@ -7,9 +7,9 @@ import { wait } from '../../src/utils/timeout';
 import mountWithStore from '../test/mountWithStore';
 import { Routes } from '../http/types/Routes';
 
-jest.mock( '../http/redirect', () => ( {
+jest.mock( '../http/redirect', () => ({
     default: jest.fn(),
-} ) );
+}) );
 
 describe( 'useAuthGuard', () =>
 {

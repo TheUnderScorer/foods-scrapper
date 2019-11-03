@@ -19,7 +19,7 @@ describe( 'userReducer', () =>
         };
         const action: SetCurrentUser = {
             payload: user as User,
-            type:    'SetCurrentUser',
+            type: 'SetCurrentUser',
         };
 
         const newState = userReducer( state, action );
@@ -30,7 +30,7 @@ describe( 'userReducer', () =>
     it( 'SetUserFetched', () =>
     {
         const action: SetUserFetched = {
-            type:    'SetUserFetched',
+            type: 'SetUserFetched',
             payload: true,
         };
 

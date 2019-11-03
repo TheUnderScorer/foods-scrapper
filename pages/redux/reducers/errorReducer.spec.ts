@@ -15,7 +15,7 @@ describe( 'errorReducer', () =>
     {
         const error = new Error( 'test' );
         const action: SetError = {
-            type:    'SetError',
+            type: 'SetError',
             payload: error,
         };
 

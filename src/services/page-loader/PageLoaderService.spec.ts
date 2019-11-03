@@ -10,7 +10,7 @@ describe( 'PageLoaderService', () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
             providers: [ PageLoaderService ],
-            imports:   [ HttpModule ],
+            imports: [ HttpModule ],
         } ).compile();
 
         service = module.get<PageLoaderService>( PageLoaderService );

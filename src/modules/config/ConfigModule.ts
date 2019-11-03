@@ -5,11 +5,11 @@ import { ConfigService } from './config-service/ConfigService';
 @Module( {
     providers: [
         {
-            provide:  ConfigService,
+            provide: ConfigService,
             useValue: new ConfigService( process.env ),
         },
     ],
-    exports:   [ ConfigService ],
+    exports: [ ConfigService ],
 } )
 export class ConfigModule
 {

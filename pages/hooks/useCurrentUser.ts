@@ -11,7 +11,7 @@ const useCurrentUser = () =>
     } );
 
     return useAxios<ResponseResult<User>>( {
-        url:    Routes.getMe,
+        url: Routes.getMe,
         method: 'GET',
     } );
 };

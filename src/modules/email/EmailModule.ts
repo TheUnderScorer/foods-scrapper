@@ -4,9 +4,9 @@ import { EmailTypesService } from './email-types/EmailTypesService';
 import { ConfigModule } from '../config/ConfigModule';
 
 @Module( {
-    exports:   [ EmailService, EmailTypesService ],
+    exports: [ EmailService, EmailTypesService ],
     providers: [ EmailService, EmailTypesService ],
-    imports:   [ ConfigModule ],
+    imports: [ ConfigModule ],
 } )
 export default class EmailModule
 {

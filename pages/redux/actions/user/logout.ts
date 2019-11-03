@@ -25,18 +25,18 @@ export default () => async ( dispatch: Dispatch<UserActions | ErrorActions>, get
 
         if ( response.data.result ) {
             return dispatch( {
-                type:    'SetCurrentUser',
+                type: 'SetCurrentUser',
                 payload: null,
             } );
         }
 
         return dispatch( {
-            type:    'SetError',
+            type: 'SetError',
             payload: new InvalidLogoutResponseException(),
         } );
     } catch ( e ) {
         return dispatch( {
-            type:    'SetError',
+            type: 'SetError',
             payload: e,
         } );
     }

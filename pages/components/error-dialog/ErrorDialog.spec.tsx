@@ -4,9 +4,9 @@ import mountWithStore from '../../test/mountWithStore';
 import { act } from 'react-dom/test-utils';
 import reloadPage from '../../http/reloadPage';
 
-jest.mock( '../../http/reloadPage', () => ( {
+jest.mock( '../../http/reloadPage', () => ({
     default: jest.fn(),
-} ) );
+}) );
 
 describe( 'ErrorDialog', () =>
 {

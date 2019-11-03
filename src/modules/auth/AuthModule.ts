@@ -11,19 +11,19 @@ import EmailModule from '../email/EmailModule';
 import PasswordResetService from './password-reset-service/PasswordResetService';
 
 @Module( {
-    providers:   [ AuthService, LocalStrategy, JWTStrategy, PasswordResetService ],
-    imports:     [
+    providers: [ AuthService, LocalStrategy, JWTStrategy, PasswordResetService ],
+    imports: [
         EmailModule,
         UsersModule,
         PassportModule,
         MongooseModule.forFeature( [
             {
-                name:   'PasswordReset',
+                name: 'PasswordReset',
                 schema: passwordResetSchema,
             },
         ] ),
     ],
-    exports:     [ AuthService, LocalStrategy, JWTStrategy, PasswordResetService ],
+    exports: [ AuthService, LocalStrategy, JWTStrategy, PasswordResetService ],
     controllers: [ AuthController ],
 } )
 export class AuthModule

@@ -7,9 +7,9 @@ import mountWithStore from '../test/mountWithStore';
 import { Routes } from '../http/types/Routes';
 import useNotLoggedGuard from './useNotLoggedGuard';
 
-jest.mock( '../http/redirect', () => ( {
+jest.mock( '../http/redirect', () => ({
     default: jest.fn(),
-} ) );
+}) );
 
 describe( 'useNotLoggedGuard', () =>
 {

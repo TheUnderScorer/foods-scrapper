@@ -1,22 +1,31 @@
 import * as React from 'react';
 import { FC, MouseEventHandler, useCallback, useEffect } from 'react';
 import PasswordResetDialogProps from './types/PasswordResetDialogProps';
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, Grid, TextField } from '@material-ui/core';
+import {
+    Button,
+    CircularProgress,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    Grid,
+    TextField,
+} from '@material-ui/core';
 import { FormikProps, withFormik } from 'formik';
-import RequestPasswordResetDto from '../../../src/modules/auth/dto/RequestPasswordResetDto';
+import RequestPasswordResetDto from '../../../../src/modules/auth/dto/RequestPasswordResetDto';
 import * as Yup from 'yup';
-import DialogHeader from '../dialog/DialogHeader';
-import { getInputError } from '../../formik/errors';
+import DialogHeader from '../../dialog/DialogHeader';
+import { getInputError } from '../../../formik/errors';
 import styled from 'styled-components';
-import buildHttpHandler from '../../formik/buildHttpHandler';
-import ResponseResult from '../../../src/types/ResponseResult';
-import client from '../../http/client';
-import { Routes } from '../../http/types/Routes';
-import Notice from '../notice/Notice';
-import getDefaultStatus from '../../formik/getDefaultStatus';
-import { ErrorCodes } from '../../../src/enums/ErrorCodes';
+import buildHttpHandler from '../../../formik/buildHttpHandler';
+import ResponseResult from '../../../../src/types/ResponseResult';
+import client from '../../../http/client';
+import { Routes } from '../../../http/types/Routes';
+import Notice from '../../notice/Notice';
+import getDefaultStatus from '../../../formik/getDefaultStatus';
+import { ErrorCodes } from '../../../../src/enums/ErrorCodes';
 import PasswordResetStatus from './types/PasswordResetStatus';
-import FormikStatus from '../../types/formik/FormikStatus';
+import FormikStatus from '../../../types/formik/FormikStatus';
 
 const validationSchema = Yup.object().shape<RequestPasswordResetDto>( {
     email: Yup.string().required( 'Provide e-mail address.' ).email( 'Invalid e-mail provided.' ),
@@ -48,8 +57,13 @@ const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordRes
 
         if ( !isEmpty() && response.data.result ) {
             status = {
-                result:  true,
+                result: true,
                 message: 'We have re-send you an e-mail with password reset link.',
+            };
+        } else {
+            status = {
+                error: true,
+                message: 'Invalid server response received.',
             };
         }
 
@@ -75,27 +89,28 @@ const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordRes
                 </DialogHeader>
                 <DialogContent>
                     <DialogContentText>
-                        If you have forgotten your password provide e-mail that you have used to register your account below.
+                        If you have forgotten your password provide e-mail that you have used to register your account
+                        below.
                         We will sent you an e-mail with link that will reset your password.
                     </DialogContentText>
                     { status && status.result &&
-                      <Notice className="success-notice" type="success">
-                          { status.message }
-                      </Notice>
+                    <Notice className="success-notice" type="success">
+                        { status.message }
+                    </Notice>
                     }
                     { status && status.error &&
-                      <Notice className="error-notice" type="error">
-                          { status.message }
+                    <Notice className="error-notice" type="error">
+                        { status.message }
 
-                          { status.isPasswordResetRequestCreatedError &&
-                            <>
-                                { ' ' }
-                                <a href="#" className="resend-link" onClick={ reSendEmail }>
-                                    Re-send e-mail with link?
-                                </a>
-                            </>
-                          }
-                      </Notice>
+                        { status.isPasswordResetRequestCreatedError &&
+                        <>
+                            { ' ' }
+                            <a href="#" className="resend-link" onClick={ reSendEmail }>
+                                Re-send e-mail with link?
+                            </a>
+                        </>
+                        }
+                    </Notice>
                     }
                     <Grid justify="center" container>
                         <Grid item xs={ 12 }>
@@ -134,45 +149,45 @@ const PasswordResetDialog: FC<FormikProps<RequestPasswordResetDto> & PasswordRes
 };
 
 const formikWrapper = withFormik<PasswordResetDialogProps, RequestPasswordResetDto>( {
-    mapPropsToValues: ( { defaultValues } ) => ( {
+    mapPropsToValues: ( { defaultValues } ) => ({
         email: defaultValues ? defaultValues.email : '',
-    } ),
-    handleSubmit:     async ( values, { setStatus, resetForm, setSubmitting, props } ) =>
-                      {
-                          setStatus( getDefaultStatus() );
+    }),
+    handleSubmit: async ( values, { setStatus, resetForm, setSubmitting, props } ) =>
+    {
+        setStatus( getDefaultStatus() );
 
-                          const httpHandler = buildHttpHandler<ResponseResult<boolean>>( setStatus );
-                          const { isEmpty, response } = await httpHandler( () => client.post( Routes.requestPasswordReset, values ) );
-                          const { data } = response;
+        const httpHandler = buildHttpHandler<ResponseResult<boolean>>( setStatus );
+        const { isEmpty, response } = await httpHandler( () => client.post( Routes.requestPasswordReset, values ) );
+        const { data } = response;
 
-                          if ( !isEmpty() ) {
+        if ( !isEmpty() ) {
 
-                              if ( props.onSubmit ) {
-                                  props.onSubmit( data.result );
-                              }
+            if ( props.onSubmit ) {
+                props.onSubmit( data.result );
+            }
 
-                              const status: PasswordResetStatus = {
-                                  result:  true,
-                                  message: 'We have sent you an e-mail with password reset link. The link will expire in 24 hours.',
-                              };
+            const status: PasswordResetStatus = {
+                result: true,
+                message: 'We have sent you an e-mail with password reset link. The link will expire in 24 hours.',
+            };
 
-                              resetForm();
+            resetForm();
 
-                              setStatus( status );
-                          } else {
-                              if ( data.error === ErrorCodes.PasswordResetRequestCreated ) {
-                                  const status: PasswordResetStatus = {
-                                      error:                              true,
-                                      message:                            data.message,
-                                      isPasswordResetRequestCreatedError: true,
-                                  };
+            setStatus( status );
+        } else {
+            if ( data.error === ErrorCodes.PasswordResetRequestCreated ) {
+                const status: PasswordResetStatus = {
+                    error: true,
+                    message: data.message,
+                    isPasswordResetRequestCreatedError: true,
+                };
 
-                                  setStatus( status );
-                              }
-                          }
+                setStatus( status );
+            }
+        }
 
-                          setSubmitting( false );
-                      },
+        setSubmitting( false );
+    },
     validationSchema,
 } );
 

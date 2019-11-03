@@ -4,7 +4,7 @@ export default class MockHttpArgumentHost implements HttpArgumentsHost
 {
 
     public constructor(
-        private request: any  = {},
+        private request: any = {},
         private response: any = {},
     )
     {

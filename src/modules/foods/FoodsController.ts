@@ -1,4 +1,15 @@
-import { BadRequestException, Body, Controller, flatten, Get, Post, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    flatten,
+    Get,
+    Post,
+    Request,
+    UseGuards,
+    UsePipes,
+    ValidationPipe,
+} from '@nestjs/common';
 import ResponseResult from '../../types/ResponseResult';
 import Food from './types/Food';
 import { PyszneScrapperService } from '../../services/scrappers/pyszne-scrapper/PyszneScrapperService';
@@ -45,11 +56,11 @@ export class FoodsController
         const servicesToCall = this.getServicesToCall( services );
         const search: Search = {
             searchID: new Types.ObjectId(),
-            user:     ( req.user as User )._id.toString(),
-            date:     new Date(),
-            foods:    [],
-            status:   SearchStatus.Pending,
-            error:    '',
+            user: (req.user as User)._id.toString(),
+            date: new Date(),
+            foods: [],
+            status: SearchStatus.Pending,
+            error: '',
             keywords,
             location,
             services,
@@ -78,7 +89,7 @@ export class FoodsController
     {
         await searchModel.updateOne( {
             status: SearchStatus.Error,
-            error:  error.message,
+            error: error.message,
         } );
     }
 

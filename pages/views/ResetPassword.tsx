@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NextPage } from 'next';
 import { Routes } from '../http/types/Routes';
-import AuthPage from '../components/auth-page/AuthPage';
+import CardPage from '../components/card-page/CardPage';
 import useNotLoggedGuard from '../hooks/useNotLoggedGuard';
 import ResetPasswordForm from '../components/reset-password-form/ResetPasswordForm';
 import Notice from '../components/notice/Notice';
@@ -16,14 +16,14 @@ const ResetPassword: NextPage<ResetPasswordProps> = ( { query = new URLSearchPar
     useNotLoggedGuard();
 
     return (
-        <AuthPage cardWidth="350px" title="Reset password" returnUrl={ Routes.login }>
+        <CardPage cardWidth="350px" title="Reset password" returnUrl={ Routes.login }>
             { !query.has( 'token' ) && process.browser &&
-              <Notice type="error" className="error">
-                  Error: No reset password token provided.
-              </Notice>
+            <Notice type="error" className="error">
+                Error: No reset password token provided.
+            </Notice>
             }
             { query.has( 'token' ) && <ResetPasswordForm defaults={ { token: query.get( 'token' ), password: '' } }/> }
-        </AuthPage>
+        </CardPage>
     );
 };
 

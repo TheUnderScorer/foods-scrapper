@@ -2,9 +2,9 @@ import Index from './Index';
 import * as React from 'react';
 import mountWithStore from '../test/mountWithStore';
 
-jest.mock( '../http/redirect', () => ( {
+jest.mock( '../http/redirect', () => ({
     default: jest.fn(),
-} ) );
+}) );
 
 describe( 'Index component', () =>
 {

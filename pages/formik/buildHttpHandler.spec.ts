@@ -6,7 +6,7 @@ describe( 'buildHttpHandler', () =>
     {
         const response = {
             data: {
-                error:   true,
+                error: true,
                 message: 'Error',
             },
         };
@@ -23,7 +23,7 @@ describe( 'buildHttpHandler', () =>
         const { isEmpty } = await httpHandler( requestHandler );
 
         expect( setStatus ).toBeCalledWith( {
-            error:   true,
+            error: true,
             message: response.data.message,
         } );
         expect( isEmpty() ).toBeTruthy();
@@ -35,9 +35,9 @@ describe( 'buildHttpHandler', () =>
             result: true,
         };
         const httpHandler = buildHttpHandler( jest.fn() );
-        const { response, isEmpty } = await httpHandler( async () => ( {
+        const { response, isEmpty } = await httpHandler( async () => ({
             data: result,
-        } ) as any );
+        }) as any );
 
         expect( isEmpty() ).toBeFalsy();
         expect( response.data ).toEqual( result );

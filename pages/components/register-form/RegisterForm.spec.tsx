@@ -35,7 +35,7 @@ describe( 'RegisterForm component', () =>
         const password = faker.internet.password();
 
         const values: RegisterInput = {
-            email:          faker.internet.email(),
+            email: faker.internet.email(),
             password,
             passwordRepeat: password,
         };

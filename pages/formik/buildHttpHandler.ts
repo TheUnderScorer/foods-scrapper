@@ -26,7 +26,7 @@ const buildHttpHandler = <ResponseType extends ResponseResult<any>>( setStatus: 
     } finally {
         if ( data.error ) {
             setStatus( {
-                error:   true,
+                error: true,
                 message: data.message,
             } );
         }
@@ -35,11 +35,11 @@ const buildHttpHandler = <ResponseType extends ResponseResult<any>>( setStatus: 
     return {
         response,
         isEmpty: () =>
-                 {
-                     const notEmpty = !!response && !!response.data && !!response.data.result;
+        {
+            const notEmpty = !!response && !!response.data && !!response.data.result;
 
-                     return !notEmpty;
-                 },
+            return !notEmpty;
+        },
     };
 };
 

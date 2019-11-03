@@ -12,7 +12,7 @@ import searchSchema from '../search/schemas/searchSchema';
 
 @Module( {
     controllers: [ FoodsController ],
-    providers:   [
+    providers: [
         PyszneScrapperService,
         PageLoaderService,
         MealsListService,
@@ -20,14 +20,14 @@ import searchSchema from '../search/schemas/searchSchema';
         FoodsService,
         SearchService,
     ],
-    imports:     [
+    imports: [
         MongooseModule.forFeature( [
             {
-                name:   'Food',
+                name: 'Food',
                 schema: foodSchema,
             },
             {
-                name:   'Search',
+                name: 'Search',
                 schema: searchSchema,
             },
         ] ) ],

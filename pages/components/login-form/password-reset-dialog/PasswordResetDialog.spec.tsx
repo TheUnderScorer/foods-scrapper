@@ -1,16 +1,16 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 import PasswordResetDialog from './PasswordResetDialog';
-import RequestPasswordResetDto from '../../../src/modules/auth/dto/RequestPasswordResetDto';
+import RequestPasswordResetDto from '../../../../src/modules/auth/dto/RequestPasswordResetDto';
 import * as faker from 'faker';
 import MockAdapter from 'axios-mock-adapter';
-import client from '../../http/client';
+import client from '../../../http/client';
 import { act } from 'react-dom/test-utils';
-import { wait } from '../../../src/utils/timeout';
-import { Routes } from '../../http/types/Routes';
-import ThemeProvider from '../theme-provider/ThemeProvider';
-import { ErrorCodes } from '../../../src/enums/ErrorCodes';
-import ResponseResult from '../../../src/types/ResponseResult';
+import { wait } from '../../../../src/utils/timeout';
+import { Routes } from '../../../http/types/Routes';
+import ThemeProvider from '../../theme-provider/ThemeProvider';
+import { ErrorCodes } from '../../../../src/enums/ErrorCodes';
+import ResponseResult from '../../../../src/types/ResponseResult';
 import PasswordResetStatus from './types/PasswordResetStatus';
 
 describe( 'PasswordResetDialog', () =>
@@ -41,7 +41,8 @@ describe( 'PasswordResetDialog', () =>
 
         const component = mount( (
             <ThemeProvider>
-                <PasswordResetDialog isOpen onSubmit={ onSubmit } onClose={ jest.fn() } defaultValues={ initialValues }/>
+                <PasswordResetDialog isOpen onSubmit={ onSubmit } onClose={ jest.fn() }
+                                     defaultValues={ initialValues }/>
             </ThemeProvider>
         ) );
         const form = component.find( 'form' );
@@ -63,8 +64,8 @@ describe( 'PasswordResetDialog', () =>
     it( 'PasswordResetRequestCreated error should show link to re-send e-mail with link', async () =>
     {
         const response: ResponseResult<boolean> = {
-            error:   ErrorCodes.PasswordResetRequestCreated,
-            result:  false,
+            error: ErrorCodes.PasswordResetRequestCreated,
+            result: false,
             message: 'Test',
         };
 
@@ -76,7 +77,8 @@ describe( 'PasswordResetDialog', () =>
 
         const component = mount( (
             <ThemeProvider>
-                <PasswordResetDialog isOpen onClose={ jest.fn() } defaultValues={ initialValues }/>
+                <PasswordResetDialog isOpen onClose={ jest.fn() }
+                                     defaultValues={ initialValues }/>
             </ThemeProvider>
         ) );
         const form = component.find( 'form' );
@@ -105,14 +107,16 @@ describe( 'PasswordResetDialog', () =>
         };
 
         const initialStatus: PasswordResetStatus = {
-            message:                            '',
+            message: '',
             isPasswordResetRequestCreatedError: true,
-            error:                              true,
+            error: true,
         };
 
         const component = mount( (
             <ThemeProvider>
-                <PasswordResetDialog isOpen onClose={ jest.fn() } initialStatus={ initialStatus } defaultValues={ initialValues }/>
+                <PasswordResetDialog isOpen onClose={ jest.fn() }
+                                     initialStatus={ initialStatus }
+                                     defaultValues={ initialValues }/>
             </ThemeProvider>
         ) );
         const link = component.find( '.resend-link' );

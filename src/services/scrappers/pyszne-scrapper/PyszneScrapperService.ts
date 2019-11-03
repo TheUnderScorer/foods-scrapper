@@ -10,13 +10,13 @@ export class PyszneScrapperService extends Scrapper
 {
     public readonly selectors: ScrapperSelectors = {
         mealAdditionalInfo: '.meal__description-additional-info',
-        mealDescription:    '.meal__description-choose-from',
-        mealName:           '.meal-name',
-        mealPrice:          '.meal__price',
+        mealDescription: '.meal__description-choose-from',
+        mealName: '.meal-name',
+        mealPrice: '.meal__price',
         restaurantMenuItem: '.restaurant',
         restaurantMenuLink: 'a.restaurantname',
-        restaurantName:     'a.restaurantname',
-        mealWrapper:        '.meal-container',
+        restaurantName: 'a.restaurantname',
+        mealWrapper: '.meal-container',
     };
     public readonly baseUrl: string = 'https://www.pyszne.pl/';
     private locationInput: string = '#imysearchstring';

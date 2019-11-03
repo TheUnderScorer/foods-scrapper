@@ -11,11 +11,11 @@ export class JWTStrategy extends PassportStrategy( Strategy, 'jwt' )
     public constructor( protected readonly configService: ConfigService, protected readonly usersService: UsersService )
     {
         super( {
-            jwtFromRequest:   ExtractJwt.fromExtractors( [
+            jwtFromRequest: ExtractJwt.fromExtractors( [
                 req => req.cookies.jwt ? req.cookies.jwt : null,
             ] ),
             ignoreExpiration: false,
-            secretOrKey:      configService.get( 'JWT_SECRET' ),
+            secretOrKey: configService.get( 'JWT_SECRET' ),
         } );
     }
 

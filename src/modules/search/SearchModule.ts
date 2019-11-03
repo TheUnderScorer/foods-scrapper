@@ -5,13 +5,13 @@ import searchSchema from './schemas/searchSchema';
 import { SearchService } from './search-service/SearchService';
 
 @Module( {
-    providers:   [
+    providers: [
         SearchService,
     ],
-    imports:     [
+    imports: [
         MongooseModule.forFeature( [
             {
-                name:   'Search',
+                name: 'Search',
                 schema: searchSchema,
             },
         ] ) ],

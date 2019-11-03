@@ -10,11 +10,11 @@ describe( 'logout action', () =>
 {
     let mockAxios: MockAdapter;
     let user: Partial<User>;
-    const getState = () => ( {
+    const getState = () => ({
         user: {
             currentUser: user,
         },
-    } );
+    });
 
     beforeEach( () =>
     {
@@ -36,7 +36,7 @@ describe( 'logout action', () =>
         await logout()( dispatch, getState as any );
 
         expect( dispatch ).toBeCalledWith( {
-            type:    'SetCurrentUser',
+            type: 'SetCurrentUser',
             payload: null,
         } );
         expect( dispatch ).toBeCalledTimes( 1 );
@@ -44,17 +44,17 @@ describe( 'logout action', () =>
 
     it( 'should throw error if user is not logged in', async () =>
     {
-        const getState = () => ( {
+        const getState = () => ({
             user: {
                 currentUser: null,
             },
-        } );
+        });
 
         const dispatch = jest.fn();
         await logout()( dispatch, getState as any );
 
         expect( dispatch ).toBeCalledWith( {
-            type:    'SetError',
+            type: 'SetError',
             payload: new UserNotLoggedInException( 'logout' ),
         } );
     } );

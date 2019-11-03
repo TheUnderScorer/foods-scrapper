@@ -2,9 +2,9 @@ import { Schema } from 'mongoose';
 import PasswordResetDocument from '../types/PasswordResetDocument';
 
 const passwordResetSchema = new Schema( {
-    user:  {
+    user: {
         type: Schema.Types.ObjectId,
-        ref:  'User',
+        ref: 'User',
     },
     token: String,
 }, {

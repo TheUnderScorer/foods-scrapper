@@ -11,12 +11,14 @@ import { AppController } from './AppController';
 import { AuthModule } from './modules/auth/AuthModule';
 import { ConfigModule } from './modules/config/ConfigModule';
 import EmailModule from './modules/email/EmailModule';
+import GoogleModule from './modules/google/GoogleModule';
+import FacebookModule from './modules/facebook/FacebookModule';
 
 @Module( {
-    providers:   [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
-    imports:     [
+    providers: [ PageLoaderService, PyszneScrapperService, MealsListService, RestaurantService ],
+    imports: [
         MongooseModule.forRoot( 'mongodb://localhost/expressmongo', {
-            useNewUrlParser:    true,
+            useNewUrlParser: true,
             useUnifiedTopology: true,
         } ),
         SearchModule,
@@ -25,6 +27,8 @@ import EmailModule from './modules/email/EmailModule';
         AuthModule,
         ConfigModule,
         EmailModule,
+        GoogleModule,
+        FacebookModule,
     ],
     controllers: [ AppController ],
 } )

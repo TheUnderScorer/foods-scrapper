@@ -22,8 +22,8 @@ export class EmailTypesService
 
             await this.emailService.sendEmail( {
                 subject: this.getEmailTitle( 'Password reset request' ),
-                html:    `You receive this e-mail, because someone (hopefully you) have requested password reset on foods scrapper. To do that, click this <a href="${ resetLink }">link</a>.`,
-                to:      email,
+                html: `You receive this e-mail, because someone (hopefully you) have requested password reset on foods scrapper. To do that, click this <a href="${ resetLink }">link</a>.`,
+                to: email,
             } );
         } catch ( e ) {
             console.error( { e } );

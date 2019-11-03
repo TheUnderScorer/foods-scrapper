@@ -24,20 +24,20 @@ describe( 'Auth Controller', () =>
     {
         module = await Test.createTestingModule( {
             controllers: [ AuthController ],
-            providers:   [
+            providers: [
                 PasswordResetService,
                 AuthService,
                 UsersService,
                 {
-                    provide:  getModelToken( 'User' ),
+                    provide: getModelToken( 'User' ),
                     useValue: MockModel,
                 },
                 {
-                    provide:  getModelToken( 'PasswordReset' ),
+                    provide: getModelToken( 'PasswordReset' ),
                     useValue: MockModel,
                 },
             ],
-            imports:     [ ConfigModule, EmailModule ],
+            imports: [ ConfigModule, EmailModule ],
         } ).compile();
 
         controller = module.get<AuthController>( AuthController );
@@ -116,7 +116,7 @@ describe( 'Auth Controller', () =>
         userSpy.mockReturnValue( Promise.resolve( user as UserDocument ) );
 
         const dto: UserDto = {
-            email:    faker.internet.email(),
+            email: faker.internet.email(),
             password: faker.internet.password(),
         };
 
@@ -163,7 +163,7 @@ describe( 'Auth Controller', () =>
     it( 'resetPassword', async () =>
     {
         const dto: PasswordResetDto = {
-            token:    'test',
+            token: 'test',
             password: faker.internet.password(),
         };
         const password = 'newPassword';

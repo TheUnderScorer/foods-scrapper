@@ -9,9 +9,9 @@ import UserDocument from '../../users/types/UserDocument';
 import { compare } from 'bcrypt';
 import * as faker from 'faker';
 
-jest.mock( 'bcrypt', () => ( {
+jest.mock( 'bcrypt', () => ({
     compare: jest.fn(),
-} ) );
+}) );
 
 describe( 'AuthService', () =>
 {
@@ -23,11 +23,11 @@ describe( 'AuthService', () =>
         jest.resetModules();
 
         module = await Test.createTestingModule( {
-            imports:   [ ConfigModule ],
+            imports: [ ConfigModule ],
             providers: [
                 AuthService,
                 {
-                    provide:  getModelToken( 'User' ),
+                    provide: getModelToken( 'User' ),
                     useValue: MockModel,
                 },
                 UsersService,
@@ -45,16 +45,16 @@ describe( 'AuthService', () =>
     it.each( [
         [
             {
-                _id:      '1',
-                email:    faker.internet.email(),
+                _id: '1',
+                email: faker.internet.email(),
                 password: faker.internet.password(),
             },
             'test',
         ],
         [
             {
-                _id:      '1',
-                email:    faker.internet.email(),
+                _id: '1',
+                email: faker.internet.email(),
                 password: 'test_pw',
             },
             'test_pw',

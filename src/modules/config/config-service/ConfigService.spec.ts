@@ -9,7 +9,7 @@ describe( 'ConfigService', () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
             providers: [ {
-                provide:  ConfigService,
+                provide: ConfigService,
                 useValue: new ConfigService( {} ),
             } ],
         } ).compile();

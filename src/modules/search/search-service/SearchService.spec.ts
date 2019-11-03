@@ -16,7 +16,7 @@ describe( 'SearchService', () =>
         findOne = jest.fn();
         save = jest.fn();
         exec = jest.fn();
-        serviceMock = jest.fn().mockImplementation( () => ( {
+        serviceMock = jest.fn().mockImplementation( () => ({
                 findOne( args: any )
                 {
                     findOne( args );
@@ -35,14 +35,14 @@ describe( 'SearchService', () =>
 
                     return this;
                 },
-            } ),
+            }),
         );
 
         const module: TestingModule = await Test.createTestingModule( {
             providers: [
                 SearchService,
                 {
-                    provide:  getModelToken( 'Search' ),
+                    provide: getModelToken( 'Search' ),
                     useValue: serviceMock,
                 },
             ],

@@ -8,10 +8,10 @@ export const initialState: ErrorState = {
 };
 
 const handlers: ReducerHandlers<ErrorActions, ErrorState> = {
-    SetError: ( state, error ) => ( {
+    SetError: ( state, error ) => ({
         ...state,
         error,
-    } ),
+    }),
 };
 
 const errorReducer = reducer( handlers, initialState );

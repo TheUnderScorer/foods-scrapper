@@ -61,7 +61,8 @@ const ErrorDialog = () =>
                 </Grid>
                 <div className="message-container">
                     <Typography variant="body1">
-                        Reloading page usually solves the issue, however if the error still appears please send feedback to me with the given error description and ID.
+                        Reloading page usually solves the issue, however if the error still appears please send feedback
+                        to me with the given error description and ID.
                     </Typography>
                     <Typography>
                         Thank you!

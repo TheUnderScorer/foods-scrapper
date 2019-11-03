@@ -26,7 +26,7 @@ const Header: FC<HeaderProps> = ( { title } ) =>
     const currentUser = useSelector<AppStore, Nullable<User>>( ( store ) => store.user.currentUser );
 
     const [ anchorEl, setAnchorEl ] = useState<Nullable<HTMLButtonElement>>( null );
-    const toggleMenu = useCallback<MouseEventHandler>( ( event ) => setAnchorEl( anchorEl ? null : ( event.target as HTMLButtonElement ) ), [ anchorEl ] );
+    const toggleMenu = useCallback<MouseEventHandler>( ( event ) => setAnchorEl( anchorEl ? null : (event.target as HTMLButtonElement) ), [ anchorEl ] );
     const closeMenu = useCallback( () => setAnchorEl( null ), [] );
 
     return (
@@ -37,19 +37,19 @@ const Header: FC<HeaderProps> = ( { title } ) =>
                 </Typography>
                 <Spacer/>
                 { !!currentUser &&
-                  <>
-                      <IconButton size="small" onClick={ toggleMenu } className="menu-icon" color="inherit">
-                          <MoreVert fontSize="large"/>
-                      </IconButton>
-                      <Menu onClose={ closeMenu } open={ !!anchorEl } anchorEl={ anchorEl }>
-                          <MenuItem onClick={ handleLogout } className="logout">
-                              <ListItemIcon>
-                                  <Input/>
-                              </ListItemIcon>
-                              <ListItemText primary="Logout"/>
-                          </MenuItem>
-                      </Menu>
-                  </>
+                <>
+                    <IconButton size="small" onClick={ toggleMenu } className="menu-icon" color="inherit">
+                        <MoreVert fontSize="large"/>
+                    </IconButton>
+                    <Menu onClose={ closeMenu } open={ !!anchorEl } anchorEl={ anchorEl }>
+                        <MenuItem onClick={ handleLogout } className="logout">
+                            <ListItemIcon>
+                                <Input/>
+                            </ListItemIcon>
+                            <ListItemText primary="Logout"/>
+                        </MenuItem>
+                    </Menu>
+                </>
                 }
             </Toolbar>
         </AppBar>

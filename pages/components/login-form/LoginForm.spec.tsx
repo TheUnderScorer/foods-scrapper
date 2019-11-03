@@ -1,8 +1,7 @@
-import { mount } from 'enzyme';
 import LoginForm from './LoginForm';
 import * as React from 'react';
 import { act } from 'react-dom/test-utils';
-import PasswordResetDialog from '../password-reset-dialog/PasswordResetDialog';
+import PasswordResetDialog from './password-reset-dialog/PasswordResetDialog';
 import UserDto from '../../../src/modules/auth/dto/UserDto';
 import * as faker from 'faker';
 import redirect from '../../http/redirect';
@@ -11,10 +10,11 @@ import client from '../../http/client';
 import { Routes } from '../../http/types/Routes';
 import { wait } from '../../../src/utils/timeout';
 import ThemeProvider from '../theme-provider/ThemeProvider';
+import mountWithStore from '../../test/mountWithStore';
 
-jest.mock( '../../http/redirect', () => ( {
+jest.mock( '../../http/redirect', () => ({
     default: jest.fn(),
-} ) );
+}) );
 
 describe( 'LoginForm', () =>
 {
@@ -27,7 +27,7 @@ describe( 'LoginForm', () =>
 
     it( 'renders without crashing', () =>
     {
-        mount( <LoginForm/> );
+        mountWithStore( <ThemeProvider><LoginForm/>,</ThemeProvider>, {} );
     } );
 
     it( 'should handle login', async () =>
@@ -38,7 +38,7 @@ describe( 'LoginForm', () =>
             user: {
                 _id: '1',
             },
-            jwt:  faker.random.uuid(),
+            jwt: faker.random.uuid(),
         };
         mockAxios.onPost( Routes.login ).replyOnce( 201, {
             result,
@@ -47,15 +47,15 @@ describe( 'LoginForm', () =>
         const mockRedirect = redirect as jest.Mock;
 
         const dto: UserDto = {
-            email:    faker.internet.email(),
+            email: faker.internet.email(),
             password: faker.internet.password(),
         };
 
-        const component = mount( (
+        const { component } = mountWithStore( (
             <ThemeProvider>
                 <LoginForm onSubmit={ onSubmit } defaults={ dto }/>
             </ThemeProvider>
-        ) );
+        ), {} );
         const form = component.find( 'form' );
 
         await act( async () =>
@@ -71,7 +71,7 @@ describe( 'LoginForm', () =>
 
     it( 'clicking Forgot Password should open PasswordResetDialog', () =>
     {
-        const component = mount( <LoginForm/> );
+        const { component } = mountWithStore( <ThemeProvider><LoginForm/>,</ThemeProvider>, {} );
         const btn = component.find( '.forgot-password-btn' ).at( 0 );
 
         act( () =>

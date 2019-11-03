@@ -25,7 +25,7 @@ export class SearchService
     {
         return await this.searchModel.findOne( {
             searchID,
-            user
+            user,
         } ).exec();
     }
 

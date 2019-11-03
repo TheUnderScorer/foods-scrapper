@@ -14,11 +14,11 @@ export default class EmailService
     {
         this.transporter = createTransport( {
             service: 'gmail',
-            auth:    {
+            auth: {
                 user: configService.get( 'MAIL_USER' ),
                 pass: configService.get( 'MAIL_PASS' ),
             },
-            tls:     {
+            tls: {
                 rejectUnauthorized: false,
             },
         } ) as Mail;

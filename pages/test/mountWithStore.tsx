@@ -18,7 +18,7 @@ const mountWithStore = <P, S extends object>( component: ReactElement<P>, initia
 
     return {
         component: mountedComponent,
-        store:     mockStore,
+        store: mockStore,
     };
 };
 

@@ -15,13 +15,13 @@ import EmailModule from '../../email/EmailModule';
 import { EmailTypesService } from '../../email/email-types/EmailTypesService';
 import PasswordReset from '../types/PasswordReset';
 
-jest.mock( 'uuid', () => ( {
+jest.mock( 'uuid', () => ({
     v4: () => 'test',
-} ) );
+}) );
 
-jest.mock( 'bcrypt', () => ( {
+jest.mock( 'bcrypt', () => ({
     hash: jest.fn().mockReturnValue( Promise.resolve( 'hashed' ) ),
-} ) );
+}) );
 
 describe( 'PasswordResetService', () =>
 {
@@ -31,16 +31,16 @@ describe( 'PasswordResetService', () =>
     beforeEach( async () =>
     {
         module = await Test.createTestingModule( {
-            imports:   [ ConfigModule, EmailModule ],
+            imports: [ ConfigModule, EmailModule ],
             providers: [
                 PasswordResetService,
                 AuthService,
                 {
-                    provide:  getModelToken( 'User' ),
+                    provide: getModelToken( 'User' ),
                     useValue: MockModel,
                 },
                 {
-                    provide:  getModelToken( 'PasswordReset' ),
+                    provide: getModelToken( 'PasswordReset' ),
                     useValue: MockModel,
                 },
                 UsersService,
@@ -60,11 +60,11 @@ describe( 'PasswordResetService', () =>
         const password = 'test';
 
         const user: Partial<UserDocument> = {
-            _id:  new Schema.Types.ObjectId( '1' ),
+            _id: new Schema.Types.ObjectId( '1' ),
             save: jest.fn(),
         };
         const passwordResetDoc: Partial<PasswordResetDocument> = {
-            user:   user as UserDocument,
+            user: user as UserDocument,
             remove: jest.fn(),
         };
 
@@ -111,7 +111,7 @@ describe( 'PasswordResetService', () =>
     {
         const mockRequest: any = {
             token: faker.random.uuid(),
-            user:  {
+            user: {
                 email: faker.internet.email(),
             },
         };

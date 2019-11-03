@@ -77,7 +77,7 @@ describe( 'Header', () =>
 
         const actions = store.getActions();
         expect( actions ).toContainEqual( {
-            type:    'SetCurrentUser',
+            type: 'SetCurrentUser',
             payload: null,
         } );
     } );

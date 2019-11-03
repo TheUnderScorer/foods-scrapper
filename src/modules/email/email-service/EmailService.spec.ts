@@ -10,7 +10,7 @@ describe( 'EmailService', () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
             providers: [ EmailService ],
-            imports:   [ ConfigModule ],
+            imports: [ ConfigModule ],
         } ).compile();
 
         service = module.get<EmailService>( EmailService );

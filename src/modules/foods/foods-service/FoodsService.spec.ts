@@ -12,7 +12,7 @@ describe( 'FoodsService', () =>
             providers: [
                 FoodsService,
                 {
-                    provide:  getModelToken( 'Food' ),
+                    provide: getModelToken( 'Food' ),
                     useValue: jest.fn(),
                 },
             ],

@@ -44,13 +44,13 @@ describe( 'MealsListService', () =>
 
         const selectors: ScrapperSelectors = {
             mealAdditionalInfo: '.meal__description-additional-info',
-            mealDescription:    '.meal__description-choose-from',
-            mealName:           '.meal-name',
-            mealPrice:          '.meal__price',
+            mealDescription: '.meal__description-choose-from',
+            mealName: '.meal-name',
+            mealPrice: '.meal__price',
             restaurantMenuItem: '.restaurant',
             restaurantMenuLink: '.restaurant-link',
-            restaurantName:     '.restaurant-name',
-            mealWrapper:        '.meal-container',
+            restaurantName: '.restaurant-name',
+            mealWrapper: '.meal-container',
         };
 
         mockPage.on( 'document.setup', ( document: Document ) =>

@@ -34,9 +34,9 @@ export const getNoticeColor = ( noticeColor: NoticeColor, theme: Theme ): string
 };
 
 export const iconsMap: Record<NoticeColor, ReactElement> = {
-    error:   <Error/>,
+    error: <Error/>,
     success: <Check/>,
-    notice:  <Warning/>,
+    notice: <Warning/>,
 };
 
 const NoticeContainer = styled( Grid )<NoticeProps>`

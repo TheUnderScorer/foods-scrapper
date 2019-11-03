@@ -13,7 +13,7 @@ export default () => async ( dispatch: Dispatch<UserActions | ErrorActions> ): P
 
         if ( data ) {
             dispatch( {
-                type:    'SetCurrentUser',
+                type: 'SetCurrentUser',
                 payload: data.result,
             } );
         }
@@ -23,14 +23,14 @@ export default () => async ( dispatch: Dispatch<UserActions | ErrorActions> ): P
 
         if ( !e.response || e.response.status !== 401 ) {
             dispatch( {
-                type:    'SetError',
+                type: 'SetError',
                 payload: e,
             } );
         }
     }
 
     return dispatch( {
-        type:    'SetUserFetched',
+        type: 'SetUserFetched',
         payload: true,
     } );
 }

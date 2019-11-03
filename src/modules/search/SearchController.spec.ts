@@ -11,14 +11,14 @@ describe( 'Search Controller', () =>
     {
         const module: TestingModule = await Test.createTestingModule( {
             controllers: [ SearchController ],
-            providers:   [
+            providers: [
                 SearchService,
                 {
-                    provide:  getModelToken( 'Food' ),
+                    provide: getModelToken( 'Food' ),
                     useValue: jest.fn(),
                 },
                 {
-                    provide:  getModelToken( 'Search' ),
+                    provide: getModelToken( 'Search' ),
                     useValue: jest.fn(),
                 },
             ],

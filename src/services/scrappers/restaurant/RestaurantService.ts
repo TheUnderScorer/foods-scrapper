@@ -50,8 +50,8 @@ export class RestaurantService
                 }
 
                 result.push( {
-                    name:        nameEl.textContent.trim(),
-                    price:       parseFloat( priceEl.textContent ),
+                    name: nameEl.textContent.trim(),
+                    price: parseFloat( priceEl.textContent ),
                     url,
                     description: `${ additionalInfoEl ? additionalInfoEl.textContent.trim() : '' }. ${ descriptionEl ? descriptionEl.textContent.trim() : '' }`,
                     restaurantName,
