@@ -18,16 +18,22 @@ const CardPageContainer = styled( Container )<CardContainerProps>`
     .card {
         width: ${ ( { cardWidth = 'auto' } ) => cardWidth }
         max-width: ${ ( { cardMaxWidth = '400px' } ) => cardMaxWidth };
+        min-width: ${ ( { cardMinWidth = 'auto' } ) => cardMinWidth }
         margin: 0 auto;
     }
 `;
 
-const CardPage: FC<CardPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth, containerHeight } ) =>
+const CardPage: FC<CardPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth, containerHeight, cardMinWidth, className } ) =>
 {
     return (
-        <CardPageContainer containerHeight={ containerHeight } cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth }
-                           backgroundUrl={ backgroundUrl }
-                           className="auth-container" maxWidth={ false }>
+        <CardPageContainer
+            cardMinWidth={ cardMinWidth }
+            containerHeight={ containerHeight }
+            cardWidth={ cardWidth }
+            cardMaxWidth={ cardMaxWidth }
+            backgroundUrl={ backgroundUrl }
+            className={ `auth-container ${ className }` }
+            maxWidth={ false }>
             <Grid className="grid-container" container alignItems="center" justify="center">
                 <Grid item>
                     <Card className="card">
