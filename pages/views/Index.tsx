@@ -13,7 +13,7 @@ const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
         <>
             <AppHead title={ title }/>
             <Header title={ title }/>
-            <CardPage>
+            <CardPage containerHeight="calc(100vh - 64px)" backgroundUrl="/static/landscape.jpg">
                 Welcome on { title }!
             </CardPage>
         </>
