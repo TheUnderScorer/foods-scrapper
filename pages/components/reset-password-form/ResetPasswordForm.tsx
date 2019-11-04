@@ -4,7 +4,7 @@ import ResetPasswordFormProps from './types/ResetPasswordFormProps';
 import { FormikProps, withFormik } from 'formik';
 import PasswordResetDto from '../../../src/modules/auth/dto/PasswordResetDto';
 import * as Yup from 'yup';
-import { AuthForm } from '../card-page/styled';
+import { CardForm } from '../card-page/styled';
 import { Button, CircularProgress, Grid, TextField } from '@material-ui/core';
 import Notice from '../notice/Notice';
 import FormikStatus from '../../types/formik/FormikStatus';
@@ -29,7 +29,7 @@ const ResetPasswordForm: FC<FormikProps<PasswordResetDto> & ResetPasswordFormPro
     const inputError = getInputError<PasswordResetDto>( touched, errors );
 
     return (
-        <AuthForm action="#" onSubmit={ handleSubmit }>
+        <CardForm action="#" onSubmit={ handleSubmit }>
             <Grid justify="center" container>
                 { status && status.error &&
                 <Notice item xs={ 10 } type="error">
@@ -69,7 +69,7 @@ const ResetPasswordForm: FC<FormikProps<PasswordResetDto> & ResetPasswordFormPro
                     </Button>
                 </Grid>
             </Grid>
-        </AuthForm>
+        </CardForm>
     );
 };
 

@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 
-export const AuthForm = styled.form`
-    min-height: 300px;
+export interface CardFormProps
+{
+    minHeight?: string;
+    itemsSpacing?: string;
+}
+
+export const CardForm = styled.form<CardFormProps>`
+    min-height: ${ ( { minHeight = '300px' } ) => minHeight };
     display: flex;
     align-items: center;
 
     .form-item {
-        margin-top: 2rem;
+        margin-top: ${ ( { itemsSpacing = '2rem' } ) => itemsSpacing }
     }
     
     .button-container {

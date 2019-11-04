@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { FormikProps, withFormik } from 'formik';
 import RegisterFormProps from './types/RegisterFormProps';
 import RegisterInput from './types/RegisterInput';
-import { AuthForm } from '../card-page/styled';
+import { CardForm } from '../card-page/styled';
 import { Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@material-ui/core';
 import { Email, Lock } from '@material-ui/icons';
 import { getInputError } from '../../formik/errors';
@@ -48,7 +48,7 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
     }, [ status ] );
 
     return (
-        <AuthForm className="container register-form" action="#" onSubmit={ handleSubmit }>
+        <CardForm className="container register-form" action="#" onSubmit={ handleSubmit }>
             <RegisterSuccessDialog visible={ dialogVisible }/>
             <Grid justify="center" container>
                 { status.error &&
@@ -140,7 +140,7 @@ const RegisterForm: FC<FormikProps<RegisterInput> & RegisterFormProps> = ( props
                     </Button>
                 </Grid>
             </Grid>
-        </AuthForm>
+        </CardForm>
     );
 };
 

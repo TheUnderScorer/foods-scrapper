@@ -11,7 +11,7 @@ import ResponseResult from '../../../src/types/ResponseResult';
 import RegisterResult from '../../../src/modules/auth/types/RegisterResult';
 import LoginFormProps from './types/LoginFormProps';
 import { Email, Lock } from '@material-ui/icons';
-import { AuthForm } from '../card-page/styled';
+import { CardForm } from '../card-page/styled';
 import redirect from '../../http/redirect';
 import FormikStatus from '../../types/formik/FormikStatus';
 import getDefaultStatus from '../../formik/getDefaultStatus';
@@ -90,7 +90,7 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( {
 
     return (
         <>
-            <AuthForm className="container" action="#" onSubmit={ handleSubmit }>
+            <CardForm className="container" action="#" onSubmit={ handleSubmit }>
                 <Grid justify="center" container>
                     { status && status.error &&
                     <Notice item xs={ 10 } type="error">
@@ -175,7 +175,7 @@ const LoginForm: FC<FormikProps<UserDto> & LoginFormProps> = ( {
                         </Button>
                     </Grid>
                 </Grid>
-            </AuthForm>
+            </CardForm>
             <SocialDividerContainer>
                 <Typography variant="caption" className="text">
                     OR

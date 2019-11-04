@@ -5,10 +5,13 @@ import useAuthGuard from '../hooks/useAuthGuard';
 import Header from '../components/header/Header';
 import CardPage from '../components/card-page/CardPage';
 import styled from 'styled-components';
+import ScrapperForm from '../components/scrapper-form/ScrapperForm';
 
 const IndexContainer = styled( CardPage )`
   .card-header {
     justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 0;
   }
 `;
 
@@ -27,7 +30,7 @@ const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
                 title={ title }
                 containerHeight="calc(100vh - 64px)"
                 backgroundUrl="/static/landscape.jpg">
-                Welcome on { title }!
+                <ScrapperForm/>
             </IndexContainer>
         </>
     );
