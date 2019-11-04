@@ -7,7 +7,7 @@ import CardPageProps from './types/CardPageProps';
 import CardContainerProps from './types/CardContainerProps';
 
 const CardPageContainer = styled( Container )<CardContainerProps>`
-    height: 100vh;
+    height: ${ (( { containerHeight = '100vh' } ) => containerHeight) };
     background: url(${ props => props.backgroundUrl }) center;
     background-size: cover;
     
@@ -22,10 +22,11 @@ const CardPageContainer = styled( Container )<CardContainerProps>`
     }
 `;
 
-const CardPage: FC<CardPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) =>
+const CardPage: FC<CardPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth, containerHeight } ) =>
 {
     return (
-        <CardPageContainer cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth } backgroundUrl={ backgroundUrl }
+        <CardPageContainer containerHeight={ containerHeight } cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth }
+                           backgroundUrl={ backgroundUrl }
                            className="auth-container" maxWidth={ false }>
             <Grid className="grid-container" container alignItems="center" justify="center">
                 <Grid item>
