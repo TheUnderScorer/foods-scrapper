@@ -12,7 +12,7 @@ const register: NextPage<any> = () =>
     return (
         <>
             <AppHead title="Register"/>
-            <CardPage returnUrl="/auth/login" title="Register">
+            <CardPage backgroundUrl="/static/landscape.jpg" returnUrl="/auth/login" title="Register">
                 <RegisterForm/>
             </CardPage>
         </>

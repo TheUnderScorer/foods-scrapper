@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { NextPage, NextPageContext } from 'next';
 import AppHead from '../components/app-head/AppHead';
-import { Container } from '@material-ui/core';
 import useAuthGuard from '../hooks/useAuthGuard';
 import Header from '../components/header/Header';
+import CardPage from '../components/card-page/CardPage';
 
 const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
 {
@@ -13,9 +13,9 @@ const Index: NextPage<any> = ( { title = 'Foods scrapper' } ) =>
         <>
             <AppHead title={ title }/>
             <Header title={ title }/>
-            <Container fixed>
+            <CardPage>
                 Welcome on { title }!
-            </Container>
+            </CardPage>
         </>
     );
 };
