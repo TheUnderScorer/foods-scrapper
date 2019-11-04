@@ -3,10 +3,10 @@ import { FC } from 'react';
 import { Card, CardContent, Container, Grid, IconButton, Typography } from '@material-ui/core';
 import styled from 'styled-components';
 import { ArrowBack } from '@material-ui/icons';
-import AuthPageProps from './types/AuthPageProps';
-import AuthContainerProps from './types/AuthContainerProps';
+import CardPageProps from './types/CardPageProps';
+import CardContainerProps from './types/CardContainerProps';
 
-const CardPageContainer = styled( Container )<AuthContainerProps>`
+const CardPageContainer = styled( Container )<CardContainerProps>`
     height: 100vh;
     background: url(${ props => props.backgroundUrl }) center;
     background-size: cover;
@@ -22,7 +22,7 @@ const CardPageContainer = styled( Container )<AuthContainerProps>`
     }
 `;
 
-const CardPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) =>
+const CardPage: FC<CardPageProps> = ( { children, title, returnUrl, backgroundUrl = '', cardMaxWidth, cardWidth } ) =>
 {
     return (
         <CardPageContainer cardWidth={ cardWidth } cardMaxWidth={ cardMaxWidth } backgroundUrl={ backgroundUrl }
@@ -32,12 +32,16 @@ const CardPage: FC<AuthPageProps> = ( { children, title, returnUrl, backgroundUr
                     <Card className="card">
                         <CardContent>
                             <Grid className="card-header" alignItems="center" container>
+                                { !!returnUrl &&
                                 <IconButton className="return-link" href={ returnUrl } size="small">
                                     <ArrowBack/>
                                 </IconButton>
+                                }
+                                { !!title &&
                                 <Typography className="card-title" variant="h5">
                                     { title }
                                 </Typography>
+                                }
                             </Grid>
                             { children }
                         </CardContent>

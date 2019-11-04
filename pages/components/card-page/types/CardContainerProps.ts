@@ -1,6 +1,6 @@
 import { WidthProperty } from 'csstype';
 
-export default interface AuthContainerProps
+export default interface CardContainerProps
 {
     backgroundUrl?: string;
     cardMaxWidth?: string;
