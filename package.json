@@ -44,7 +44,7 @@
     "eslint-plugin-react": "^7.16.0",
     "formik": "^1.5.8",
     "googleapis": "^44.0.0",
-    "jsdom": "^15.1.1",
+    "jsdom": "^16.5.0",
     "lodash": "^4.17.15",
     "mongoose": "^5.7.1",
     "nest-next": "^9.0.6",
